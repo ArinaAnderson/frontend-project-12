@@ -1,11 +1,11 @@
 import './App.css';
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout.js';
 import Login from './components/Login.js';
+import Signup from './components/Signup.js';
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Route>
         
       </Routes>
