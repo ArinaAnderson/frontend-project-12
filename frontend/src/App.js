@@ -12,6 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
         </Route>
@@ -22,3 +23,11 @@ function App() {
 }
 // <Route path="" element={} />
 export default App;
+
+/*
+<Route path="/" element={<Layout />}>
+          <Route index /> --> PROTECTED
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+        </Route>
+*/
