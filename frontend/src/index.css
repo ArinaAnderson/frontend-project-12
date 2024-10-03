@@ -20,6 +20,16 @@ body {
   background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
 
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -60,6 +70,48 @@ body {
 
 .btn:active {
   transform: scale(0.9);
+}
+
+.skeleton {
+  height: 40px;
+  margin: 0 0 20px 0;
+  box-sizing: border-box;
+
+  border-radius: 5px;
+  background-color: rgb(2, 100, 71);
+  background-color: rgba(137, 200, 200, 1);
+}
+
+.skeleton--w-90 {
+  width: 90%;
+}
+
+.skeleton--w-70 {
+  width: 70%;
+}
+
+.skeleton--w-60 {
+  width: 60%;
+}
+
+.skeleton--w-50 {
+  width: 50%;
+}
+
+.skeleton--w-90 {
+  width: 90%;
+}
+
+.skeleton--ml-25 {
+  margin-left: 25px;
+}
+
+.skeleton--ml-20 {
+  margin-left: 20px;
+}
+
+.skeleton--ml-10 {
+  margin-left: 10px;
 }
 
 .page-header {

@@ -1,32 +1,27 @@
-import axios from '../api/axios.js';
-
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useFormik } from 'formik';
+import axios from '../api/axios.js';
+
+import useAuth from '../hooks/index.js';
 
 const LOGIN_URL = '/login';
 
 const Login = () => {
+  const [errMsg, setErrMsg] = useState('');
+  const [loadingState, setLoadingState] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from || '/';
 
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
-    onSubmit: (values) => {
-      // console.log(JSON.stringify(values, null, 2));
-      sendLoginRequest();
-    },
-  });
+  const { login } = useAuth();
 
-  const [errMsg, setErrMsg] = useState('');
-  const [loadingState, setLoadingState] = useState(false);
+  const inputRef = useRef(null);
 
   const sendLoginRequest = async () => {
+    setLoadingState(true);
     try {
       const response = await axios({
         method: 'post',
@@ -38,17 +33,31 @@ const Login = () => {
       });
 
       console.log(response.data);
-      // logIn();
-      // const stringifiedUserIdData = JSON.stringify({ token: response.data.token });
-      // console.log('stringifiedUserIdData', stringifiedUserIdData)
-      // localStorage.setItem('userId', stringifiedUserIdData);
-      // navigate(from.pathname);
-      navigate('/');
+      login();
+      localStorage.setItem('token', response.data.token);
+      navigate(from);
     } catch(e) {
+      console.log(e, e.message)
       setErrMsg('the username or password is incorrect');
-      // inputEl.current.focus();
+      inputRef.current.select();
+    } finally {
+      setLoadingState(false);
     }
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    onSubmit: (values) => {
+      sendLoginRequest();
+    },
+  });
 
   return (
     <section className="login">
@@ -74,6 +83,7 @@ const Login = () => {
                 name="username"
                 id="username"
                 autoComplete="off"
+                ref={inputRef}
                 required
               />
             </div>
