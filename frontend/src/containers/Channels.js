@@ -5,30 +5,8 @@ import axios from '../api/axios.js';
 import Skeleton from '../components/Skeleton.js';
 
 const Channels = () => {
-  // const { data, error, isLoading } = useGetChannelsQuery();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios({
-          method: 'get',
-          url: '/channels',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          }
-        });
-  
-        console.log(response.data);
-      } catch(e) {
-        console.log(e, e.message)
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    sendRequest();
-  }, []);
+  const { data, error, isLoading } = useGetChannelsQuery();
+  console.log(data);
 
   if (isLoading) {
     return <Skeleton times={5} className='skeleton--w-50 skeleton--ml-25'/>;
