@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../store/slices/authSlice.js';
 
 import { useFormik } from 'formik';
 import axios from '../api/axios.js';
@@ -11,6 +13,8 @@ const LOGIN_URL = '/login';
 const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const [loadingState, setLoadingState] = useState(false);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,6 +39,7 @@ const Login = () => {
       console.log(response.data);
       login();
       localStorage.setItem('token', response.data.token);
+      dispatch(setCredentials(response.data));
       navigate(from);
     } catch(e) {
       console.log(e, e.message)
