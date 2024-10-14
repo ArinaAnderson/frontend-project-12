@@ -36,10 +36,11 @@ const Login = () => {
         }
       });
 
-      console.log(response.data);
       login();
-      localStorage.setItem('token', response.data.token);
+      // localStorage.setItem('token', response.data.token);
+      localStorage.setItem('auth', JSON.stringify(response.data))
       dispatch(setCredentials(response.data));
+
       navigate(from);
     } catch(e) {
       console.log(e, e.message)
@@ -119,7 +120,7 @@ const Login = () => {
         <p>
           Нет аккаунта?{' '}
           <span>
-            <Link to="/signup">Регистрация</Link>
+            <Link to="/signup" className="link">Регистрация</Link>
           </span>
         </p>
       </div>
