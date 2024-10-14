@@ -4,7 +4,7 @@ import AuthButton from '../components/AuthButton.js';
 
 const Header = () => (
   <header className="page-header">
-    <Link to="/" className="age-header__nav-link">Hexlet Chat</Link>
+    <Link to="/" className="page-header__nav-link link">Hexlet Chat</Link>
     <AuthButton />
   </header>
 );
