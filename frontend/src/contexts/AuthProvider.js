@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
 import AuthContext from './index.js';
@@ -9,14 +9,17 @@ const AuthProvider = ({ children }) => {
   const localStorageAuth = localStorage.getItem('auth');
   const auth = localStorageAuth ? JSON.parse(localStorageAuth) : { token: null, username: null };
   // dispatch(setCredentials({ token: auth.token, username: auth.username }));
-  dispatch(setCredentials(auth));
-
+  // dispatch(setCredentials(auth));
   const [ loggedIn, setLoggedIn ] = useState(() => {
     if (localStorageAuth) {
       return true;
     }
     return false;
   });
+
+  useEffect(() => {
+    dispatch(setCredentials(auth));
+  }, []);
 
   const login = () => setLoggedIn(true);
 
