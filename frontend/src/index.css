@@ -9,6 +9,7 @@
   --green-color--active: #026447;
   --lilac-color-100: rgba(208, 179, 255, 1);
   --lilac-color-30: rgba(208, 179, 255, 0.3);
+  --lilac-color-light: rgb(247, 234, 253);
   --pompadour-color: rgb(102, 2, 74);
   --half-baked-color-100: rgba(137, 200, 200, 1);
   --half-baked-color-20: rgba(137, 200, 200, 0.2);
@@ -302,6 +303,8 @@ body {
 }
 
 .form__btn-submit {
+  color: #000;
+
   background-color: #fff;
   border-color: var(--half-baked-color-100);
 }
@@ -336,7 +339,7 @@ body {
   padding: 0 10px;
 
   border-right: 2px solid var(--lilac-color-100);
-  background-color: #f4dffd;
+  background-color: var(--lilac-color-light);
 }
 
 .channels-list--closed {
