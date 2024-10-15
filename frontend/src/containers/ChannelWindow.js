@@ -33,7 +33,6 @@ const ChannelWindow = ({ channelName, channelId }) => {
 
   const handleAddMessage = (values) => {
     const message = { channelId, username, body: values['message-input'] };
-    console.log('MESS', message);
     addMessage(message);
   };
   const formik = useFormik({
@@ -76,21 +75,4 @@ const ChannelWindow = ({ channelName, channelId }) => {
 
 export default ChannelWindow;
 
-/*
-<form className="channel-window__form" onSubmit={formik.handleSubmit}>
-        <div className="channel-window__form-control">
-          <label className="visually-hidden" htmlFor="message-input">Введите сообщение</label>
-          <input
-            type="text"
-            placeholder="Введите сообщение"
-            onChange={formik.handleChange}
-            value={formik.values['message-input']}
-            name="message-input"
-            id="message-input"
-            ref={inputRef}
-            required
-          />
-          <button type="submit" className="channel-window__form-submit-btn">Отправить</button>
-        </div>
-      </form>
-*/
+

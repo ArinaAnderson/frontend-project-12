@@ -1,6 +1,6 @@
 :root {
   --max-width--mobile: 700px;
-  --min-width: 260px;
+  --min-width: 240px;
   --main-padding-x: 25px;
 
   --main-bg-color: rgb(255, 250, 234);
@@ -262,7 +262,6 @@ body {
 .form-wrapper {
   display: flex;
   padding: 25px;
-  box-sizing: border-box;
   /* margin-bottom: 30px; */
 
   background-color: var(--half-baked-color-20);
@@ -314,6 +313,8 @@ body {
 }
 
 .chat {
+  position: relative;
+
   display: flex;
   align-items: stretch;
   width: 100%;
@@ -322,9 +323,6 @@ body {
   margin: 30px auto;
 
   box-shadow: var(--box-shadow);
-
-
-  position: relative;
 }
 
 .channels-list {
@@ -334,12 +332,15 @@ body {
 
   width: 33%;
   height: 100%;
-  min-width: 220px;min-width: var(--min-width);
+  min-width: var(--min-width);
   padding: 0 10px;
-  padding-right: 40px;
 
   border-right: 2px solid var(--lilac-color-100);
-  background-color: var(--lilac-color-30);
+  background-color: #f4dffd;
+}
+
+.channels-list--closed {
+  left: -230px;
 }
 
 .channel-window {
@@ -382,18 +383,21 @@ body {
 }
 
 .channels-list__header {
+  position: relative;
+
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
-  padding: 30px 0;
+  padding: 25px 0;
 }
 
 .channel-window__header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-end;
   padding: 20px 20px;
 
   box-shadow: var(--box-shadow);
@@ -401,9 +405,92 @@ body {
 }
 
 @media (min-width: 700px) {
+  .channels-list__header {
+    justify-content: space-between;
+  }
+
   .channel-window__header {
     border-radius: 0 10px 0 0;
   }
+}
+
+.channels-list__toggle-btn {
+  position: absolute;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+
+  font-size: 0;
+
+  background-color: var(--main-bg-color);
+  border: 2px solid var(--lilac-color-100);
+  border-radius: 0;
+
+  transition: transform .1s ease-in-out;
+  transform-origin: bottom right;
+
+  cursor: pointer;
+}
+
+.channels-list__toggle-btn:active {
+  background-color: var(--green-color--active);
+}
+
+.channels-list__toggle-btn--to-open {
+  left: calc(100% + 10px);
+}
+
+.channels-list__toggle-btn--to-close {
+  right: -12px;
+}
+
+.channels-list__toggle-btn--to-open::before {
+  content: "";
+
+  position: absolute;
+  top: 5px;
+  left: 5px;
+
+  width: 20px;
+  height: 2px;
+
+  box-shadow: 0 3px 0 0 #221f1f,
+              0 9px 0 0 #221f1f,
+              0 15px 0 0 #221f1f;
+}
+
+.channels-list__toggle-btn--to-open:active::before {
+  box-shadow: 0 3px 0 0 #fff,
+              0 9px 0 0 #fff,
+              0 15px 0 0 #fff;
+}
+
+.channels-list__toggle-btn--to-close::before,
+.channels-list__toggle-btn--to-close::after {
+  content: "";
+
+  position: absolute;
+  top: 14px;
+  left: 2px;
+
+  width: 27px;
+  height: 2px;
+
+  background-color: #221f1f;
+}
+
+.channels-list__toggle-btn--to-close::before {
+  transform: rotate(45grad);
+}
+
+.channels-list__toggle-btn--to-close::after {
+  transform: rotate(-45grad);
+}
+
+.channels-list__toggle-btn--to-close:active::after,
+.channels-list__toggle-btn--to-close:active::before {
+  background-color: #fff;
 }
 
 .channels-list__add-channel-btn {
@@ -419,6 +506,8 @@ body {
   border-radius: 2px;
 
   transition: transform .1s ease-in-out;
+
+  cursor: pointer;
 }
 
 .channels-list__add-channel-btn::before,
@@ -460,6 +549,12 @@ body {
 .channels-list__add-channel-btn:active::before,
 .channels-list__add-channel-btn:active::after {
   background-color: var(--main-bg-color);
+}
+
+@media (min-width: 500px) {
+  .channels-list__toggle-btn {
+    display: none;
+  }
 }
 
 .channels-list__items {
