@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const localStorageAuth = localStorage.getItem('auth');
   const auth = localStorageAuth ? JSON.parse(localStorageAuth) : { token: null, username: null };
   // dispatch(setCredentials({ token: auth.token, username: auth.username }));
-  // dispatch(setCredentials(auth));
+  dispatch(setCredentials(auth));
   const [ loggedIn, setLoggedIn ] = useState(() => {
     if (localStorageAuth) {
       return true;
@@ -17,9 +17,9 @@ const AuthProvider = ({ children }) => {
     return false;
   });
 
-  useEffect(() => {
-    dispatch(setCredentials(auth));
-  }, []);
+  // useEffect(() => {
+    // dispatch(setCredentials(auth));
+  // }, []);
 
   const login = () => setLoggedIn(true);
 
