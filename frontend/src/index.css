@@ -613,8 +613,8 @@ body {
 }
 
 .channel-window__messages {
-  padding: 30px 25px;
   flex-grow: 1;
+  padding: 30px 25px;
 
   background-color: var(--main-bg-color-70);
   overflow: auto;
@@ -627,6 +627,10 @@ body {
   background-color: #fff;
 }
 
+.channel-window__message {
+  margin-bottom: 12px;
+}
+
 @media (min-width: 700px) {
   .channel-window__form {
     border-radius: 0 0 10px 0;
@@ -634,10 +638,8 @@ body {
 }
 
 .channel-window__form-control {
-  
   display: flex;
   justify-content: space-between;
-
 }
 
 .channel-window__form-control input {
