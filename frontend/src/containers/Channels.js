@@ -7,7 +7,7 @@ import ChannelWindow from './ChannelWindow.js';
 
 const Channels = () => {
   const { data, error, isLoading } = useGetChannelsQuery();
-
+  console.log('CHANNELS DATA', data);
   const [currentChannel, setCurrentChannel] = useState({});
   const [isChannelListOpen, setIsChannelListOpen] = useState(false);
 
@@ -17,6 +17,7 @@ const Channels = () => {
     }
   }, [data]);
 
+  /*
   const MAX_MOBILE_WIDTH = 500;
   const [isWidthMobile, setIsWidthMobile] = useState(() => window.innerWidth < MAX_MOBILE_WIDTH);
   const handleWindowResize = () => {
@@ -28,6 +29,7 @@ const Channels = () => {
 
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
+  */
 
   const handleChannelSelect = (id, name) => {
     setCurrentChannel({ name, id });
@@ -36,7 +38,7 @@ const Channels = () => {
   const content = isLoading ?
     <Skeleton times={5} className='skeleton--w-90'/> :
     <ul className="channels-list__items">
-      {data.map(({ id, name }) => (
+      { data.map(({ id, name }) => (
         <li key={id} className={cn("channels-list__item", { "channels-list__item--current": Number(id) === Number(currentChannel.id)})}>
           <button
             type="button"
@@ -56,7 +58,8 @@ const Channels = () => {
           <button
             onClick={() => setIsChannelListOpen(!isChannelListOpen)}
             type="button"
-            className={cn('channels-list__toggle-btn', {
+            className={cn(
+              'channels-list__toggle-btn', {
               'channels-list__toggle-btn channels-list__toggle-btn--to-close': isChannelListOpen,
               'channels-list__toggle-btn channels-list__toggle-btn--to-open': !isChannelListOpen,
             })}
