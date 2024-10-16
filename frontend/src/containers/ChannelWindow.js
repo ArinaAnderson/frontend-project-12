@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMessagesQuery, useAddMessageMutation } from '../store/apis/messagesApi.js';
 import { useFormik } from 'formik';
@@ -10,8 +10,8 @@ const ChannelWindow = ({ channelName, channelId }) => {
   const currentChannelMessages = data ?
     data.filter((message) => message.channelId === channelId) :
     [];
-  //  id: '1', body: 'text message', channelId: '1', username: 'admin
-  const [ addMessage, { isLoading: isAddMessageLoading } ] = useAddMessageMutation();
+
+    const [ addMessage, { isLoading: isAddMessageLoading } ] = useAddMessageMutation();
 
   const username = useSelector((state) => state.auth.username);
 
@@ -39,9 +39,9 @@ const ChannelWindow = ({ channelName, channelId }) => {
     initialValues: {
       'message-input': '',
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       handleAddMessage(values);
-      // console.log(values['message-input']);
+      resetForm();
     },
   });
 
@@ -65,7 +65,13 @@ const ChannelWindow = ({ channelName, channelId }) => {
             ref={inputRef}
             required
           />
-          <button type="submit" className="channel-window__form-submit-btn">Отправить</button>
+          <button
+            disabled={isAddMessageLoading}
+            type="submit"
+            className="channel-window__form-submit-btn"
+          >
+            Отправить
+          </button>
         </div>
       </form>
       
