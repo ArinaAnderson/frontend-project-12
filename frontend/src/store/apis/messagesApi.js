@@ -5,7 +5,7 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1',
     prepareHeaders: (headers, { getState }) => {
-      console.log('AUTH TOKEN', getState().auth.token);
+      // console.log('AUTH TOKEN', getState().auth.token);
       const token = getState().auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`)
@@ -20,6 +20,24 @@ export const messagesApi = createApi({
       query: () => ({
         url: '/messages',
       }),
+
+      async onCacheEntryAdded(
+        arg,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+      ) {
+        const ws = new WebSocket('ws://localhost:5001')
+        try {
+          await cacheDataLoaded
+
+          const listener = (event) => {
+            console.log(event.data);
+          }
+
+          ws.addEventListener('message', listener)
+        } catch {}
+        await cacheEntryRemoved
+        ws.close()
+      },
     }),
     addMessage: builder.mutation({
       invalidatesTags: ['Message'],
@@ -31,5 +49,5 @@ export const messagesApi = createApi({
     }),
   }),
 });
-//  id: '1', body: 'text message', channelId: '1', username: 'admin 
+
 export const { useGetMessagesQuery, useAddMessageMutation } = messagesApi;
