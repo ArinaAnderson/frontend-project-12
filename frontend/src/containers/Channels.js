@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import cn from 'classnames';
 

@@ -6,9 +6,9 @@ import { setCredentials } from '../store/slices/authSlice.js';
 import { useFormik } from 'formik';
 import axios from '../api/axios.js';
 
-import useAuth from '../hooks/index.js';
+import useAuth from '../hooks/useAuth.js';
 
-const LOGIN_URL = '/login';
+import { ROUTES } from '../utils/router.js';
 
 const Login = () => {
   const [errMsg, setErrMsg] = useState('');
@@ -29,7 +29,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: LOGIN_URL,
+        url: ROUTES.login,
         data: {
           username: formik.values.username,
           password: formik.values.password,
@@ -37,14 +37,14 @@ const Login = () => {
       });
 
       login();
-      // localStorage.setItem('token', response.data.token);
       localStorage.setItem('auth', JSON.stringify(response.data))
       dispatch(setCredentials(response.data));
 
       navigate(from);
     } catch(e) {
-      console.log(e, e.message)
-      setErrMsg('the username or password is incorrect');
+      // console.log(e, e.message)
+      // setErrMsg('the username or password is incorrect');
+      setErrMsg('Неверные имя пользователя или пароль');
       inputRef.current.select();
     } finally {
       setLoadingState(false);
@@ -120,7 +120,7 @@ const Login = () => {
         <p>
           Нет аккаунта?{' '}
           <span>
-            <Link to="/signup" className="link">Регистрация</Link>
+            <Link to={ROUTES.signup} className="link">Регистрация</Link>
           </span>
         </p>
       </div>

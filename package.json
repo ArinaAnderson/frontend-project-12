@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ArinaAnderson/frontend-project-12#readme",
   "dependencies": {
     "@hexlet/chat-server": "^2.0.3",
-    "formik": "^2.4.6"
+    "formik": "^2.4.6",
+    "socket.io": "^4.8.0"
   }
 }

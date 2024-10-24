@@ -11,7 +11,7 @@ const ChannelWindow = ({ channelName, channelId }) => {
     data.filter((message) => message.channelId === channelId) :
     [];
 
-    const [ addMessage, { isLoading: isAddMessageLoading } ] = useAddMessageMutation();
+  const [ addMessage, { isLoading: isAddMessageLoading } ] = useAddMessageMutation();
 
   const username = useSelector((state) => state.auth.username);
 
@@ -29,7 +29,7 @@ const ChannelWindow = ({ channelName, channelId }) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [data]);
+  }, [channelId]);
 
   const handleAddMessage = (values) => {
     const message = { channelId, username, body: values['message-input'] };

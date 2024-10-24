@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
-import AuthContext from './index.js';
+import AuthContext from './AuthContext.js';
 
 const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
-  // const token = localStorage.getItem('token');
+
   const localStorageAuth = localStorage.getItem('auth');
   const auth = localStorageAuth ? JSON.parse(localStorageAuth) : { token: null, username: null };
-  // dispatch(setCredentials({ token: auth.token, username: auth.username }));
+
   dispatch(setCredentials(auth));
+
   const [ loggedIn, setLoggedIn ] = useState(() => {
     if (localStorageAuth) {
       return true;
@@ -29,8 +30,10 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const value = useMemo(() => ({ loggedIn, login, logout }), [loggedIn, login, logout]);
+
   return (
-    <AuthContext.Provider value={{ loggedIn, login, logout }}>
+    <AuthContext.Provider value={value}>
         {children}
     </AuthContext.Provider>
   );

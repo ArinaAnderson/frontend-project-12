@@ -1,4 +1,4 @@
-import useAuth from '../hooks/index.js';
+import useAuth from '../hooks/useAuth.js';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
 
