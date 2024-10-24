@@ -1,9 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_ROUTES } from '../../utils/router';
+import useSocket from '../../hooks/useSocket.js';
+
+import { io } from 'socket.io-client';
 
 export const messagesApi = createApi({
   reducerPath: 'messages',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
+    baseUrl: API_ROUTES.base,
     prepareHeaders: (headers, { getState }) => {
       // console.log('AUTH TOKEN', getState().auth.token);
       const token = getState().auth.token;
@@ -25,18 +29,33 @@ export const messagesApi = createApi({
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
-        const ws = new WebSocket('ws://localhost:5001')
+        // const { socket } = useSocket();
+        const socket = io();
         try {
           await cacheDataLoaded
+          /*
+          socket.on(ServerEvents.InitGame, (newGameState: any) => {
+            updateCachedData((draft) => {
+                draft[0] = newGameState
+            })
+          })
+          */
 
-          const listener = (event) => {
-            console.log(event.data);
-          }
+          const socketListener = (payload) => {
+            console.log('SOCKET MESSAGES', payload);
+            // {body: 'meow', channelId: '1', username: 'test', removable: true, id: '3'}
 
-          ws.addEventListener('message', listener)
+            
+            updateCachedData((draft) => {
+              draft.push(payload);
+            });
+          };
+          socket.on('newMessage', socketListener);
         } catch {}
-        await cacheEntryRemoved
-        ws.close()
+        await cacheEntryRemoved;
+        console.log('SOCKET OFF');
+        socket.off('newMessage', socketListener);
+        // ws.close()
       },
     }),
     addMessage: builder.mutation({
