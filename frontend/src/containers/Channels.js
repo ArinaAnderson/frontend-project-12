@@ -4,16 +4,17 @@ import cn from 'classnames';
 
 import Skeleton from '../components/Skeleton.js';
 import ChannelWindow from './ChannelWindow.js';
+import Channel from '../components/Channel.js';
 
 const Channels = () => {
   const { data, error, isLoading } = useGetChannelsQuery();
-  console.log('CHANNELS DATA', data);
+  // console.log('CHANNELS DATA', data);
   const [currentChannel, setCurrentChannel] = useState({});
-  const [isChannelListOpen, setIsChannelListOpen] = useState(false);
+  const [isChannelListOpen, setIsChannelListOpen] = useState(true);
 
   useLayoutEffect(() => {
     if (data) {
-      setCurrentChannel(data[0]);
+      setCurrentChannel({ id: data[0].id, name: data[0].name });
     }
   }, [data]);
 
@@ -38,15 +39,15 @@ const Channels = () => {
   const content = isLoading ?
     <Skeleton times={5} className='skeleton--w-90'/> :
     <ul className="channels-list__items">
-      { data.map(({ id, name }) => (
-        <li key={id} className={cn("channels-list__item", { "channels-list__item--current": Number(id) === Number(currentChannel.id)})}>
-          <button
-            type="button"
-            onClick={(evt) => handleChannelSelect(id, name)}
-            disabled={Number(id) === Number(currentChannel.id)}>
-            <span>#</span>&nbsp;{name}
-          </button>
-        </li>
+      { data.map(({ id, name, removable }) => (
+        <Channel
+          key={id}
+          id={id}
+          name={name}
+          removable={removable}
+          isCurrent={currentChannel.id === id}
+          handleChannelSelect={handleChannelSelect}
+        />
       ))}
     </ul>;
   return (
@@ -69,7 +70,10 @@ const Channels = () => {
         </div>
         {content}
       </div>
-      <ChannelWindow channelId={currentChannel.id} channelName={currentChannel.name} />
+      <ChannelWindow
+        channelId={currentChannel.id}
+        channelName={currentChannel.name}
+      />
     </section>
   );
 }

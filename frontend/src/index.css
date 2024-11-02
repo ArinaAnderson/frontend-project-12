@@ -333,17 +333,29 @@ body {
   left: 0;
   z-index: 2;
 
-  width: 33%;
+  /* gives scroll only to channels-list-items excl channels-list__header */
+  display: flex;
+  flex-direction: column;
+
+  width: 55%;
   height: 100%;
   min-width: var(--min-width);
-  padding: 0 10px;
+  max-width: 240px;
+  padding: 0 5px 10px 8px;
 
   border-right: 2px solid var(--lilac-color-100);
   background-color: var(--lilac-color-light);
+
+  /* overflow: auto; */
 }
 
 .channels-list--closed {
+  /*left: -233px;*//*right: calc(100% - 15px);*/
   left: -230px;
+}
+
+.channels-list--closed .channels-list__items {
+  /* display: none; */
 }
 
 .channel-window {
@@ -351,19 +363,27 @@ body {
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
-  flex-basis: 50%;
+  flex-basis: 50%;flex-basis: 100%;
 
   background-color: var(--half-baked-color-20);
 }
 
-@media (min-width: 500px) {
+@media (min-width: 540px) {
   .channels-list {
     position: static;
 
-    flex-basis: 33%;
+    /* flex-basis: 32%; */
+    flex-basis: 220px;
     height: 100%;
-    max-width: 240px;
-    min-width: 220px;
+    width: 220px;
+  }
+
+  .channels-list--closed .channels-list__items {
+    display: block;
+  }
+
+  .channel-window {
+    flex-basis: auto;
   }
 }
 
@@ -375,7 +395,7 @@ body {
   }
 
   .channels-list {
-    flex-basis: 30%;
+    /* flex-basis: 30%; */
 
     border-radius: 10px 0 0 10px;
   }
@@ -422,7 +442,7 @@ body {
   top: 0;
   width: 34px;
   height: 34px;
-  margin-left: auto;
+  /* margin-left: auto; */
 
   font-size: 0;
 
@@ -441,11 +461,12 @@ body {
 }
 
 .channels-list__toggle-btn--to-open {
-  left: calc(100% + 10px);
+  /*left: calc(100% + 5px);*/
+  left: calc(100% + 5px);
 }
 
 .channels-list__toggle-btn--to-close {
-  right: -12px;
+ right: -7px;
 }
 
 .channels-list__toggle-btn--to-open::before {
@@ -554,7 +575,7 @@ body {
   background-color: var(--main-bg-color);
 }
 
-@media (min-width: 500px) {
+@media (min-width: 540px) {
   .channels-list__toggle-btn {
     display: none;
   }
@@ -568,46 +589,101 @@ body {
   overflow: auto;
 }
 
-.channels-list__item {
-  padding: 12px 0;
+.channel {
+  position: relative;
+
+  /*display: flex;
+  align-items: stretch;*/
+  padding: 0;
   margin: 0;
 }
 
-.channels-list__item--current {
+.channel__box {
+  display: flex;width: 100%;
+  align-items: stretch;
+}
+
+.channel--current button {
   color: #fff;
 
   background-color: var(--pompadour-color);
 }
 
-.channels-list__item button {
-  width: 100%;
-
-  text-align: left;
-  font-size: 16px;
-  word-wrap: break-word;
-
-  border: none;
-  background-color: transparent;
-
-  transition: all .1s ease-in-out;
+.channel button {
+  padding: 12px 7px;
 }
 
-.channels-list__item button:hover {
+.channel button:hover {
   color: var(--pompadour-color);
   font-weight: bold;
 }
 
-.channels-list__item--current button {
+.channel--current button {
   color: #fff;
   font-weight: bold;
 }
 
-.channels-list__item--current button:hover {
+.channel--current button:hover {
   color: #fff;
 }
 
+.channel__select-btn {
+  /* width: 100%; */
+  display: block;
+  flex-grow: 1;
+
+  text-align: left;
+  font-size: 16px;
+  line-height: 1;
+  /*word-wrap: break-word;*/
+  /*text-overflow: ellipsis;
+  white-space: nowrap;*/
+
+  border: none;
+  background-color: transparent;
+
+  transition: all .3s ease-in-out;
+  overflow-x: auto;white-space: nowrap;
+  /*overflow: hidden;*/
+}
+
+.channel__toggle-btn {
+  position: relative;
+
+  width: 39px;
+  height: 40px;
+
+  text-align: left;
+  font-size: 0;
+  word-wrap: break-word;
+
+  border: none;
+  border-radius: 0 5px 5px 0;
+  background-color: transparent;
+
+  transition: all .2s ease-in-out;
+}
+
+.channel__toggle-btn:hover,
+.channel__toggle-btn--on {
+  border: 2px solid var(--pompadour-color);
+}
+
+.channel--current .channel__toggle-btn {
+  border-left: 1px solid #fff;
+}
+
+.channel__dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 22;
+
+  background-color: #fff;
+}
+
 @media (min-width: 700px) {
-  .channels-list__item button {
+  .channel__select-btn {
     font-size: 16px;
   }
 }

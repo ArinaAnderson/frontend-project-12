@@ -33,19 +33,11 @@ export const messagesApi = createApi({
         const socket = io();
         try {
           await cacheDataLoaded
-          /*
-          socket.on(ServerEvents.InitGame, (newGameState: any) => {
-            updateCachedData((draft) => {
-                draft[0] = newGameState
-            })
-          })
-          */
 
           const socketListener = (payload) => {
             console.log('SOCKET MESSAGES', payload);
             // {body: 'meow', channelId: '1', username: 'test', removable: true, id: '3'}
 
-            
             updateCachedData((draft) => {
               draft.push(payload);
             });

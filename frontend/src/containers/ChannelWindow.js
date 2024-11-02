@@ -49,7 +49,7 @@ const ChannelWindow = ({ channelName, channelId }) => {
     <div className="channel-window">
       <div className="channel-window__header">
         <b>#&nbsp;{channelName}</b>
-        <span>0 сообщений</span>
+        <span>{data?.length ? data.length : 0} сообщений</span>
       </div>
       {content}
       <form className="channel-window__form" onSubmit={formik.handleSubmit}>
