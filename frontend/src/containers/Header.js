@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthButton from '../components/AuthButton.js';
 
+import './Header.css';
+
 const Header = () => (
   <header className="page-header">
     <Link to="/" className="page-header__nav-link link">Hexlet Chat</Link>

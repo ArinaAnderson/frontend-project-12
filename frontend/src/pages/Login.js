@@ -107,7 +107,7 @@ const Login = () => {
               />
             </div>
             <button
-              className="form__btn-submit btn"
+              className="form__btn-submit bttn"
               disabled={loadingState}
               type="submit"
             >

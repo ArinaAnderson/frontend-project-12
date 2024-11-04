@@ -9,7 +9,7 @@ const AuthButton = () => {
 
   return (
     loggedIn && <button
-      className="page-header__btn page-header__btn--logout btn"
+      className="page-header__btn page-header__btn--logout bttn"
       onClick={() => {
         logout();
         setCredentials({ token: null });

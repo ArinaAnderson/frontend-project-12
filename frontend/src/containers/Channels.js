@@ -6,6 +6,8 @@ import Skeleton from '../components/Skeleton.js';
 import ChannelWindow from './ChannelWindow.js';
 import Channel from '../components/Channel.js';
 
+import './Channels.css';
+
 const Channels = () => {
   const { data, error, isLoading } = useGetChannelsQuery();
   // console.log('CHANNELS DATA', data);

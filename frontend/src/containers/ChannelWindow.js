@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 
 import Skeleton from '../components/Skeleton.js';
 
+import './ChannelWindow.css';
+
 const ChannelWindow = ({ channelName, channelId }) => {
   const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
   const currentChannelMessages = data ?
