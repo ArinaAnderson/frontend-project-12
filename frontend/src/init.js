@@ -9,6 +9,7 @@ import App from './App';
 import AuthProvider from './contexts/AuthContextProvider.js';
 import SocketProvider from './contexts/SocketContextProvider.js';
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
 
 const init = async () => {

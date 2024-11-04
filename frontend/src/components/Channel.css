@@ -1,0 +1,139 @@
+.channel {
+  position: relative;
+
+  /*display: flex;
+  align-items: stretch;*/
+  padding: 0;
+  margin: 0;
+}
+
+.channel__box {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.channel--current button {
+  color: #fff;
+
+  background-color: var(--pompadour-color);
+}
+
+.channel button {
+  padding: 12px 6px;
+}
+
+.channel button:hover {
+  color: var(--pompadour-color);
+  font-weight: bold;
+}
+
+.channel--current button {
+  color: #fff;
+  font-weight: bold;
+}
+
+.channel--current button:hover {
+  color: #fff;
+}
+
+.channel__select-btn {
+  /* width: 100%; */
+  display: block;
+  flex-grow: 1;
+
+  text-align: left;
+  font-size: 16px;
+  line-height: 1;
+  white-space: nowrap;
+  /*word-wrap: break-word;*/
+  /*text-overflow: ellipsis;
+  white-space: nowrap;*/
+
+  border: none;
+  background-color: transparent;
+
+  transition: all .3s ease-in-out;
+  overflow-x: auto;
+  /*overflow: hidden;*/
+}
+
+.channel__toggle-btn {
+  position: relative;
+
+  width: 30px !important;
+  height: 40px !important;
+
+  text-align: left;
+  font-size: 0 !important;
+  word-wrap: break-word;
+
+  border: none  !important;
+  border-radius: 0 5px 5px 0 !important;
+  background-color: transparent !important;
+
+  transition: all .2s ease-in-out;
+  transform: none !important;
+}
+
+.channel__toggle-btn:hover,
+.channel__toggle-btn:focus,
+.channel__toggle-btn--on {
+  border: 2px solid var(--pompadour-color) !important;
+}
+
+.channel__toggle-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 0;
+  height: 0;
+
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid var(--pompadour-color);
+  transform: translate(-50%, -50%);
+}
+
+.channel--current .channel__toggle-btn {
+  border-left: 1px solid #fff 
+}
+
+.channel__dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 22;
+
+  padding: 10px 0;
+
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid var(--green-color--active);
+}
+
+.channel__dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 5px 10px 7px 10px;
+
+  color: #000;
+  text-decoration: none;
+}
+
+.channel__dropdown-item:hover,
+.channel__dropdown-item:focus {
+  background-color: var(--half-baked-color-100) !important;
+}
+
+.channel__dropdown-item:active {
+  background-color: var(--green-color--active) !important;
+}
+
+@media (min-width: 700px) {
+  .channel__select-btn {
+    font-size: 16px;
+  }
+}

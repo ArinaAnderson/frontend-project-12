@@ -589,11 +589,10 @@ body {
   overflow: auto;
 }
 
+/*
 .channel {
   position: relative;
 
-  /*display: flex;
-  align-items: stretch;*/
   padding: 0;
   margin: 0;
 }
@@ -628,23 +627,18 @@ body {
 }
 
 .channel__select-btn {
-  /* width: 100%; */
   display: block;
   flex-grow: 1;
 
   text-align: left;
   font-size: 16px;
   line-height: 1;
-  /*word-wrap: break-word;*/
-  /*text-overflow: ellipsis;
-  white-space: nowrap;*/
 
   border: none;
   background-color: transparent;
 
   transition: all .3s ease-in-out;
   overflow-x: auto;white-space: nowrap;
-  /*overflow: hidden;*/
 }
 
 .channel__toggle-btn {
@@ -687,7 +681,7 @@ body {
     font-size: 16px;
   }
 }
-
+*/
 .channel-window__messages {
   flex-grow: 1;
   padding: 30px 25px;
