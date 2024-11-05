@@ -80,9 +80,10 @@ const Login = () => {
             >
               {errMsg}
             </p>
-            <div className="form__input">
-              <label htmlFor="username">Ваш ник:</label>
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="username">Ваш ник:</label>
               <input
+                className="form__input"
                 onChange={formik.handleChange}
                 value={formik.values.username}
                 type="text"
@@ -94,9 +95,10 @@ const Login = () => {
               />
             </div>
 
-            <div className="form__input">
-              <label htmlFor="password">Пароль:</label>
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="password">Пароль:</label>
               <input
+                className="form__input"
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 type="password"

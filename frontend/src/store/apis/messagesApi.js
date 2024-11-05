@@ -9,7 +9,6 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_ROUTES.base,
     prepareHeaders: (headers, { getState }) => {
-      // console.log('AUTH TOKEN', getState().auth.token);
       const token = getState().auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`)
@@ -58,7 +57,27 @@ export const messagesApi = createApi({
         method: 'POST',
       }),
     }),
+    editMessage: builder.mutation({
+      invalidatesTags: ['Message'],
+      query: ({ body, messageId }) => ({
+        url: `/messages/${messageId}`,
+        body: { body },
+        method: 'PATCH',
+      }),
+    }),
+    removeMessage: builder.mutation({
+      invalidatesTags: ['Message'],
+      query: ({ messageId }) => ({
+        url: `/messages/${messageId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useGetMessagesQuery, useAddMessageMutation } = messagesApi;
+export const {
+  useGetMessagesQuery,
+  useAddMessageMutation,
+  useEditMessageMutation,
+  useRemoveMessageMutation,
+} = messagesApi;

@@ -9,6 +9,7 @@ import './ChannelWindow.css';
 
 const ChannelWindow = ({ channelName, channelId }) => {
   const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
+
   const currentChannelMessages = data ?
     data.filter((message) => message.channelId === channelId) :
     [];
@@ -30,13 +31,16 @@ const ChannelWindow = ({ channelName, channelId }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [channelId]);
 
   const handleAddMessage = (values) => {
     const message = { channelId, username, body: values['message-input'] };
     addMessage(message);
   };
+
   const formik = useFormik({
     initialValues: {
       'message-input': '',
@@ -76,11 +80,8 @@ const ChannelWindow = ({ channelName, channelId }) => {
           </button>
         </div>
       </form>
-      
     </div>
   );
 }
 
 export default ChannelWindow;
-
-

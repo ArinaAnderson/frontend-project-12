@@ -181,11 +181,11 @@ body {
   font-weight: bold;
 }
 
-.form__input {
+.form__input-box {
   margin-bottom: 30px;
 }
 
-.form__input input {
+.form__input {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -196,7 +196,7 @@ body {
   border-radius: 5px;
 }
 
-.form__input label {
+.form__label {
   display: inline-block;
   width: 100%;
   margin-bottom: 6px;
@@ -235,4 +235,28 @@ body {
 
     border-radius: 10px;
   }
+}
+
+.modal__footer {
+  display: flex;
+  gap: 15px;
+  padding: 20px 0 10px 0;
+}
+
+.modal__btn {
+  background-color: #fff;
+  border-color: var(--half-baked-color-100);
+}
+
+.modal__btn--submit {
+  color: #fff;
+
+  background-color: var(--pompadour-color);
+  border-color: var(--half-baked-color-100);
+}
+
+.modal__btn:active {
+  color: #fff;
+
+  background-color: var(--green-color--active);
 }

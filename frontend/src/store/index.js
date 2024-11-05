@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { channelsApi } from './apis/channelsApi.js';
 import { messagesApi } from './apis/messagesApi.js';
 import authReducer from './slices/authSlice.js';
+import uiReducer from './slices/ui.js';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    ui: uiReducer,
     [channelsApi.reducerPath]: channelsApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
