@@ -1,11 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_ROUTES } from '../../utils/router';
+
+import { io } from 'socket.io-client';
 
 export const channelsApi = createApi({
   reducerPath: 'channels',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
+    baseUrl: API_ROUTES.base,
     prepareHeaders: (headers, { getState }) => {
-      console.log('AUTH TOKEN', getState().auth.token);
+      // console.log('AUTH TOKEN', getState().auth.token);
       const token = getState().auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`)
@@ -20,6 +23,32 @@ export const channelsApi = createApi({
       query: () => ({
         url: '/channels',
       }),
+
+
+      async onCacheEntryAdded(
+        arg,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+      ) {
+
+        const socket = io();
+
+        try {
+          await cacheDataLoaded
+
+          const socketListener = (payload) => {
+            console.log('SOCKET Channels', payload);
+
+            updateCachedData((draft) => {
+              draft.push(payload);
+            });
+          };
+          socket.on('newChannel', socketListener);
+        } catch {}
+        await cacheEntryRemoved;
+        console.log('SOCKET OFF');
+        socket.off('newChannel', socketListener);
+        // ws.close()
+      },
     }),
     addChannel: builder.mutation({
       invalidatesTags: ['Channel'],
