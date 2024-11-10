@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannel, setModalType } from '../store/slices/ui.js';
+import { setCurrentChannel, setModalType, addChannelName } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import cn from 'classnames';
 
@@ -11,34 +11,25 @@ import Channel from '../components/Channel.js';
 import './Channels.css';
 
 const Channels = () => {
-  const { data, error, isLoading: isGetChannelsLoading } = useGetChannelsQuery();
+  const { data, error, isLoading: isGetChannelsLoading, isUninitialized } = useGetChannelsQuery();
 
   const dispatch = useDispatch();
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
   // console.log('CHANNELS DATA', data);
-  // const [currentChannel, setCurrentChannel] = useState({});
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);
-
-  useLayoutEffect(() => {
-    if (data) {
-      dispatch(setCurrentChannel({ id: data[0].id, name: data[0].name }));
-      // setCurrentChannel({ id: data[0].id, name: data[0].name });
-    }
-  }, [data]);
+  /*
+  if (data) {
+    const names = data.map((el) => el.name);
+    dispatch(addChannelName(names));
+    console.log('NAMES', names);
+  }
+  */
 
   /*
-  const MAX_MOBILE_WIDTH = 500;
-  const [isWidthMobile, setIsWidthMobile] = useState(() => window.innerWidth < MAX_MOBILE_WIDTH);
-  const handleWindowResize = () => {
-    console.log('RESIZE', window.innerWidth);
-  };
-
   useEffect(() => {
-    window.addEventListener('resize', handleWindowResize);
 
-    return () => window.removeEventListener('resize', handleWindowResize);
-  }, []);
+  }, [isUninitialized]);
   */
 
   const handleChannelSelect = (id, name) => {

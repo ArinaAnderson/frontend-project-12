@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { addChannelName } from '../store/slices/ui.js';
 import './Channel.css';
 
 const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
+
+  /*
+  const dispatch = useDispatch();
+  dispatch(addChannelName(name));
+  */
+
+  // const currentChannel = useSelector((state) => state.ui.currentChannel);
+
+  // const isChannelCurrent = Number(currentChannel.id) === Number(id);
+  // console.log('isChannelCurrent', Number(currentChannel.id), Number(id));
 
   const dropDown =  (
     <Dropdown>
