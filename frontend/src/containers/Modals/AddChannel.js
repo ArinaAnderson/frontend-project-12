@@ -1,14 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, Form, FormGroup, FormControl } from 'react-bootstrap';
-import { useAddChannelMutation } from '../../store/apis/channelsApi.js';
-import { hideModal } from '../../store/slices/ui.js';
+import * as yup from 'yup';
+import { Modal } from 'react-bootstrap';
+import { useAddChannelMutation, useGetChannelsQuery } from '../../store/apis/channelsApi.js';
+import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
 
 const AddChannel = () => {
   const [ addChannel, { isLoading: isAddChannelLoading } ] = useAddChannelMutation();
+  const { data } = useGetChannelsQuery();
 
   const dispatch = useDispatch();
+
+  const channelNames = data.length ? data.map((el) => el.name) : [];
 
   const inputRef = useRef();
   useEffect(() => {
@@ -17,12 +21,24 @@ const AddChannel = () => {
     }
   }, []);
 
-  const handleAddChannel = (values) => {
-    addChannel({ name: values.name });
+  const VALIDATION_SCHEMA = yup.object().shape({
+    name: yup.string()
+      .trim()
+      .min(3, 'must be at least 3 characters long')
+      .max(20, 'can\'t be longer than 20 characters')
+      .required('required')
+      .notOneOf(channelNames)
+  });
+
+  const handleAddChannel = async (values) => {
+    const resp = await addChannel({ name: values.name });
+    const { id, name } = resp.data;
+    dispatch(setCurrentChannel({ id, name }));
   };
 
   const formik = useFormik({
     initialValues: { name: '' },
+    validationSchema: VALIDATION_SCHEMA,
     onSubmit: (values, { resetForm }) => {
       handleAddChannel(values);
       dispatch(hideModal());
@@ -32,48 +48,48 @@ const AddChannel = () => {
 
   return (
     <Modal show className="modal">
-    <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
-      <Modal.Title>Добавить канал</Modal.Title>
-    </Modal.Header>
+      <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
+        <Modal.Title>Добавить канал</Modal.Title>
+      </Modal.Header>
 
-    <Modal.Body>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <input
-            className="form__input"
-            required
-            type="text"
-            ref={inputRef}
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            name="name"
-            id="channel-name-field"
-          />
-          <label className="visually-hidden" htmlFor="channel-name-field">
-            Имя канала
-          </label>
-        </div>
-        <div className="modal__footer">
-          <button
-            type="button"
-            className="bttn modal__btn"
-            onClick={() => dispatch(hideModal())}
-          >
-            Отменить
-          </button>
-          <button
-            className="bttn modal__btn modal__btn--submit"
-            disabled={isAddChannelLoading}
-            type="submit"
-          >
-            Отправить
-          </button>
-        </div>
-        
-        
-      </form>
-    </Modal.Body>
-  </Modal>
+      <Modal.Body>
+        <form onSubmit={formik.handleSubmit}>
+          <div>
+            <input
+              className="form__input"
+              required
+              type="text"
+              ref={inputRef}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              name="name"
+              id="channel-name-field"
+            />
+            <label className="visually-hidden" htmlFor="channel-name-field">
+              Имя канала
+            </label>
+          </div>
+          <div className="modal__footer">
+            <button
+              type="button"
+              className="bttn modal__btn"
+              onClick={() => dispatch(hideModal())}
+            >
+              Отменить
+            </button>
+            <button
+              className="bttn modal__btn modal__btn--submit"
+              disabled={isAddChannelLoading}
+              type="submit"
+            >
+              Отправить
+            </button>
+          </div>
+          
+          
+        </form>
+      </Modal.Body>
+    </Modal>
   );
 };
 
