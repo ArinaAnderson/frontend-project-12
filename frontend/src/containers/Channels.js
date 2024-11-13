@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannel, setModalType, addChannelName } from '../store/slices/ui.js';
+import { setCurrentChannel, setModalInfo, addChannelName } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import cn from 'classnames';
 
@@ -16,21 +16,9 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
-  // console.log('CHANNELS DATA', data);
+
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);
-  /*
-  if (data) {
-    const names = data.map((el) => el.name);
-    dispatch(addChannelName(names));
-    console.log('NAMES', names);
-  }
-  */
-
-  /*
-  useEffect(() => {
-
-  }, [isUninitialized]);
-  */
+  console.log('CHANNELS DATA', data, currentChannel);
 
   const handleChannelSelect = (id, name) => {
     dispatch(setCurrentChannel({ name, id }));
@@ -56,7 +44,7 @@ const Channels = () => {
         <div className="channels-list__header">
           <b>Каналы</b>
           <button
-            onClick={() => dispatch(setModalType('adding'))}
+            onClick={() => dispatch(setModalInfo({modalType: 'adding', channelId: null, channelName: null }))}
             disabled={isGetChannelsLoading}
             type="button"
             className="channels-list__add-channel-btn"

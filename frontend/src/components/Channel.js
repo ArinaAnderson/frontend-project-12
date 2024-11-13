@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { addChannelName } from '../store/slices/ui.js';
+import { setModalInfo, setModalType, addChannelName } from '../store/slices/ui.js';
 import './Channel.css';
 
 const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
 
-  /*
   const dispatch = useDispatch();
+
+  /*
   dispatch(addChannelName(name));
   */
 
@@ -17,6 +18,14 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
 
   // const isChannelCurrent = Number(currentChannel.id) === Number(id);
   // console.log('isChannelCurrent', Number(currentChannel.id), Number(id));
+
+  const handleRenameChannelBtnClick = () => {
+    dispatch(setModalInfo({ channelId: id, channelName: name, modalType: 'renaming'}));
+  };
+
+  const handleRemoveChannelBtnClick = () => {
+    dispatch(setModalInfo({ channelId: id, modalType: 'removing'}));
+  };
 
   const dropDown =  (
     <Dropdown>
@@ -31,14 +40,18 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
 
       <Dropdown.Menu>
         <Dropdown.Item
-          href="#/action-1"
+          role="button"
+          href="#"
           className="channel__dropdown-item"
+          onClick={() => handleRemoveChannelBtnClick()}
         >
           Удалить
         </Dropdown.Item>
         <Dropdown.Item
-          href="#/action-2"
+          role="button"
+          href="#"
           className="channel__dropdown-item"
+          onClick={() => handleRenameChannelBtnClick()}
         >
           Переименовать
         </Dropdown.Item>
@@ -54,7 +67,7 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
         <button
           type="button"
           className="channel__select-btn"
-          onClick={() => handleChannelSelect(id, name)}
+          onClick={(evt) => handleChannelSelect(id, name)}
           disabled={isCurrent}
         >
           <span>#</span>&nbsp;{name}

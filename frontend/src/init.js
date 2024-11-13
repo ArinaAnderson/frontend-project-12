@@ -16,12 +16,20 @@ const init = async () => {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <SocketProvider>
-          <App />
-        </SocketProvider>  
+        <App />
       </AuthProvider>
     </Provider>
   );
 };
 
 export default init;
+
+/*
+<Provider store={store}>
+  <AuthProvider>
+    <SocketProvider>
+      <App />
+    </SocketProvider>  
+  </AuthProvider>
+</Provider>
+*/

@@ -4,7 +4,12 @@ const DEFAULT_CHANNEL = { id: '1', name: 'general'};
 
 const initialState = {
   currentChannel: { ...DEFAULT_CHANNEL },
-  modalType: null,
+  // modalType: null,
+  modalInfo: {
+    channelId: null,
+    channelName: null,
+    modalType: null,
+  },
   // chanelNames: [],
 };
 
@@ -14,12 +19,12 @@ const uiSlice = createSlice({
   reducers: {
     setCurrentChannel: (state, action) => {
       const { payload } = action;
-      state.currentChannel = payload;
-      console.log('CURRENT CHANNEL', current(state));
+      const currentChannel = payload ?? DEFAULT_CHANNEL;
+      state.currentChannel = currentChannel;
     },
 
     hideModal: (state) => {
-      state.modalType = null;
+      state.modalInfo = { modalType: null, channelId: null, channelName: null };
       console.log('CURRENT CHANNEL', current(state));
     },
 
@@ -27,6 +32,12 @@ const uiSlice = createSlice({
       const { payload } = action;
       state.modalType = payload;
       console.log('CURRENT CHANNEL', current(state));
+    },
+
+    setModalInfo: (state, action) => {
+      const { payload } = action;
+      state.modalInfo = payload;
+      console.log('MODAL INFO', current(state));
     },
 
     addChannelName: (state, action) => {
@@ -37,6 +48,12 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setCurrentChannel, hideModal, setModalType, addChannelName } = uiSlice.actions;
+export const {
+  setCurrentChannel,
+  hideModal,
+  setModalInfo,
+  setModalType,
+  addChannelName,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;

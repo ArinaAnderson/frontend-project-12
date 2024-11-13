@@ -30,23 +30,22 @@ export const messagesApi = createApi({
       ) {
         // const { socket } = useSocket();
         const socket = io();
-        try {
-          await cacheDataLoaded
 
-          const socketListener = (payload) => {
-            console.log('SOCKET MESSAGES', payload);
+        const addMessageSocketListener = (payload) => {
+          console.log('SOCKET MESSAGES', payload);
             // {body: 'meow', channelId: '1', username: 'test', removable: true, id: '3'}
+          updateCachedData((draft) => {
+            draft.push(payload);
+          });
+        };
 
-            updateCachedData((draft) => {
-              draft.push(payload);
-            });
-          };
-          socket.on('newMessage', socketListener);
+        try {
+          await cacheDataLoaded;
+          socket.on('newMessage', addMessageSocketListener);
         } catch {}
         await cacheEntryRemoved;
         console.log('SOCKET OFF');
-        socket.off('newMessage', socketListener);
-        // ws.close()
+        socket.off('newMessage', addMessageSocketListener);
       },
     }),
     addMessage: builder.mutation({
@@ -66,7 +65,7 @@ export const messagesApi = createApi({
       }),
     }),
     removeMessage: builder.mutation({
-      invalidatesTags: ['Message'],
+      // invalidatesTags: ['Message'],
       query: ({ messageId }) => ({
         url: `/messages/${messageId}`,
         method: 'DELETE',

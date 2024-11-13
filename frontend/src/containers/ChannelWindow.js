@@ -9,6 +9,7 @@ import './ChannelWindow.css';
 
 const ChannelWindow = ({ channelName, channelId }) => {
   const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
+  console.log('ALL MESSAGES', data);
 
   const currentChannelMessages = data ?
     data.filter((message) => message.channelId === channelId) :
@@ -55,7 +56,7 @@ const ChannelWindow = ({ channelName, channelId }) => {
     <div className="channel-window">
       <div className="channel-window__header">
         <b>#&nbsp;{channelName}</b>
-        <span>{data?.length ? data.length : 0} сообщений</span>
+        <span>{currentChannelMessages?.length ? currentChannelMessages.length : 0} сообщений</span>
       </div>
       {content}
       <form className="channel-window__form" onSubmit={formik.handleSubmit}>

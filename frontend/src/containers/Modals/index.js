@@ -1,17 +1,17 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
 import AddChannel from './AddChannel.js';
-// import RemoveChannel from './RemoveChannel.jsx';
-// import RenameChannel from './RenameChannel.jsx';
+import RemoveChannel from './RemoveChannel.js';
+import RenameChannel from './RenameChannel.js';
 
 const modals = {
   adding: AddChannel,
-  // removing: RemoveChannel,
-  // renaming: RenameChannel,
+  renaming: RenameChannel,
+  removing: RemoveChannel,
 };
 
 const Modal = () => {
-  const modalType = useSelector((state) => state.ui.modalType);
+  // const modalType = useSelector((state) => state.ui.modalType);
+  const { modalType, channelId, channelName } = useSelector((state) => state.ui.modalInfo);
 
   const renderModal = () => {
     if (modalType === null) {
@@ -20,7 +20,7 @@ const Modal = () => {
 
     const Component = modals[modalType];
 
-    return <Component />
+    return <Component modalInfo={{ channelId, channelName }} />
   };
 
   return renderModal();
