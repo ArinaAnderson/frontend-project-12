@@ -31,8 +31,9 @@ const RemoveChannel = ({ modalInfo }) => {
         dispatch(setCurrentChannel());
       }
       */
-      // const promise = Promise.all(deleteMessageRequests);
-      currentChannelMessages.forEach((el) => removeMessage(el.id));
+      const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
+      const promise = Promise.all(deleteMessageRequests);
+      // currentChannelMessages.forEach((el) => removeMessage(el.id));
     } catch(e) {
       console.log('ERROR', e.message);
       // toast
