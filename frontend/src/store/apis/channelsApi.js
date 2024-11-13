@@ -28,9 +28,9 @@ export const channelsApi = createApi({
 
       async onCacheEntryAdded(
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
       ) {
-
+console.log('DISPATCH',getState)
         const socket = io();
 
         const addChannelSocketListener = (payload) => {
@@ -74,9 +74,10 @@ export const channelsApi = createApi({
           updateCachedData((draft) => {
             const idx = draft.findIndex((el) => el.id === payload.id);
             draft.splice(idx, 1);
-            const currentChannel = store.getState().ui.currentChannel;
+
+            const currentChannel = getState().ui.currentChannel;
             if (Number(currentChannel.id) === Number(payload.id)) {
-              store.dispatch({ type: 'ui/setCurrentChannel', payload: null});
+              dispatch({ type: 'ui/setCurrentChannel', payload: null});
             }
           });
         };
