@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_ROUTES } from '../../utils/router';
-import store from '../index.js';
 
 import { io } from 'socket.io-client';
 
@@ -30,7 +29,7 @@ export const channelsApi = createApi({
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
       ) {
-console.log('DISPATCH',getState)
+
         const socket = io();
 
         const addChannelSocketListener = (payload) => {

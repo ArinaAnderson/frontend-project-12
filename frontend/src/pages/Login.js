@@ -8,7 +8,7 @@ import axios from '../api/axios.js';
 
 import useAuth from '../hooks/useAuth.js';
 
-import { ROUTES } from '../utils/router.js';
+import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Login = () => {
   const [errMsg, setErrMsg] = useState('');
@@ -29,7 +29,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: ROUTES.login,
+        url: API_ROUTES.login,
         data: {
           username: formik.values.username,
           password: formik.values.password,
@@ -42,7 +42,7 @@ const Login = () => {
 
       navigate(from);
     } catch(e) {
-      // console.log(e, e.message)
+      console.log(e, e.message)
       // setErrMsg('the username or password is incorrect');
       setErrMsg('Неверные имя пользователя или пароль');
       inputRef.current.select();
