@@ -104,7 +104,8 @@ body {
   transform: scale(0.9);
 }
 
-.login {
+.login,
+.signup {
   width: 100%;
   max-width: 700px;
   margin-left: auto;
