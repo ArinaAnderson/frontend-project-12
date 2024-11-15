@@ -8,8 +8,8 @@ import { hideModal } from '../../store/slices/ui.js';
 
 const RenameChannel = ({ modalInfo }) => {
   const { channelId, channelName } = modalInfo;
-  console.log('MODALINFO', channelId, channelName)
-  const [ editChannel, { isLoading: isEditChannelLoading } ] = useEditChannelMutation();
+
+  const [ editChannel, { error, isLoading: isEditChannelLoading } ] = useEditChannelMutation();
   const { data } = useGetChannelsQuery();
   const channelNames = data.length ? data.map((el) => el.name) : [];
 
@@ -25,10 +25,10 @@ const RenameChannel = ({ modalInfo }) => {
   const VALIDATION_SCHEMA = yup.object().shape({
     name: yup.string()
       .trim()
-      .min(3, 'must be at least 3 characters long')
-      .max(20, 'can\'t be longer than 20 characters')
+      .min(3, 'Channel name must be at least 3 characters long')
+      .max(20, 'Channel name can\'t be longer than 20 characters')
       .required('required')
-      .notOneOf(channelNames)
+      .notOneOf(channelNames, 'Such name already exists')
   });
 
   const handleRenameChannel = (values) => {
@@ -38,6 +38,7 @@ const RenameChannel = ({ modalInfo }) => {
   const formik = useFormik({
     initialValues: { name: channelName },
     validationSchema: VALIDATION_SCHEMA,
+    validateOnChange: false,
     onSubmit: (values, { resetForm }) => {
       handleRenameChannel(values);
       dispatch(hideModal());
@@ -46,8 +47,8 @@ const RenameChannel = ({ modalInfo }) => {
   });
 
   return (
-    <Modal show className="modal">
-      <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
+    <Modal show className="modal" onHide={() => dispatch(hideModal())}>
+      <Modal.Header closeButton>
         <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
 

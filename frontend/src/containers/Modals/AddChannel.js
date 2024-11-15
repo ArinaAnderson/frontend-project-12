@@ -7,12 +7,11 @@ import { useAddChannelMutation, useGetChannelsQuery } from '../../store/apis/cha
 import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
 
 const AddChannel = () => {
-  const [ addChannel, { isLoading: isAddChannelLoading } ] = useAddChannelMutation();
+  const [ addChannel, { error, isLoading: isAddChannelLoading } ] = useAddChannelMutation();
   const { data } = useGetChannelsQuery();
+  const channelNames = data.length ? data.map((el) => el.name) : [];
 
   const dispatch = useDispatch();
-
-  const channelNames = data.length ? data.map((el) => el.name) : [];
 
   const inputRef = useRef();
   useEffect(() => {
@@ -24,10 +23,10 @@ const AddChannel = () => {
   const VALIDATION_SCHEMA = yup.object().shape({
     name: yup.string()
       .trim()
-      .min(3, 'must be at least 3 characters long')
-      .max(20, 'can\'t be longer than 20 characters')
-      .required('required')
-      .notOneOf(channelNames)
+      .min(3, 'Channel name must be at least 3 characters long')
+      .max(20, 'Channel name can\'t be longer than 20 characters')
+      .required('Required')
+      .notOneOf(channelNames, 'Such name already exists')
   });
 
   const handleAddChannel = async (values) => {
@@ -39,6 +38,7 @@ const AddChannel = () => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: VALIDATION_SCHEMA,
+    validateOnChange: false,
     onSubmit: (values, { resetForm }) => {
       handleAddChannel(values);
       dispatch(hideModal());
@@ -47,13 +47,20 @@ const AddChannel = () => {
   });
 
   return (
-    <Modal show className="modal">
-      <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
+    <Modal show className="modal" onHide={() => dispatch(hideModal())}>
+      <Modal.Header closeButton >
         <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
+
         <form onSubmit={formik.handleSubmit}>
+          <p
+            className={formik.errors.name ? 'form__err-message' : 'offscreen'}
+            aria-live="assertive"
+          >
+            {formik.errors.name}
+          </p>
           <div>
             <input
               className="form__input"
