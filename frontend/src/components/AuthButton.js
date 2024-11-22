@@ -1,9 +1,12 @@
 import useAuth from '../hooks/useAuth.js';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
 
 const AuthButton = () => {
-  const { loggedIn, login, logout } = useAuth();
+  const { t, i18n } = useTranslation();
+
+  const { loggedIn, logout } = useAuth();
 
   const dispatch = useDispatch();
 
@@ -12,10 +15,10 @@ const AuthButton = () => {
       className="page-header__btn page-header__btn--logout bttn"
       onClick={() => {
         logout();
-        setCredentials({ token: null });
+        dispatch(setCredentials({ token: null, username: null }));
       }}
     >
-      Выйти
+      {t('header.buttons.signout')}
     </button>
   );
 };

@@ -5,12 +5,15 @@ import { setCredentials } from '../store/slices/authSlice.js';
 
 import { useFormik } from 'formik';
 import axios from '../api/axios.js';
+import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth.js';
 
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Login = () => {
+  const { t, i18n } = useTranslation();
+
   const [errMsg, setErrMsg] = useState('');
   const [loadingState, setLoadingState] = useState(false);
 
@@ -44,7 +47,7 @@ const Login = () => {
     } catch(e) {
       console.log(e, e.message)
       // setErrMsg('the username or password is incorrect');
-      setErrMsg('Неверные имя пользователя или пароль');
+      setErrMsg(t('form.login.errors.wrongCredentials'));
       inputRef.current.select();
     } finally {
       setLoadingState(false);
@@ -72,7 +75,7 @@ const Login = () => {
           <img />
         </div>
         <div>
-          <h1 className="login__title">Войти</h1>
+          <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
             <p
               className={errMsg ? 'form__err-message' : 'offscreen'}
@@ -81,7 +84,7 @@ const Login = () => {
               {errMsg}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor="username">Ваш ник:</label>
+              <label className="form__label" htmlFor="username">{t('form.login.labels.username')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -96,7 +99,7 @@ const Login = () => {
             </div>
 
             <div className="form__input-box">
-              <label className="form__label" htmlFor="password">Пароль:</label>
+              <label className="form__label" htmlFor="password">{t('form.login.labels.password')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -113,16 +116,16 @@ const Login = () => {
               disabled={loadingState}
               type="submit"
             >
-              Войти
+              {t('form.login.buttons.signIn')}
             </button>
           </form>
         </div>
       </div>
       <div className="login__footer">
         <p>
-          Нет аккаунта?{' '}
+          {t('form.login.footerText')}{' '}
           <span>
-            <Link to={ROUTES.signup} className="link">Регистрация</Link>
+            <Link to={ROUTES.signup} className="link">{t('form.login.footerLink')}</Link>
           </span>
         </p>
       </div>

@@ -4,6 +4,7 @@ const DEFAULT_CHANNEL = { id: '1', name: 'general'};
 
 const initialState = {
   currentChannel: { ...DEFAULT_CHANNEL },
+  currentLanguage: 'ru',
   // modalType: null,
   modalInfo: {
     channelId: null,
@@ -21,6 +22,11 @@ const uiSlice = createSlice({
       const { payload } = action;
       const currentChannel = payload ?? DEFAULT_CHANNEL;
       state.currentChannel = currentChannel;
+    },
+
+    setCurrentLanguage: (state, action) => {
+      const { payload } = action;
+      state.modalInfo = payload;
     },
 
     hideModal: (state) => {
@@ -50,6 +56,7 @@ const uiSlice = createSlice({
 
 export const {
   setCurrentChannel,
+  setCurrentLanguage,
   hideModal,
   setModalInfo,
   setModalType,

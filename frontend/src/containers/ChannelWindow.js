@@ -2,14 +2,16 @@ import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMessagesQuery, useAddMessageMutation } from '../store/apis/messagesApi.js';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import Skeleton from '../components/Skeleton.js';
 
 import './ChannelWindow.css';
 
 const ChannelWindow = ({ channelName, channelId }) => {
+  const { t } = useTranslation();
+
   const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
-  console.log('ALL MESSAGES', data);
 
   const currentChannelMessages = data ?
     data.filter((message) => message.channelId === channelId) :
@@ -56,15 +58,19 @@ const ChannelWindow = ({ channelName, channelId }) => {
     <div className="channel-window">
       <div className="channel-window__header">
         <b>#&nbsp;{channelName}</b>
-        <span>{currentChannelMessages?.length ? currentChannelMessages.length : 0} сообщений</span>
+        <span>
+          {
+            t('channelWindow.messagesCount.count', { count: currentChannelMessages?.length ? currentChannelMessages.length : 0})
+          }
+        </span>
       </div>
       {content}
       <form className="channel-window__form" onSubmit={formik.handleSubmit}>
         <div className="channel-window__form-control">
-          <label className="visually-hidden" htmlFor="message-input">Введите сообщение</label>
+          <label className="visually-hidden" htmlFor="message-input">{t('form.newMessage.label')}</label>
           <input
             type="text"
-            placeholder="Введите сообщение"
+            placeholder={t('form.newMessage.placeholder')}
             onChange={formik.handleChange}
             value={formik.values['message-input']}
             name="message-input"
@@ -77,7 +83,7 @@ const ChannelWindow = ({ channelName, channelId }) => {
             type="submit"
             className="channel-window__form-submit-btn"
           >
-            Отправить
+            {t('form.newMessage.submit')}
           </button>
         </div>
       </form>

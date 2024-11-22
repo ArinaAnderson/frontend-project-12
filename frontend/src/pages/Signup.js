@@ -6,16 +6,34 @@ import { setCredentials } from '../store/slices/authSlice.js';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from '../api/axios.js';
+import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth.js';
 
-import { API_ROUTES } from '../utils/router.js';
-
+import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Signup = () => {
+  const { t, i18n } = useTranslation();
+
   const [errMsg, setErrMsg] = useState('');
+  const [err, setErr] = useState(null);
   const [loadingState, setLoadingState] = useState(false);
-  const [ formErrors, setFormErrors ] = useState({});
+  // const [ formErrors, setFormErrors ] = useState({});
+
+  /*
+  const getErrorText = (e) => {
+    if (e === null) {
+      return '';
+    }
+    const errorMessageText= e?.response?.status ? t(`form.signup.errors.err${e.response.status}`) : t('errors.noNetwork');
+    return errorMessageText;
+  };
+  */
+  i18n.on('languageChanged', () => {
+    const errorMessageText= err?.response?.status ? t(`form.signup.errors.err${err.response.status}`) : t('errors.noNetwork');
+    console.log('ONLANGCHANGE',err.response.status, errorMessageText);
+    setErrMsg(errorMessageText);
+  });
 
   const dispatch = useDispatch();
 
@@ -28,19 +46,19 @@ const Signup = () => {
   const VALIDATION_SCHEMA = yup.object().shape({
     username: yup.string()
       .trim()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .required('Обязательное поле'),
+      .min(3, t('form.signup.errors.validation.userNameLength'))
+      .max(20, t('form.signup.errors.validation.userNameLength'))
+      .required(t('form.signup.errors.validation.required')),
     password: yup.string()
       .trim()
-      .min(6, 'Не менее 6 символов')
-      .required('Обязательное поле'),
+      .min(6, t('form.signup.errors.validation.passwordLength'))
+      .required(t('form.signup.errors.validation.required')),
     confirmPassword: yup.string()
       .trim()
-      .required('Пароли должны совпадать')
+      .required(t('form.signup.errors.validation.passwordMatch'))
       .oneOf(
         [yup.ref('password'), null],
-        'Пароли должны совпадать',
+        t('form.signup.errors.validation.passwordMatch'),
       ),
   });
 
@@ -63,9 +81,11 @@ const Signup = () => {
 
       navigate('/');
     } catch(e) {
-      console.log(e, e.message)
-      // setErrMsg('the username or password is incorrect');
-      setErrMsg('Неверные имя пользователя или пароль');
+      console.log(e?.response?.status)
+      const errorMessageText= e?.response?.status ? t(`form.signup.errors.err${e.response.status}`) : t('errors.noNetwork');
+      // console.log(i18n.language);
+      setErrMsg(errorMessageText);
+      setErr(e);
       inputRef.current.select();
     } finally {
       setLoadingState(false);
@@ -89,9 +109,7 @@ const Signup = () => {
       sendSignupRequest();
     },
   });
-
-  console.log('FORMIK Touched', formik.touched.username);
-
+  // {getErrorText(err)}
   return (
     <section className='signup'>
       <div className=' form-wrapper'>
@@ -99,7 +117,7 @@ const Signup = () => {
           <img />
         </div>
         <div>
-          <h1 className='login__title'>Регистрация</h1>
+          <h1 className='login__title'>{t('form.signup.headline')}</h1>
           <form className='login__form form' onSubmit={formik.handleSubmit}>
             <p
               className={errMsg ? 'form__err-message' : 'offscreen'}
@@ -116,7 +134,7 @@ const Signup = () => {
               {formik.errors.username}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor='username'>Имя пользователя:</label>
+              <label className="form__label" htmlFor='username'>{t('form.signup.labels.username')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -142,7 +160,7 @@ const Signup = () => {
               {formik.errors.password}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor='password'>Пароль:</label>
+              <label className="form__label" htmlFor='password'>{t('form.signup.labels.password')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -167,7 +185,12 @@ const Signup = () => {
               {formik.errors.confirmPassword}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor='password'>Пароль:</label>
+              <label
+                className="form__label"
+                htmlFor='confirmPasswordß'
+              >
+                {t('form.signup.labels.confirmPassword')}:
+              </label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -182,9 +205,23 @@ const Signup = () => {
                 aria-describedby="confirmPasswordErrNote"
               />
             </div>
-            <button className="form__btn-submit  bttn" disabled={loadingState} type="submit">Войти</button>
+            <button
+              className="form__btn-submit  bttn"
+              disabled={loadingState}
+              type="submit"
+            >
+              {t('form.signup.buttons.signup')}
+            </button>
           </form>
         </div>
+      </div>
+      <div className="signup__footer">
+        <p>
+          {t('form.signup.footerText')}{' '}
+          <span>
+            <Link to={ROUTES.login} className="link">{t('form.signup.footerLink')}</Link>
+          </span>
+        </p>
       </div>
     </section>
   );

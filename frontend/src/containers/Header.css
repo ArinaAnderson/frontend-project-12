@@ -11,6 +11,12 @@
   box-shadow: var(--box-shadow);
 }
 
+.page-header__lang-btns {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
 .page-header__nav-link {
   position: relative;
   display: block;
@@ -60,4 +66,11 @@
   color: #fff;
 
   background-color: var(--green-color--active);
+}
+
+.page-header__btn--current {
+  color: #fff;
+  font-weight: bold;
+
+  background-color: var(--pompadour-color);
 }

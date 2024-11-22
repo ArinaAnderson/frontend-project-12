@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { setModalInfo, setModalType, addChannelName } from '../store/slices/ui.js';
 import './Channel.css';
 
 const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
+  const { t } = useTranslation();
+
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,7 +38,7 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
         className={cn("channel__toggle-btn", { "channel__toggle-btn--on": isDropdownMenuOpen})}
         bsPrefix={cn("channel__toggle-btn", { "channel__toggle-btn--on": isDropdownMenuOpen})}
       >
-        Управление каналом
+        {t('channelsList.channelDropDown.toggle')}
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
@@ -45,7 +48,7 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
           className="channel__dropdown-item"
           onClick={() => handleRemoveChannelBtnClick()}
         >
-          Удалить
+          {t('channelsList.channelDropDown.remove')}
         </Dropdown.Item>
         <Dropdown.Item
           role="button"
@@ -53,7 +56,7 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
           className="channel__dropdown-item"
           onClick={() => handleRenameChannelBtnClick()}
         >
-          Переименовать
+          {t('channelsList.channelDropDown.rename')}
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

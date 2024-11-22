@@ -117,7 +117,8 @@ body {
   box-shadow: var(--box-shadow);
 }
 
-.login__footer {
+.login__footer,
+.signup__footer {
   padding: 25px;
   box-sizing: border-box;
 
@@ -128,7 +129,8 @@ body {
   border-radius: 0 0 10px 10px;
 }
 
-.login__footer p {
+.login__footer p,
+.signup__footer p {
   padding: 0;
   margin: 0;
 
