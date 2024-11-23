@@ -2,11 +2,14 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useEditChannelMutation, useGetChannelsQuery } from '../../store/apis/channelsApi.js';
 import { hideModal } from '../../store/slices/ui.js';
 
 const RenameChannel = ({ modalInfo }) => {
+  const { t } = useTranslation();
+
   const { channelId, channelName } = modalInfo;
 
   const [ editChannel, { error, isLoading: isEditChannelLoading } ] = useEditChannelMutation();

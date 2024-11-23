@@ -20,19 +20,23 @@ const Signup = () => {
   const [loadingState, setLoadingState] = useState(false);
   // const [ formErrors, setFormErrors ] = useState({});
 
-  /*
-  const getErrorText = (e) => {
-    if (e === null) {
+  const generateErrorMessage = (err) => {
+    if (err === null) {
       return '';
     }
-    const errorMessageText= e?.response?.status ? t(`form.signup.errors.err${e.response.status}`) : t('errors.noNetwork');
+  
+    const errorMessageText= err?.response?.status ?
+      t(`form.signup.errors.err${err.response.status}`) :
+      t('errors.noNetwork');
+
     return errorMessageText;
   };
-  */
+
   i18n.on('languageChanged', () => {
-    const errorMessageText= err?.response?.status ? t(`form.signup.errors.err${err.response.status}`) : t('errors.noNetwork');
-    console.log('ONLANGCHANGE',err.response.status, errorMessageText);
-    setErrMsg(errorMessageText);
+    // const errorMessageText= err?.response?.status ? t(`form.signup.errors.err${err.response.status}`) : t('errors.noNetwork');
+    // console.log('ONLANGCHANGE',err.response.status, errorMessageText);
+    const errMessage = generateErrorMessage(err);
+    setErrMsg(errMessage);
   });
 
   const dispatch = useDispatch();

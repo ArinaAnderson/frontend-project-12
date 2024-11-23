@@ -46,10 +46,12 @@ const en = {
         submit: 'Send',
       },
     },
+
     errors: {
       noNetwork: 'Network error: Could not connect.',
       // 505
     },
+
     header: {
       buttons: {
         signout: 'Sign out',
@@ -94,6 +96,11 @@ const en = {
         buttons: {
           cancel: 'Cancel',
           submit: 'Send',
+        },
+        validationErrors: {
+          channelNameLength: 'Channel name must be between 3 and 20 characters long',
+          unique: 'Such name already exists',
+          required: 'This field cannot be left blank',
         },
       },
     },

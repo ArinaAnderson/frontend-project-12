@@ -2,11 +2,14 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useAddChannelMutation, useGetChannelsQuery } from '../../store/apis/channelsApi.js';
 import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
 
 const AddChannel = () => {
+  const { t } = useTranslation();
+
   const [ addChannel, { error, isLoading: isAddChannelLoading } ] = useAddChannelMutation();
   const { data } = useGetChannelsQuery();
   const channelNames = data.length ? data.map((el) => el.name) : [];
@@ -23,10 +26,10 @@ const AddChannel = () => {
   const VALIDATION_SCHEMA = yup.object().shape({
     name: yup.string()
       .trim()
-      .min(3, 'Channel name must be at least 3 characters long')
-      .max(20, 'Channel name can\'t be longer than 20 characters')
-      .required('Required')
-      .notOneOf(channelNames, 'Such name already exists')
+      .min(3, t('channelsList.modals.validationErrors.channelNameLength'))
+      .max(20, t('channelsList.modals.validationErrors.channelNameLength'))
+      .required(t('channelsList.modals.validationErrors.required'))
+      .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
   });
 
   const handleAddChannel = async (values) => {
@@ -49,11 +52,10 @@ const AddChannel = () => {
   return (
     <Modal show className="modal" onHide={() => dispatch(hideModal())}>
       <Modal.Header closeButton >
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('channelsList.modals.addChannel.headline')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-
         <form onSubmit={formik.handleSubmit}>
           <p
             className={formik.errors.name ? 'form__err-message' : 'offscreen'}
@@ -73,7 +75,7 @@ const AddChannel = () => {
               id="channel-name-field"
             />
             <label className="visually-hidden" htmlFor="channel-name-field">
-              Имя канала
+              {t('channelsList.modals.addChannel.label')}
             </label>
           </div>
           <div className="modal__footer">
@@ -82,18 +84,16 @@ const AddChannel = () => {
               className="bttn modal__btn"
               onClick={() => dispatch(hideModal())}
             >
-              Отменить
+              {t('channelsList.modals.buttons.cancel')}
             </button>
             <button
               className="bttn modal__btn modal__btn--submit"
               disabled={isAddChannelLoading}
               type="submit"
             >
-              Отправить
+              {t('channelsList.modals.buttons.submit')}
             </button>
           </div>
-          
-          
         </form>
       </Modal.Body>
     </Modal>

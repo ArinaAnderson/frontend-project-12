@@ -83,25 +83,22 @@ const ru = {
         addChannel: {
           headline: 'Добавить канал',
           label: 'Имя канала',
-          buttons: {
-            cancel: 'Отменить',
-            submit: 'Отправить',
-          },
         },
         renameChannel: {
           headline: 'Переименовать канал',
           label: 'Имя канала',
-          buttons: {
-            cancel: 'Отменить',
-            submit: 'Отправить',
-          },
         },
         removeChannel: {
           headline: 'Удалить канал',
-          buttons: {
-            cancel: 'Отменить',
-            submit: 'Отправить',
-          },
+        },
+        buttons: {
+          cancel: 'Отменить',
+          submit: 'Отправить',
+        },
+        validationErrors: {
+          channelNameLength: 'От 3 до 20 символов',
+          unique: 'Должно быть уникальным',
+          required: 'Обязательное поле',
         },
       },
     },
