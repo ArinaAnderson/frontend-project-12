@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
 import { useRemoveMessageMutation, useGetMessagesQuery } from '../../store/apis/messagesApi.js';
 import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
 
 const RemoveChannel = ({ modalInfo }) => {
+  const { t } = useTranslation();
+
   const { channelId } = modalInfo;
-  // const { currentChannel } = useSelector((state) => state.ui);
 
   const [ removeChannel, { isLoading: isRemoveChannelLoading } ] = useRemoveChannelMutation();
   const [ removeMessage, { isLoading: isRemoveMessageLoading } ] = useRemoveMessageMutation();
@@ -51,13 +53,13 @@ const RemoveChannel = ({ modalInfo }) => {
   return (
     <Modal show className="modal">
       <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('channelsList.modals.removeChannel.headline')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <div>
-            <p className="lead">Уверены?</p>
+            <p className="lead">{t('channelsList.modals.removeChannel.text')}</p>
           </div>
           <div className="modal__footer">
             <button
@@ -65,14 +67,14 @@ const RemoveChannel = ({ modalInfo }) => {
               className="bttn modal__btn"
               onClick={() => dispatch(hideModal())}
             >
-              Отменить
+              {t('channelsList.modals.buttons.cancel')}
             </button>
             <button
               className="bttn modal__btn modal__btn--submit"
               disabled={isRemoveChannelLoading}
               type="submit"
             >
-             Удалить
+              {t('channelsList.modals.removeChannel.submit')}
             </button>
           </div>
           

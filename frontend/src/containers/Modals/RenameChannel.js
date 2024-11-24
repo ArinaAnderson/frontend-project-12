@@ -28,10 +28,10 @@ const RenameChannel = ({ modalInfo }) => {
   const VALIDATION_SCHEMA = yup.object().shape({
     name: yup.string()
       .trim()
-      .min(3, 'Channel name must be at least 3 characters long')
-      .max(20, 'Channel name can\'t be longer than 20 characters')
-      .required('required')
-      .notOneOf(channelNames, 'Such name already exists')
+      .min(3, t('channelsList.modals.validationErrors.channelNameLength'))
+      .max(20, t('channelsList.modals.validationErrors.channelNameLength'))
+      .required(t('channelsList.modals.validationErrors.required'))
+      .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
   });
 
   const handleRenameChannel = (values) => {
@@ -52,7 +52,7 @@ const RenameChannel = ({ modalInfo }) => {
   return (
     <Modal show className="modal" onHide={() => dispatch(hideModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('channelsList.modals.renameChannel.headline')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -69,7 +69,7 @@ const RenameChannel = ({ modalInfo }) => {
               id="channel-name-field"
             />
             <label className="visually-hidden" htmlFor="channel-name-field">
-              Имя канала
+              {t('channelsList.modals.renameChannel.label')}
             </label>
           </div>
           <div className="modal__footer">
@@ -78,14 +78,14 @@ const RenameChannel = ({ modalInfo }) => {
               className="bttn modal__btn"
               onClick={() => dispatch(hideModal())}
             >
-              Отменить
+              {t('channelsList.modals.buttons.cancel')}
             </button>
             <button
               className="bttn modal__btn modal__btn--submit"
               disabled={isEditChannelLoading}
               type="submit"
             >
-              Отправить
+              {t('channelsList.modals.buttons.submit')}
             </button>
           </div>
           
