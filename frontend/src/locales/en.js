@@ -56,8 +56,8 @@ const en = {
       buttons: {
         signout: 'Sign out',
         languages: {
-          ru: 'RU',
-          en: 'EN'
+          ru: 'Translate to Russian',
+          en: 'Translate to English',
         },
       }
     },
@@ -92,6 +92,8 @@ const en = {
         },
         removeChannel: {
           headline: 'Remove channel',
+          text: 'Are you sure?',
+          submit: 'Delete',
         },
         buttons: {
           cancel: 'Cancel',

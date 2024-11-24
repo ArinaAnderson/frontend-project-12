@@ -53,8 +53,8 @@ const ru = {
       buttons: {
         signout: 'Выйти',
         languages: {
-          ru: 'RU',
-          en: 'EN'
+          ru: 'Перевести на русский', // 'RU',
+          en: 'Перевести на английский', //'EN',
         },
       }
     },
@@ -90,6 +90,8 @@ const ru = {
         },
         removeChannel: {
           headline: 'Удалить канал',
+          text: 'Уверены?',
+          submit: 'Удалить',
         },
         buttons: {
           cancel: 'Отменить',

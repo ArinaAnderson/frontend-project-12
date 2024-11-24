@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 // import { useDispatch } from 'react-redux';
 // import { setCurrentLanguage } from '../store/slices/ui.js';
@@ -14,39 +16,50 @@ const Header = () => {
   
   const handleLngSwicth = (evt) => {
     evt.preventDefault();
-    i18n.changeLanguage(evt.target.dataset.testid)
+    const lng = evt.target.dataset.testid;
+    i18n.changeLanguage(lng);
       //.then(() => dispatch(setCurrentLanguage(evt.target.dataset.testid)));
   };
 
+  const languages = [ 'ru', 'en' ];
+
+  const lngBtns = languages.map((lng) => {
+    const btnClasses = cn({
+      bttn: true, 
+      'page-header__btn': true,
+      'page-header__lng-btn': true,
+      [`page-header__lng-btn--${lng}`]: true,
+      'page-header__btn--current': i18n.language === lng,
+    });
+
+    return (
+      <button
+        key={lng}
+        onClick={handleLngSwicth}
+        type="button"
+        className={btnClasses}
+        data-testid={lng}
+      >
+        <span data-testid={lng} className="page-header__lng-icon" aria-hidden="true" focusable="false">{lng}</span>
+        <span className="visually-hidden">{t(`header.buttons.languages.${lng}`)}</span>
+      </button>
+    );
+  });
+
   const languageBtns = (
     <div className="page-header__lang-btns">
-      <button
-        onClick={handleLngSwicth}
-        type="button"
-        className={`bttn page-header__btn ${i18n.language === 'ru' ? 'page-header__btn--current' : ''}`}
-        data-testid='ru'
-      >
-        {t('header.buttons.languages.ru')}
-      </button>
-      <button
-        onClick={handleLngSwicth}
-        type="button"
-        className={`bttn page-header__btn ${i18n.language === 'en' ? 'page-header__btn--current' : ''}`}
-        data-testid='en'
-      >
-        {t('header.buttons.languages.en')}
-      </button>
+      {lngBtns}
     </div>
     
   );
   return (
     <header className="page-header">
       <Link to="/" className="page-header__nav-link link">Hexlet Chat</Link>
-      {languageBtns}
-      <AuthButton />
+      <div className="page-header__btn-box">
+        {languageBtns}
+        <AuthButton />
+      </div>
     </header>
   );
 }
 export default Header;
-
-// <button className='page-header__btn page-header__btn--logout btn'>Выйти</button>
