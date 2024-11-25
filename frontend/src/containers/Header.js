@@ -39,9 +39,10 @@ const Header = () => {
         type="button"
         className={btnClasses}
         data-testid={lng}
+        aria-labelledby={`lng-btn--${lng}`}
       >
         <span data-testid={lng} className="page-header__lng-icon" aria-hidden="true" focusable="false">{lng}</span>
-        <span className="visually-hidden">{t(`header.buttons.languages.${lng}`)}</span>
+        <span id={`lng-btn--${lng}`} hidden>{t(`header.buttons.languages.${lng}`)}</span>
       </button>
     );
   });
