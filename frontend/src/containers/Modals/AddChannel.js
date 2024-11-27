@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useAddChannelMutation, useGetChannelsQuery } from '../../store/apis/channelsApi.js';
@@ -32,10 +33,16 @@ const AddChannel = () => {
       .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
   });
 
+  // const notify = () => toast.success("Wow so easy !");
   const handleAddChannel = async (values) => {
-    const resp = await addChannel({ name: values.name });
-    const { id, name } = resp.data;
-    dispatch(setCurrentChannel({ id, name }));
+    try {
+      const resp = await addChannel({ name: values.name });
+      toast.success('Канал создан', { autoClose: 8000 });
+      const { id, name } = resp.data;
+      dispatch(setCurrentChannel({ id, name }));
+    } catch(e) {
+      console.log(e);
+    }
   };
 
   const formik = useFormik({

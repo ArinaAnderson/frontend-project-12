@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentChannel, setModalInfo, addChannelName } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
@@ -9,6 +9,9 @@ import Skeleton from '../components/Skeleton.js';
 import ChannelWindow from './ChannelWindow.js';
 import Channel from '../components/Channel.js';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './Channels.css';
 
 const Channels = () => {
@@ -17,6 +20,10 @@ const Channels = () => {
   const { data, error, isLoading: isGetChannelsLoading, isUninitialized } = useGetChannelsQuery();
 
   const dispatch = useDispatch();
+
+  if (error) {
+    console.log(error.response);
+  }
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
 

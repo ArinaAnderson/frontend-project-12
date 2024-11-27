@@ -16,6 +16,10 @@
   --indigo-color: rgb(50, 4, 137);
 
   --box-shadow: 0px 5px 10px 1px rgb(180, 180, 180);
+
+  --toastify-color-error: rgb(102, 2, 74);
+  --toastify-text-color-light: #000000;
+  --toastify-color-success: var(--half-baked-color-100);
 }
 
 * {

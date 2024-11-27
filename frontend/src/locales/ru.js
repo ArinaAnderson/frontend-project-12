@@ -45,10 +45,12 @@ const ru = {
         submit: 'Отправить',
       },
     },
+
     errors: {
       noNetwork: 'Ошибка соединения',
       // 505
     },
+
     header: {
       buttons: {
         signout: 'Выйти',

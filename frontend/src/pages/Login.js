@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
+import useLocalStorage from '../hooks/useLocalStorage.js';
 
 import { useFormik } from 'formik';
 import axios from '../api/axios.js';
@@ -16,6 +17,8 @@ const Login = () => {
 
   const [errMsg, setErrMsg] = useState('');
   const [loadingState, setLoadingState] = useState(false);
+
+  const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage({ key: 'auth'});
 
   const dispatch = useDispatch();
 
@@ -40,7 +43,8 @@ const Login = () => {
       });
 
       login();
-      localStorage.setItem('auth', JSON.stringify(response.data))
+      setLocalStorageAuthData({ type: 'setValue', value: JSON.stringify(response.data) });
+      // localStorage.setItem('auth', JSON.stringify(response.data))
       dispatch(setCredentials(response.data));
 
       navigate(from);

@@ -6,6 +6,18 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { setModalInfo, setModalType, addChannelName } from '../store/slices/ui.js';
 import './Channel.css';
 
+/*  
+  function App(){
+    const notify = () => toast("Wow so easy!");
+
+    return (
+      <div>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+      </div>
+    );
+  }
+*/
 const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
   const { t } = useTranslation();
 

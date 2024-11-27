@@ -16,6 +16,7 @@ import AuthProvider from './contexts/AuthContextProvider.js';
 import SocketProvider from './contexts/SocketContextProvider.js';
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 /*
