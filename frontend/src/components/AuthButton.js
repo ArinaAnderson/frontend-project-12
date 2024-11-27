@@ -8,14 +8,14 @@ const AuthButton = () => {
 
   const { loggedIn, logout } = useAuth();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     loggedIn && <button
       className="page-header__btn page-header__btn--logout bttn"
       onClick={() => {
         logout();
-        dispatch(setCredentials({ token: null, username: null }));
+        // dispatch(setCredentials({ token: null, username: null }));
       }}
     >
       {t('header.buttons.signout')}
