@@ -188,6 +188,14 @@ body {
   font-weight: bold;
 }
 
+.form__err-message--main {
+  padding: 10px;
+
+  font-size: 18px;
+  color: #fff;
+  background-color: var(--err-message-color);
+}
+
 .form__input-box {
   margin-bottom: 30px;
 }

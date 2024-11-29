@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-// import { useDispatch } from 'react-redux';
-// import { setCurrentLanguage } from '../store/slices/ui.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentLanguage } from '../store/slices/ui.js';
 import AuthButton from '../components/AuthButton.js';
 
 import './Header.css';
@@ -12,13 +12,14 @@ import './Header.css';
 const Header = () => {
   const { t, i18n } = useTranslation();
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const lngNow = useSelector((state) => state.ui.currentLanguage);
   
   const handleLngSwicth = (evt) => {
     evt.preventDefault();
-    const lng = evt.target.dataset.testid;
-    i18n.changeLanguage(lng);
-      //.then(() => dispatch(setCurrentLanguage(evt.target.dataset.testid)));
+    const lng = evt.target.dataset.lng;
+    i18n.changeLanguage(lng)
+      .then(() => dispatch(setCurrentLanguage(evt.target.dataset.lng))); // dispatch(setCurrentLanguage(evt.target.dataset.lng)));
   };
 
   const languages = [ 'ru', 'en' ];
@@ -38,10 +39,10 @@ const Header = () => {
         onClick={handleLngSwicth}
         type="button"
         className={btnClasses}
-        data-testid={lng}
+        data-lng={lng}
         aria-labelledby={`lng-btn--${lng}`}
       >
-        <span data-testid={lng} className="page-header__lng-icon" aria-hidden="true" focusable="false">{lng}</span>
+        <span data-lng={lng} className="page-header__lng-icon" aria-hidden="true" focusable="false">{lng}</span>
         <span id={`lng-btn--${lng}`} hidden>{t(`header.buttons.languages.${lng}`)}</span>
       </button>
     );

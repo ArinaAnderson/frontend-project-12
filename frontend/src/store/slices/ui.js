@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const DEFAULT_CHANNEL = { id: '1', name: 'general'};
 
@@ -11,6 +11,7 @@ const initialState = {
     channelName: null,
     modalType: null,
   },
+  socketConnectionError: null,
   // chanelNames: [],
 };
 
@@ -26,31 +27,34 @@ const uiSlice = createSlice({
 
     setCurrentLanguage: (state, action) => {
       const { payload } = action;
-      state.modalInfo = payload;
+      state.currentLanguage = payload;
     },
 
     hideModal: (state) => {
       state.modalInfo = { modalType: null, channelId: null, channelName: null };
-      console.log('CURRENT CHANNEL', current(state));
     },
 
     setModalType: (state, action) => {
       const { payload } = action;
       state.modalType = payload;
-      console.log('CURRENT CHANNEL', current(state));
     },
 
     setModalInfo: (state, action) => {
       const { payload } = action;
       state.modalInfo = payload;
-      console.log('MODAL INFO', current(state));
     },
 
+    setSocketError: (state, action) => {
+      const { payload } = action;
+      state.socketConnectionError = payload;
+    },
+
+    /*
     addChannelName: (state, action) => {
       const { payload } = action;
       state.chanelNames = state.chanelNames.concat(payload);
-      console.log('CHANNEL NAMES', current(state));
     },
+    */
   },
 });
 
@@ -60,7 +64,7 @@ export const {
   hideModal,
   setModalInfo,
   setModalType,
-  addChannelName,
+  setSocketError,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

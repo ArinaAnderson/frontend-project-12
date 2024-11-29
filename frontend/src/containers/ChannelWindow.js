@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMessagesQuery, useAddMessageMutation } from '../store/apis/messagesApi.js';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
 import Skeleton from '../components/Skeleton.js';
@@ -11,10 +12,14 @@ import './ChannelWindow.css';
 const ChannelWindow = ({ channelName, channelId }) => {
   const { t } = useTranslation();
 
-  const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
+  const { data: allMessages, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
 
-  const currentChannelMessages = data ?
-    data.filter((message) => message.channelId === channelId) :
+  if (error) {
+    toast.error(t('errors.dataLoadError'), { autoClose: 8000 });
+  }
+
+  const currentChannelMessages = allMessages ?
+    allMessages.filter((message) => message.channelId === channelId) :
     [];
 
   const [ addMessage, { isLoading: isAddMessageLoading } ] = useAddMessageMutation();
@@ -39,9 +44,13 @@ const ChannelWindow = ({ channelName, channelId }) => {
     }
   }, [channelId]);
 
-  const handleAddMessage = (values) => {
+  const handleAddMessage = async (values) => {
     const message = { channelId, username, body: values['message-input'] };
-    addMessage(message);
+    try {
+      await addMessage(message);
+    } catch(e) {
+      toast.error(t('errors.dataSendError'));
+    }
   };
 
   const formik = useFormik({

@@ -1,34 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannel, setModalInfo, addChannelName } from '../store/slices/ui.js';
+import { setCurrentChannel, setModalInfo } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import Skeleton from '../components/Skeleton.js';
-import ChannelWindow from './ChannelWindow.js';
 import Channel from '../components/Channel.js';
+import ChannelWindow from './ChannelWindow.js';
 
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { setSocketError } from '../store/slices/ui.js';
 
 import './Channels.css';
 
 const Channels = () => {
   const { t } = useTranslation();
 
-  const { data, error, isLoading: isGetChannelsLoading, isUninitialized } = useGetChannelsQuery();
+  const { data, error, isLoading: isGetChannelsLoading } = useGetChannelsQuery();
 
   const dispatch = useDispatch();
 
+  const socketError = useSelector((state) => state.ui.socketConnectionError);
+  if (socketError) {
+    toast.error(t('errors.noNetwork'));
+    dispatch(setSocketError(null));
+  }
+
   if (error) {
-    console.log(error.response);
+    const errorMessageText= e?.response?.status ?
+      t('errors.dataLoadError') :
+      t('errors.noNetwork');
+    toast.error(errorMessageText, { autoClose: 8000 });
   }
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
 
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);
-  //console.log('CHANNELS DATA', data, currentChannel);
 
   const handleChannelSelect = (id, name) => {
     dispatch(setCurrentChannel({ name, id }));

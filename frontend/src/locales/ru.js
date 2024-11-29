@@ -1,3 +1,5 @@
+import { addChannelName } from "../store/slices/ui";
+
 const ru = {
   translation: {
     form: {
@@ -13,7 +15,10 @@ const ru = {
         footerText: 'Нет аккаунта?',
         footerLink: 'Регистрация',
         errors: {
-          wrongCredentials: 'Неверные имя пользователя или пароль',
+          validation: {
+            required: 'Обязательное поле',
+          },
+          err401: 'Неверные имя пользователя или пароль',
         },
       },
 
@@ -49,6 +54,8 @@ const ru = {
     errors: {
       noNetwork: 'Ошибка соединения',
       // 505
+      dataLoadError: 'Не удалось загрузить данные',
+      dataSendError: 'Не удалось отправить данные',
     },
 
     header: {
@@ -105,6 +112,15 @@ const ru = {
           required: 'Обязательное поле',
         },
       },
+    },
+
+    toasts: {
+      addChannelSuccess: 'Канал добавлен!',
+      addChannelError: 'Не удалось добавить канал',
+      renameChannelSuccess: 'Канал переименован!',
+      renameChannelError: 'Не удалось переименовать канал',
+      removeChannelSuccess: 'Канал удален!',
+      removeChannelError: 'Не удалось удалить канал',
     },
   },
 };

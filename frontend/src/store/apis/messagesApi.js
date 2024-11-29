@@ -1,8 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_ROUTES } from '../../utils/router';
-import useSocket from '../../hooks/useSocket.js';
-
 import { io } from 'socket.io-client';
+
+// UNSUCCESSFUL ATTEMPT to SHOW a TOAST related WEBSOCKET:
+/*
+import { toast } from 'react-toastify';
+import i18next from 'i18next';
+import resources from '../../locales/index';
+
+const i18nextInstance = i18next.createInstance();
+await i18nextInstance.init({
+  resources,
+  lng: 'ru',
+  interpolation: {
+    escapeValue: false,
+  }
+});
+*/
 
 export const messagesApi = createApi({
   reducerPath: 'messages',
@@ -11,7 +25,7 @@ export const messagesApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+        headers.set('authorization', `Bearer ${token}`);
       }
 
       return headers;
@@ -25,24 +39,35 @@ export const messagesApi = createApi({
       }),
 
       async onCacheEntryAdded(
-        arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        _,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
       ) {
-        // const { socket } = useSocket();
+
         const socket = io();
 
         const addMessageSocketListener = (payload) => {
-          console.log('SOCKET MESSAGES', payload);
-            // {body: 'meow', channelId: '1', username: 'test', removable: true, id: '3'}
           updateCachedData((draft) => {
             draft.push(payload);
+
+            // UNSUCCESSFUL ATTEMPT to SHOW a TOAST related WEBSOCKET:
+            // const currentLang = getState().ui.currentLanguage;
+            // i18nextInstance.changeLanguage(currentLang)
+              // .then(() => toast.success(i18nextInstance.t('toasts.addChannelSuccess')));
+
+            // throw new Error('WEB SOCKET ERROR'); ---> not getting catched
           });
         };
 
         try {
           await cacheDataLoaded;
           socket.on('newMessage', addMessageSocketListener);
-        } catch {}
+
+          // TESTING WEB SOCKET ERROR TO SHOW a TOAST:
+          throw new Error('WEB SOCKET ERROR'); // here the error gets caught
+        } catch(e) {
+          dispatch({ type: 'ui/setSocketError', payload: e.message });
+        }
+
         await cacheEntryRemoved;
         console.log('SOCKET OFF');
         socket.off('newMessage', addMessageSocketListener);

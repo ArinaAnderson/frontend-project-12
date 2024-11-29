@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_ROUTES } from '../../utils/router';
-
 import { io } from 'socket.io-client';
 
 export const channelsApi = createApi({
@@ -26,7 +25,7 @@ export const channelsApi = createApi({
       }),
 
       async onCacheEntryAdded(
-        arg,
+        _,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
       ) {
 
@@ -87,8 +86,9 @@ export const channelsApi = createApi({
           socket.on('newChannel', addChannelSocketListener);
           socket.on('renameChannel', renameChannelSocketListener);
           socket.on('removeChannel', removeChannelSocketListener);
-        } catch {
-
+        } catch(e) {
+          console.log('WEB SOCKET ERROR', e, e.message);
+          dispatch({ type: 'ui/setSocketError', payload: e.message });
         }
         await cacheEntryRemoved;
         console.log('SOCKET OFF');

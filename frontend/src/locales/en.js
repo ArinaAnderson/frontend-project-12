@@ -13,7 +13,10 @@ const en = {
         footerText: 'New to Hexlet Chat?',
         footerLink: 'Create account',
         errors: {
-          wrongCredentials: 'Wrong password or username',
+          validation: {
+            required: 'This field cannot be left blank',
+          },
+          err401: 'Wrong password or username',
         },
       },
 
@@ -50,6 +53,8 @@ const en = {
     errors: {
       noNetwork: 'Network error: Could not connect.',
       // 505
+      dataLoadError: 'Failed to fetch data...',
+      dataSendError: 'Failed to send data...',
     },
 
     header: {
@@ -105,6 +110,15 @@ const en = {
           required: 'This field cannot be left blank',
         },
       },
+    },
+
+    toasts: {
+      addChannelSuccess: 'Success! Channel is added!',
+      addChannelError: 'Failed to add a channel...',
+      renameChannelSuccess: 'Success! Channel is renamed!',
+      renameChannelError: 'Failed to rename a channel...',
+      removeChannelSuccess: 'Success! Channel is deleted!',
+      removeChannelError: 'Failed to delete a channel...',
     },
   },
 };
