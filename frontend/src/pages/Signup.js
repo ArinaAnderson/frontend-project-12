@@ -2,14 +2,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
-
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from '../api/axios.js';
 import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth.js';
-
+import updateLocalStorage from '../utils/localStorage.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Signup = () => {
@@ -25,16 +24,14 @@ const Signup = () => {
       return '';
     }
   
-    const errorMessageText= err?.response?.status ?
-      t(`form.signup.errors.err${err.response.status}`) :
+    const errorMessageText= err?.response?.status === 409 ?
+      t('form.signup.errors.err409') :
       t('errors.noNetwork');
 
     return errorMessageText;
   };
 
   i18n.on('languageChanged', () => {
-    // const errorMessageText= err?.response?.status ? t(`form.signup.errors.err${err.response.status}`) : t('errors.noNetwork');
-    // console.log('ONLANGCHANGE',err.response.status, errorMessageText);
     const errMessage = generateErrorMessage(err);
     setErrMsg(errMessage);
   });
@@ -63,7 +60,7 @@ const Signup = () => {
       .oneOf(
         [yup.ref('password'), null],
         t('form.signup.errors.validation.passwordMatch'),
-      ),
+      )
   });
 
   const sendSignupRequest = async () => {
@@ -78,16 +75,17 @@ const Signup = () => {
           password: formik.values.password,
         }
       });
-      console.log(response, response.data);
       login();
-      localStorage.setItem('auth', JSON.stringify(response.data))
+      // localStorage.setItem('auth', JSON.stringify(response.data))
+      updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' })
       dispatch(setCredentials(response.data));
 
       navigate('/');
     } catch(e) {
-      console.log(e?.response?.status)
-      const errorMessageText= e?.response?.status ? t(`form.signup.errors.err${e.response.status}`) : t('errors.noNetwork');
-      // console.log(i18n.language);
+      const errorMessageText= e?.response?.status === 409 ?
+        t('form.signup.errors.err409') :
+        t('errors.noNetwork');
+
       setErrMsg(errorMessageText);
       setErr(e);
       inputRef.current.select();
@@ -109,11 +107,11 @@ const Signup = () => {
     validationSchema: VALIDATION_SCHEMA,
     // validateOnChange: false,
     // validateOnBlur: false,
-    onSubmit: (values) => {
+    onSubmit: () => {
       sendSignupRequest();
     },
   });
-  // {getErrorText(err)}
+
   return (
     <section className='signup'>
       <div className=' form-wrapper'>
@@ -124,7 +122,7 @@ const Signup = () => {
           <h1 className='login__title'>{t('form.signup.headline')}</h1>
           <form className='login__form form' onSubmit={formik.handleSubmit}>
             <p
-              className={errMsg ? 'form__err-message' : 'offscreen'}
+              className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
               aria-live='assertive'
             >
               {errMsg}

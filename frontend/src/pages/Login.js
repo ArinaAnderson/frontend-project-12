@@ -2,8 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
-import useLocalStorage from '../hooks/useLocalStorage.js';
 
+// import useLocalStorage from '../hooks/useLocalStorage.js';
+import updateLocalStorage from '../utils/localStorage.js';
+
+import * as yup from 'yup';
 import { useFormik } from 'formik';
 import axios from '../api/axios.js';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +19,27 @@ const Login = () => {
   const { t, i18n } = useTranslation();
 
   const [errMsg, setErrMsg] = useState('');
+  const [err, setErr] = useState(null);
   const [loadingState, setLoadingState] = useState(false);
 
-  const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage({ key: 'auth'});
+  // const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage('auth');
+
+  const generateErrorMessage = (err) => {
+    if (err === null) {
+      return '';
+    }
+
+    const errorMessageText = err?.response?.status === 401 ?
+      t('form.login.errors.err401') :
+      t('errors.noNetwork');
+
+    return errorMessageText;
+  };
+
+  i18n.on('languageChanged', () => {
+    const errMessage = generateErrorMessage(err);
+    setErrMsg(errMessage);
+  });
 
   const dispatch = useDispatch();
 
@@ -30,8 +51,19 @@ const Login = () => {
 
   const inputRef = useRef(null);
 
+  const VALIDATION_SCHEMA = yup.object().shape({
+    username: yup.string()
+      .trim()
+      .min(3, t('form.signup.errors.validation.userNameLength'))
+      .required(t('form.login.errors.validation.required')),
+    password: yup.string()
+      .trim()
+      .required(t('form.signup.errors.validation.required')),
+  });
+
   const sendLoginRequest = async () => {
     setLoadingState(true);
+    setErrMsg('');
     try {
       const response = await axios({
         method: 'post',
@@ -41,17 +73,20 @@ const Login = () => {
           password: formik.values.password,
         }
       });
-
       login();
-      setLocalStorageAuthData({ type: 'setValue', value: JSON.stringify(response.data) });
+      // setLocalStorageAuthData({ type: 'setValue', value: JSON.stringify(response.data) });
       // localStorage.setItem('auth', JSON.stringify(response.data))
+      updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' })
       dispatch(setCredentials(response.data));
 
       navigate(from);
     } catch(e) {
-      console.log(e, e.message)
-      // setErrMsg('the username or password is incorrect');
-      setErrMsg(t('form.login.errors.wrongCredentials'));
+      const errorMessageText = e?.response?.status === 401 ?
+        t('form.login.errors.err401') :
+        t('errors.noNetwork');
+
+      setErrMsg(errorMessageText);
+      setErr(e);
       inputRef.current.select();
     } finally {
       setLoadingState(false);
@@ -67,6 +102,9 @@ const Login = () => {
       username: '',
       password: '',
     },
+    validationSchema: VALIDATION_SCHEMA,
+    // validateOnChange: false,
+    // validateOnBlur: false,
     onSubmit: (values) => {
       sendLoginRequest();
     },
@@ -82,16 +120,25 @@ const Login = () => {
           <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
             <p
-              className={errMsg ? 'form__err-message' : 'offscreen'}
+              className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
               aria-live="assertive"
             >
               {errMsg}
+            </p>
+            <p
+              id="usernameErrNote"
+                className={
+                  formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
+                }
+            >
+              {formik.errors.username}
             </p>
             <div className="form__input-box">
               <label className="form__label" htmlFor="username">{t('form.login.labels.username')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.username}
                 type="text"
                 name="username"
@@ -99,20 +146,33 @@ const Login = () => {
                 autoComplete="off"
                 ref={inputRef}
                 required
+                aria-invalid={formik.errors.username ? "true" : "false"}
+                aria-describedby="usernameErrNote"
               />
             </div>
 
+            <p
+              id="passwordErrNote"
+                className={
+                  formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+                }
+            >
+              {formik.errors.password}
+            </p>
             <div className="form__input-box">
               <label className="form__label" htmlFor="password">{t('form.login.labels.password')}:</label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.email}
                 type="password"
                 name="password"
                 id="password"
                 autoComplete="off"
                 required
+                aria-invalid={formik.errors.password ? "true" : "false"}
+                aria-describedby="passwordErrNote"
               />
             </div>
             <button

@@ -1,7 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
+
 import useLocalStorage from '../hooks/useLocalStorage.js';
+import updateLocalStorage from '../utils/localStorage.js';
+
 import AuthContext from './AuthContext.js';
 
 const AuthProvider = ({ children }) => {
@@ -14,7 +17,7 @@ const AuthProvider = ({ children }) => {
   */
   const localStorageAuth = useSelector((state) => state.auth);
 
-  const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage({ key: 'auth'});
+  // const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage('auth');
 
   const [ loggedIn, setLoggedIn ] = useState(() => {
     if (localStorageAuth.token) {
@@ -26,9 +29,9 @@ const AuthProvider = ({ children }) => {
   const login = () => setLoggedIn(true);
 
   const logout = () => {
-    // localStorage.removeItem('token');
     // localStorage.removeItem('auth');
-    setLocalStorageAuthData({ type: 'removeValue' });
+    // setLocalStorageAuthData({ type: 'removeValue' });
+    updateLocalStorage({ type: 'removeValue', key: 'auth' });
     setLoggedIn(false);
     dispatch(setCredentials({ token: null, username: null }));
   };
