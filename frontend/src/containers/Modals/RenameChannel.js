@@ -12,7 +12,7 @@ const RenameChannel = ({ modalInfo }) => {
 
   const { channelId, channelName } = modalInfo;
 
-  const [ editChannel, { error, isLoading: isEditChannelLoading } ] = useEditChannelMutation();
+  const [ editChannel, { isLoading: isEditChannelLoading } ] = useEditChannelMutation();
   const { data } = useGetChannelsQuery();
   const channelNames = data.length ? data.map((el) => el.name) : [];
 
@@ -25,17 +25,27 @@ const RenameChannel = ({ modalInfo }) => {
     }
   }, []);
 
-  const VALIDATION_SCHEMA = yup.object().shape({
-    name: yup.string()
-      .trim()
-      .min(3, t('channelsList.modals.validationErrors.channelNameLength'))
-      .max(20, t('channelsList.modals.validationErrors.channelNameLength'))
-      .required(t('channelsList.modals.validationErrors.required'))
-      .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
-  });
+  const VALIDATION_SCHEMA = yup
+    .object()
+    .shape({
+      name: yup.string()
+        .trim()
+        .min(3, t('channelsList.modals.validationErrors.channelNameLength'))
+        .max(20, t('channelsList.modals.validationErrors.channelNameLength'))
+        .required(t('channelsList.modals.validationErrors.required'))
+        .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
+    })
+    // https://github.com/jquense/yup/issues/1455 - not working
+    .default(undefined)
+    .required();
 
-  const handleRenameChannel = (values) => {
-    editChannel({ name: values.name, channelId });
+  const handleRenameChannel = async (values) => {
+    try {
+      await editChannel({ name: values.name, channelId });
+      toast.success(t('toasts.renameChannelSuccess'), { autoClose: 8000 });
+    } catch(e) {
+      toast.error(t('toasts.renameChannelError'), { autoClose: 8000 });
+    }
   };
 
   const formik = useFormik({
@@ -57,6 +67,12 @@ const RenameChannel = ({ modalInfo }) => {
 
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
+          <p
+            className={formik.errors.name && formik.touched.name ? 'form__err-message' : 'offscreen'}
+            aria-live="assertive"
+          >
+            {formik.errors.name}
+          </p>
           <div>
             <input
               className="form__input"
@@ -65,6 +81,7 @@ const RenameChannel = ({ modalInfo }) => {
               ref={inputRef}
               value={formik.values.name}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               name="name"
               id="channel-name-field"
             />

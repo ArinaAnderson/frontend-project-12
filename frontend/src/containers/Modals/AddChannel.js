@@ -11,7 +11,7 @@ import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
 const AddChannel = () => {
   const { t } = useTranslation();
 
-  const [ addChannel, { error, isLoading: isAddChannelLoading } ] = useAddChannelMutation();
+  const [ addChannel, { isLoading: isAddChannelLoading } ] = useAddChannelMutation();
   const { data } = useGetChannelsQuery();
   const channelNames = data.length ? data.map((el) => el.name) : [];
 
@@ -37,11 +37,11 @@ const AddChannel = () => {
   const handleAddChannel = async (values) => {
     try {
       const resp = await addChannel({ name: values.name });
-      toast.success('Канал создан', { autoClose: 8000 });
+      toast.success(t('toasts.addChannelSuccess'), { autoClose: 8000 });
       const { id, name } = resp.data;
       dispatch(setCurrentChannel({ id, name }));
     } catch(e) {
-      console.log(e);
+      toast.error(t('toasts.addChannelError'), { autoClose: 8000 });
     }
   };
 
@@ -65,11 +65,12 @@ const AddChannel = () => {
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <p
-            className={formik.errors.name ? 'form__err-message' : 'offscreen'}
+            className={formik.errors.name && formik.touched.name ? 'form__err-message' : 'offscreen'}
             aria-live="assertive"
           >
             {formik.errors.name}
           </p>
+
           <div>
             <input
               className="form__input"
@@ -78,6 +79,7 @@ const AddChannel = () => {
               ref={inputRef}
               value={formik.values.name}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               name="name"
               id="channel-name-field"
             />

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
@@ -12,12 +13,12 @@ const RemoveChannel = ({ modalInfo }) => {
   const { channelId } = modalInfo;
 
   const [ removeChannel, { isLoading: isRemoveChannelLoading } ] = useRemoveChannelMutation();
-  const [ removeMessage, { isLoading: isRemoveMessageLoading } ] = useRemoveMessageMutation();
+  const [ removeMessage ] = useRemoveMessageMutation();
 
-  const { data, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
+  const { data: allMessages } = useGetMessagesQuery();
 
-  const currentChannelMessages = data ?
-    data.filter((message) => message.channelId === channelId) :
+  const currentChannelMessages = allMessages ?
+    allMessages.filter((message) => message.channelId === channelId) :
     [];
 
   // const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
@@ -29,16 +30,15 @@ const RemoveChannel = ({ modalInfo }) => {
       await removeChannel({ channelId });
       /*
       if (currentChannel.id === channelId) {
-        console.log('IS CURRENT CHANNEL', currentChannel.id,channelId, currentChannel.id === channelId);
         dispatch(setCurrentChannel());
       }
       */
       const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
       const promise = Promise.all(deleteMessageRequests);
+      toast.success(t('toasts.removeChannelSuccess'), { autoClose: 8000 });
       // currentChannelMessages.forEach((el) => removeMessage(el.id));
     } catch(e) {
-      console.log('ERROR', e.message);
-      // toast
+      toast.error(t('toasts.removeChannelError'), { autoClose: 8000 });
     }
   };
 
