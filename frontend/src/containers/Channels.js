@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 
 import Skeleton from '../components/Skeleton.js';
 import Channel from '../components/Channel.js';
-import ChannelWindow from './ChannelWindow.js';
+// import ChannelWindow from './ChannelWindow.js';
+import ChannelChat from './ChannelChat.js';
 
 import { toast } from 'react-toastify';
 import { setSocketError } from '../store/slices/ui.js';
@@ -86,7 +87,7 @@ const Channels = () => {
         </div>
         {content}
       </div>
-      <ChannelWindow
+      <ChannelChat
         channelId={currentChannel.id}
         channelName={currentChannel.name}
       />
