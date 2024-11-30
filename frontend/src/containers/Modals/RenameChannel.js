@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useEditChannelMutation, useGetChannelsQuery } from '../../store/apis/channelsApi.js';
@@ -51,7 +52,8 @@ const RenameChannel = ({ modalInfo }) => {
   const formik = useFormik({
     initialValues: { name: channelName },
     validationSchema: VALIDATION_SCHEMA,
-    validateOnChange: false,
+    // validateOnChange: false,
+    // validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       handleRenameChannel(values);
       dispatch(hideModal());

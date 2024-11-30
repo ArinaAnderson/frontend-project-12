@@ -50,11 +50,13 @@ const Login = () => {
   const { login } = useAuth();
 
   const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const VALIDATION_SCHEMA = yup.object().shape({
     username: yup.string()
       .trim()
-      .min(3, t('form.signup.errors.validation.userNameLength'))
       .required(t('form.login.errors.validation.required')),
     password: yup.string()
       .trim()
@@ -93,10 +95,6 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -105,7 +103,7 @@ const Login = () => {
     validationSchema: VALIDATION_SCHEMA,
     // validateOnChange: false,
     // validateOnBlur: false,
-    onSubmit: (values) => {
+    onSubmit: () => {
       sendLoginRequest();
     },
   });

@@ -66,9 +66,7 @@ export const channelsApi = createApi({
           });
         };
 
-        const removeChannelSocketListener = (payload) => {
-          console.log('removeChannelSocketListener', payload);
-        
+        const removeChannelSocketListener = (payload) => {        
           updateCachedData((draft) => {
             const idx = draft.findIndex((el) => el.id === payload.id);
             draft.splice(idx, 1);

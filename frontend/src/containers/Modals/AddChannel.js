@@ -48,7 +48,8 @@ const AddChannel = () => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: VALIDATION_SCHEMA,
-    validateOnChange: false,
+    // validateOnChange: false,
+    // validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       handleAddChannel(values);
       dispatch(hideModal());

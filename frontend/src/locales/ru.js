@@ -1,5 +1,3 @@
-import { addChannelName } from "../store/slices/ui";
-
 const ru = {
   translation: {
     form: {
