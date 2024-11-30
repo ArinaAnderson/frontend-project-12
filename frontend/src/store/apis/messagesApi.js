@@ -63,7 +63,7 @@ export const messagesApi = createApi({
           socket.on('newMessage', addMessageSocketListener);
 
           // TESTING WEB SOCKET ERROR TO SHOW a TOAST:
-          throw new Error('WEB SOCKET ERROR'); // here the error gets caught
+          // throw new Error('WEB SOCKET ERROR'); // here the error gets caught
         } catch(e) {
           dispatch({ type: 'ui/setSocketError', payload: e.message });
         }
