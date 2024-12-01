@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useGetMessagesQuery } from '../store/apis/messagesApi.js';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-
+import filter from 'leo-profanity';
 import Skeleton from '../components/Skeleton.js';
 
 const ChannelMessages = ({ channelName, channelId }) => {
@@ -12,7 +12,10 @@ const ChannelMessages = ({ channelName, channelId }) => {
   const { data: allMessages, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
 
   if (error) {
-    toast.error(t('errors.dataLoadError'), { autoClose: 8000 });
+    const errorMessageText= e?.status ?
+      t('errors.dataLoadError') :
+      t('errors.noNetwork');
+    toast.error(errorMessageText, { autoClose: 8000 });
   }
 
   const currentChannelMessages = allMessages ?
@@ -26,13 +29,13 @@ const ChannelMessages = ({ channelName, channelId }) => {
     <div className="channel-window__messages">
       {currentChannelMessages.map(({ id, body, username }) => (
         <div key={id} className="channel-window__message">
-          <b>{`${username}: ${body}`}</b>
+          <b>{`${username}: ${filter.clean(body)}`}</b>
         </div>
       ))}
     </div>;
 
   return (
-    <>
+    <div className="channel-window__wrap">
       <div className="channel-window__header">
         <b>#&nbsp;{channelName}</b>
         <span>
@@ -45,7 +48,7 @@ const ChannelMessages = ({ channelName, channelId }) => {
         </span>
       </div>
       {content}
-    </>
+    </div>
     
   );
 }

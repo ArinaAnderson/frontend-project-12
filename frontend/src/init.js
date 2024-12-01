@@ -1,6 +1,8 @@
 import React, { StrictMode } from 'react';
 import { Provider } from 'react-redux';
-// leoProfanity
+
+import leoProfanity from 'leo-profanity';
+
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -46,10 +48,11 @@ const init = async () => {
       },
   });
 
-  /*
-  const dictionary = leoProfanity.getDictionary('ru');
-  leoProfanity.add(dictionary);
-  */
+  const ruDictionary = leoProfanity.getDictionary('ru');
+  const enDictionary = leoProfanity.getDictionary('en');
+  leoProfanity.add(ruDictionary);
+  leoProfanity.add(enDictionary);
+
   return (
     <Provider store={store}>
       <AuthProvider>
