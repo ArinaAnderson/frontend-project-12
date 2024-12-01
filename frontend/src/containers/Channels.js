@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentChannel, setModalInfo } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
+import { Navigate } from 'react-router-dom';
+import { ROUTES } from '../utils/router.js';
+
 import Skeleton from '../components/Skeleton.js';
 import Channel from '../components/Channel.js';
-// import ChannelWindow from './ChannelWindow.js';
-import ChannelChat from './ChannelChat.js';
+import ChannelWindow from './ChannelWindow.js';
 
 import { toast } from 'react-toastify';
 import { setSocketError } from '../store/slices/ui.js';
+// import updateLocalStorage from '../utils/localStorage.js';
 
 import './Channels.css';
 
@@ -20,28 +23,36 @@ const Channels = () => {
 
   const { data, error, isLoading: isGetChannelsLoading } = useGetChannelsQuery();
 
-  const dispatch = useDispatch();
+  const currentChannel = useSelector((state) => state.ui.currentChannel);
 
   const socketError = useSelector((state) => state.ui.socketConnectionError);
   if (socketError) {
     toast.error(t('errors.noNetwork'));
     dispatch(setSocketError(null));
   }
-
-  if (error) {
-    const errorMessageText= e?.response?.status ?
-      t('errors.dataLoadError') :
-      t('errors.noNetwork');
-    toast.error(errorMessageText, { autoClose: 8000 });
-  }
-
-  const currentChannel = useSelector((state) => state.ui.currentChannel);
+  const dispatch = useDispatch();
 
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);
 
   const handleChannelSelect = (id, name) => {
     dispatch(setCurrentChannel({ name, id }));
   };
+
+  if (error) {
+    if (error.status === 401) {
+      console.log('EXPIRED NEWLY CREATED USER', error.statusCode, error.status, localStorage.getItem('auth'));
+      // {"statusCode":401,"error":"Unauthorized","message":"Unauthorized"}
+      return <Navigate to={ROUTES.login} />
+      // OR:
+      // updateLocalStorage({ type: 'removeValue', key: 'auth' });
+      // maybe too late because we already start rendering Chat
+    }
+
+    const errorMessageText= error?.status ?
+      t('errors.dataLoadError') :
+      t('errors.noNetwork');
+    toast.error(errorMessageText, { autoClose: 8000 });
+  }
 
   const content = isGetChannelsLoading ?
     <Skeleton times={5} className='skeleton--w-90'/> :
@@ -87,7 +98,7 @@ const Channels = () => {
         </div>
         {content}
       </div>
-      <ChannelChat
+      <ChannelWindow
         channelId={currentChannel.id}
         channelName={currentChannel.name}
       />

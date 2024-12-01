@@ -8,6 +8,13 @@
   background-color: var(--half-baked-color-20);
 }
 
+.channel-window__wrap {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
 .channel-window__header {
   display: flex;
   flex-direction: column;

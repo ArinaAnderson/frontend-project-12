@@ -4,11 +4,11 @@ import ChannelMessages from './ChannelMessages.js';
 
 import './ChannelChat.css';
 
-const ChannelChat = ({ channelName, channelId }) => (
+const ChannelWindow = ({ channelName, channelId }) => (
   <div className="channel-window">
     <ChannelMessages channelName={channelName} channelId={channelId} />
     <ChannelNewMessage channelId={channelId} />
   </div>
 );
 
-export default ChannelChat;
+export default ChannelWindow;
