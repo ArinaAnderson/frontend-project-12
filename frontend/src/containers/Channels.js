@@ -21,6 +21,8 @@ import './Channels.css';
 const Channels = () => {
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+
   const { data, error, isLoading: isGetChannelsLoading } = useGetChannelsQuery();
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
@@ -30,11 +32,11 @@ const Channels = () => {
     toast.error(t('errors.noNetwork'));
     dispatch(setSocketError(null));
   }
-  const dispatch = useDispatch();
 
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);
 
   const handleChannelSelect = (id, name) => {
+    setIsChannelsListOpen(false);
     dispatch(setCurrentChannel({ name, id }));
   };
 
@@ -92,7 +94,7 @@ const Channels = () => {
           >
             {isChannelsListOpen ?
               t('channelsList.toggleChannelsList.hide') :
-              t('channelsList.toggleChannelsList.hide')
+              t('channelsList.toggleChannelsList.show')
             }
           </button>
         </div>
