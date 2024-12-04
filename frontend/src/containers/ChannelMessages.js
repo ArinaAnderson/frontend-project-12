@@ -37,7 +37,7 @@ const ChannelMessages = ({ channelName, channelId }) => {
   return (
     <div className="channel-window__wrap">
       <div className="channel-window__header">
-        <b>#&nbsp;{channelName}</b>
+        <b>#&nbsp;{filter.clean(channelName)}</b>
         <span>
           {
             t(

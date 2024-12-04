@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { setModalInfo, setModalType, addChannelName } from '../store/slices/ui.js';
 import './Channel.css';
@@ -82,10 +83,10 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
         <button
           type="button"
           className="channel__select-btn"
-          onClick={(evt) => handleChannelSelect(id, name)}
+          onClick={() => handleChannelSelect(id, name)}
           disabled={isCurrent}
         >
-          <span>#</span>&nbsp;{name}
+          <span>#</span>&nbsp;{filter.clean(name)}
         </button>
         {removable && dropDown}
       </div>
