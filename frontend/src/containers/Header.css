@@ -63,6 +63,8 @@
 }
 
 .page-header__btn {
+  color: #000;
+
   background-color: #fff;
   border-color: var(--half-baked-color-100);
 }

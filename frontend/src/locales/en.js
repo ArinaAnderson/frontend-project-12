@@ -120,6 +120,11 @@ const en = {
       removeChannelSuccess: 'Success! Channel is deleted!',
       removeChannelError: 'Failed to delete a channel...',
     },
+
+    error404: {
+      title: 'Page was not found...',
+      returnLink: 'Return to home page',
+    },
   },
 };
 

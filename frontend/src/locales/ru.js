@@ -120,6 +120,11 @@ const ru = {
       removeChannelSuccess: 'Канал удален!',
       removeChannelError: 'Не удалось удалить канал',
     },
+
+    error404: {
+      title: 'Страница не найдена...',
+      returnLink: 'Вернуться на главную страницу',
+    },
   },
 };
 

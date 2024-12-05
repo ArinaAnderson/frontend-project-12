@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './containers/Layout.js';
 import Login from './pages/Login.js';
 import Signup from './pages/Signup.js';
+import Error404 from './pages/Error404.js';
 import RequireAuth from './containers/RequireAuth.js';
 import Chat from './pages/Chat.js';
 import Modal from './containers/Modals/index.js';
@@ -25,6 +26,7 @@ const App = () => (
         />
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signup} element={<Signup />} />
+        <Route path="*" element={<Error404 />}/>
       </Route>
     </Routes>
     <Modal />

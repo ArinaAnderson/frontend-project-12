@@ -62,6 +62,30 @@ body {
   overflow: hidden;
 }
 
+.error404 {
+  padding-left: var(--main-padding-x);
+  padding-right: var(--main-padding-x);
+}
+
+.error404__title {
+  margin: 30px 0;
+}
+
+.error404__link {
+  font-size: 20px;
+  color: #000;
+}
+
+.error404__link:hover,
+.error404__link:focus {
+  color: var(--indigo-color);
+  font-weight: bold;
+}
+
+.error404__link:active {
+  color: var(--green-color--active);
+}
+
 .offscreen {
   /*
   display: none;
