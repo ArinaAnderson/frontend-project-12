@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import leoProfanity from 'leo-profanity';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -16,15 +17,34 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-/*
 const rollbarConfig = {
   enabled: process.env.NODE_ENV === 'production',
   accessToken: process.env.ROLLBAR_TOKEN,
+  environment: 'production',
+  /*
   addErrorContext: true,
   captureUncaught: true,
   captureUnhandledRejection: true,
   captureIp: true,
+  */
+};
+
+/*
+function TestError() {
+  const a = null;
+  return a.hello();
+}
+*/
+/*
+const rollbarConfig = {
+  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
   environment: 'production',
+  server: {
+    root: "http://example.com/",
+    branch: "main",
+  },
 };
 */
 
@@ -50,11 +70,15 @@ const init = async () => {
   leoProfanity.add(enDictionary);
 
   return (
-    <Provider store={store}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <Provider store={store}>
+        <ErrorBoundary>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ErrorBoundary>
+      </Provider>
+    </RollbarProvider>
   );
 };
 

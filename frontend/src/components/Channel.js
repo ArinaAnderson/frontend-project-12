@@ -31,8 +31,8 @@ const Channel = (
       <Dropdown.Toggle
         variant="success"
         id="dropdown-basic"
-        className={cn('channel__toggle-btn', { 'channel__toggle-btn--on': true })}
-        bsPrefix={cn('channel__toggle-btn', { 'channel__toggle-btn--on': true })}
+        className={cn('channel__toggle-btn')}
+        bsPrefix={cn('channel__toggle-btn')}
       >
         {t('channelsList.channelDropDown.toggle')}
       </Dropdown.Toggle>
