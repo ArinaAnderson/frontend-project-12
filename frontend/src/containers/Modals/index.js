@@ -20,7 +20,7 @@ const Modal = () => {
 
     const Component = modals[modalType];
 
-    return <Component modalInfo={{ channelId, channelName }} />
+    return <Component modalInfo={{ channelId, channelName }} />;
   };
 
   return renderModal();

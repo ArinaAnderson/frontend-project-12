@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_ROUTES } from '../../utils/router';
 import { io } from 'socket.io-client';
+import { API_ROUTES } from '../../utils/router';
 
 // UNSUCCESSFUL ATTEMPT to SHOW a TOAST related WEBSOCKET:
 /*
@@ -23,7 +23,7 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_ROUTES.base,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const { token } = getState().auth;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -40,20 +40,15 @@ export const messagesApi = createApi({
 
       async onCacheEntryAdded(
         _,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
+        {
+          updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch,
+        },
       ) {
-
         const socket = io();
 
         const addMessageSocketListener = (payload) => {
           updateCachedData((draft) => {
             draft.push(payload);
-
-            // UNSUCCESSFUL ATTEMPT to SHOW a TOAST related WEBSOCKET:
-            // const currentLang = getState().ui.currentLanguage;
-            // i18nextInstance.changeLanguage(currentLang)
-              // .then(() => toast.success(i18nextInstance.t('toasts.addChannelSuccess')));
-
             // throw new Error('WEB SOCKET ERROR'); ---> not getting catched
           });
         };
@@ -64,7 +59,7 @@ export const messagesApi = createApi({
 
           // TESTING WEB SOCKET ERROR TO SHOW a TOAST:
           // throw new Error('WEB SOCKET ERROR'); // here the error gets caught
-        } catch(e) {
+        } catch (e) {
           dispatch({ type: 'ui/setSocketError', payload: e.message });
         }
 

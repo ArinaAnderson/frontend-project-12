@@ -13,7 +13,7 @@ const RenameChannel = ({ modalInfo }) => {
 
   const { channelId, channelName } = modalInfo;
 
-  const [ editChannel, { isLoading: isEditChannelLoading } ] = useEditChannelMutation();
+  const [editChannel, { isLoading: isEditChannelLoading }] = useEditChannelMutation();
   const { data } = useGetChannelsQuery();
   const channelNames = data.length ? data.map((el) => el.name) : [];
 
@@ -34,7 +34,7 @@ const RenameChannel = ({ modalInfo }) => {
         .min(3, t('channelsList.modals.validationErrors.channelNameLength'))
         .max(20, t('channelsList.modals.validationErrors.channelNameLength'))
         .required(t('channelsList.modals.validationErrors.required'))
-        .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique'))
+        .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique')),
     })
     // https://github.com/jquense/yup/issues/1455 - not working
     .default(undefined)
@@ -44,7 +44,7 @@ const RenameChannel = ({ modalInfo }) => {
     try {
       await editChannel({ name: values.name, channelId });
       toast.success(t('toasts.renameChannelSuccess'), { autoClose: 8000 });
-    } catch(e) {
+    } catch (e) {
       toast.error(t('toasts.renameChannelError'), { autoClose: 8000 });
     }
   };
@@ -107,8 +107,6 @@ const RenameChannel = ({ modalInfo }) => {
               {t('channelsList.modals.buttons.submit')}
             </button>
           </div>
-          
-          
         </form>
       </Modal.Body>
     </Modal>

@@ -1,43 +1,35 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
 import { useRemoveMessageMutation, useGetMessagesQuery } from '../../store/apis/messagesApi.js';
-import { hideModal, setCurrentChannel } from '../../store/slices/ui.js';
+import { hideModal } from '../../store/slices/ui.js';
 
 const RemoveChannel = ({ modalInfo }) => {
   const { t } = useTranslation();
 
   const { channelId } = modalInfo;
 
-  const [ removeChannel, { isLoading: isRemoveChannelLoading } ] = useRemoveChannelMutation();
-  const [ removeMessage ] = useRemoveMessageMutation();
+  const [removeChannel, { isLoading: isRemoveChannelLoading }] = useRemoveChannelMutation();
+  const [removeMessage] = useRemoveMessageMutation();
 
   const { data: allMessages } = useGetMessagesQuery();
 
-  const currentChannelMessages = allMessages ?
-    allMessages.filter((message) => message.channelId === channelId) :
-    [];
-
-  // const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
+  const currentChannelMessages = allMessages
+    ? allMessages.filter((message) => message.channelId === channelId)
+    : [];
 
   const dispatch = useDispatch();
 
   const handleRemoveChannel = async () => {
     try {
       await removeChannel({ channelId });
-      /*
-      if (currentChannel.id === channelId) {
-        dispatch(setCurrentChannel());
-      }
-      */
       const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
-      const promise = Promise.all(deleteMessageRequests);
+      Promise.all(deleteMessageRequests); // const promise = Promise.all(deleteMessageRequests);
       toast.success(t('toasts.removeChannelSuccess'), { autoClose: 8000 });
-      // currentChannelMessages.forEach((el) => removeMessage(el.id));
-    } catch(e) {
+    } catch (e) {
       toast.error(t('toasts.removeChannelError'), { autoClose: 8000 });
     }
   };
@@ -77,8 +69,6 @@ const RemoveChannel = ({ modalInfo }) => {
               {t('channelsList.modals.removeChannel.submit')}
             </button>
           </div>
-          
-          
         </form>
       </Modal.Body>
     </Modal>

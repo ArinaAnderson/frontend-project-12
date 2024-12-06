@@ -2,7 +2,7 @@
 
 export const ROUTES = {
   login: '/login',
-  signup: '/signup'
+  signup: '/signup',
 };
 
 export const API_ROUTES = {

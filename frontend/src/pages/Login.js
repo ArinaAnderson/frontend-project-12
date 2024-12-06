@@ -1,16 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../store/slices/authSlice.js';
-
-// import useLocalStorage from '../hooks/useLocalStorage.js';
-import updateLocalStorage from '../utils/localStorage.js';
-
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import axios from '../api/axios.js';
 import { useTranslation } from 'react-i18next';
-
+import axios from '../api/axios.js';
+import { setCredentials } from '../store/slices/authSlice.js';
+import updateLocalStorage from '../utils/localStorage.js';
 import useAuth from '../hooks/useAuth.js';
 
 import { ROUTES, API_ROUTES } from '../utils/router.js';
@@ -24,14 +20,14 @@ const Login = () => {
 
   // const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage('auth');
 
-  const generateErrorMessage = (err) => {
-    if (err === null) {
+  const generateErrorMessage = (error) => {
+    if (error === null) {
       return '';
     }
 
-    const errorMessageText = err?.response?.status === 401 ?
-      t('form.login.errors.err401') :
-      t('errors.noNetwork');
+    const errorMessageText = error?.response?.status === 401
+      ? t('form.login.errors.err401')
+      : t('errors.noNetwork');
 
     return errorMessageText;
   };
@@ -63,7 +59,7 @@ const Login = () => {
       .required(t('form.signup.errors.validation.required')),
   });
 
-  const sendLoginRequest = async () => {
+  const sendLoginRequest = async (formikInst) => {
     setLoadingState(true);
     setErrMsg('');
     try {
@@ -71,21 +67,20 @@ const Login = () => {
         method: 'post',
         url: API_ROUTES.login,
         data: {
-          username: formik.values.username,
-          password: formik.values.password,
-        }
+          username: formikInst.values.username,
+          password: formikInst.values.password,
+        },
       });
       login();
-      // setLocalStorageAuthData({ type: 'setValue', value: JSON.stringify(response.data) });
-      // localStorage.setItem('auth', JSON.stringify(response.data))
-      updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' })
+
+      updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
       dispatch(setCredentials(response.data));
 
       navigate(from);
-    } catch(e) {
-      const errorMessageText = e?.response?.status === 401 ?
-        t('form.login.errors.err401') :
-        t('errors.noNetwork');
+    } catch (e) {
+      const errorMessageText = e?.response?.status === 401
+        ? t('form.login.errors.err401')
+        : t('errors.noNetwork');
 
       setErrMsg(errorMessageText);
       setErr(e);
@@ -101,19 +96,14 @@ const Login = () => {
       password: '',
     },
     validationSchema: VALIDATION_SCHEMA,
-    // validateOnChange: false,
-    // validateOnBlur: false,
     onSubmit: () => {
-      sendLoginRequest();
+      sendLoginRequest(formik);
     },
   });
 
   return (
     <section className="login">
-      <div className=" form-wrapper">
-        <div className="form__img-box">
-          <img />
-        </div>
+      <div className="form-wrapper">
         <div>
           <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
@@ -125,14 +115,17 @@ const Login = () => {
             </p>
             <p
               id="usernameErrNote"
-                className={
-                  formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
-                }
+              className={
+                formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
+              }
             >
               {formik.errors.username}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor="username">{t('form.login.labels.username')}:</label>
+              <label className="form__label" htmlFor="username">
+                {t('form.login.labels.username')}
+                :
+              </label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -144,21 +137,24 @@ const Login = () => {
                 autoComplete="off"
                 ref={inputRef}
                 required
-                aria-invalid={formik.errors.username ? "true" : "false"}
+                aria-invalid={formik.errors.username ? 'true' : 'false'}
                 aria-describedby="usernameErrNote"
               />
             </div>
 
             <p
               id="passwordErrNote"
-                className={
-                  formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-                }
+              className={
+                formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+              }
             >
               {formik.errors.password}
             </p>
             <div className="form__input-box">
-              <label className="form__label" htmlFor="password">{t('form.login.labels.password')}:</label>
+              <label className="form__label" htmlFor="password">
+                {t('form.login.labels.password')}
+                :
+              </label>
               <input
                 className="form__input"
                 onChange={formik.handleChange}
@@ -169,7 +165,7 @@ const Login = () => {
                 id="password"
                 autoComplete="off"
                 required
-                aria-invalid={formik.errors.password ? "true" : "false"}
+                aria-invalid={formik.errors.password ? 'true' : 'false'}
                 aria-describedby="passwordErrNote"
               />
             </div>
@@ -185,7 +181,8 @@ const Login = () => {
       </div>
       <div className="login__footer">
         <p>
-          {t('form.login.footerText')}{' '}
+          {t('form.login.footerText')}
+          &nbsp;
           <span>
             <Link to={ROUTES.signup} className="link">{t('form.login.footerLink')}</Link>
           </span>

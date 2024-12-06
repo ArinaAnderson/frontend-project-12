@@ -10,13 +10,13 @@ const SocketContextProvider = ({ children }) => {
     const addNewMessage = (message, cb) => {
       socket.emit('newMessage', message, (response) => {
         cb(response);
-      })
+      });
     };
 
     const addNewChannel = (channel, cb) => {
       socket.emit('newChannel', channel, (response) => {
         cb(response);
-      })
+      });
     };
 
     return {
@@ -34,4 +34,3 @@ const SocketContextProvider = ({ children }) => {
 };
 
 export default SocketContextProvider;
-

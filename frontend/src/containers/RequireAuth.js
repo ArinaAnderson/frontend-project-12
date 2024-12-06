@@ -11,10 +11,10 @@ const RequireAuth = ({ children }) => {
   const location = useLocation();
 
   if (!loggedIn || !token) {
-    return <Navigate to={ROUTES.login} state={{from: location.pathname}} />
+    return <Navigate to={ROUTES.login} state={{ from: location.pathname }} />;
   }
 
   return children;
-}
+};
 
-export default RequireAuth ;
+export default RequireAuth;

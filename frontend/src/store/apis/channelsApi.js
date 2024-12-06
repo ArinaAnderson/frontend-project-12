@@ -1,6 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_ROUTES } from '../../utils/router';
 import { io } from 'socket.io-client';
+import { API_ROUTES } from '../../utils/router';
 
 export const channelsApi = createApi({
   reducerPath: 'channels',
@@ -8,10 +9,10 @@ export const channelsApi = createApi({
     baseUrl: API_ROUTES.base,
     prepareHeaders: (headers, { getState }) => {
       // console.log('AUTH TOKEN', getState().auth.token);
-      const token = getState().auth.token;
-      
+      const { token } = getState().auth;
+
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
 
       return headers;
@@ -26,25 +27,23 @@ export const channelsApi = createApi({
 
       async onCacheEntryAdded(
         _,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState }
+        {
+          updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch, getState,
+        },
       ) {
-
         const socket = io();
 
         const addChannelSocketListener = (payload) => {
-          // console.log('SOCKET Channels', payload);
-        
           updateCachedData((draft) => {
             draft.push(payload);
           });
         };
 
         const renameChannelSocketListener = (payload) => {
-          // console.log('renameChannelSocketListener', payload);
-        
           updateCachedData((draft) => {
             const idx = draft.findIndex((el) => el.id === payload.id);
             draft[idx].name = payload.name;
+            // draftCopy[idx].name = payload.name;
             /*
             // WORKING:
             draft.forEach((el) => {
@@ -57,7 +56,9 @@ export const channelsApi = createApi({
             // NO WORKING:
             // isn't updateElem conataining a ref to draft elem??
             const updatedElem = draft.find((el) => {
-              console.log('RENAMING EL',el.id, el.name, payload.id, Number(el.id)===Number(payload.id));
+              console.log(
+                'RENAMING EL',el.id, el.name, payload.id, Number(el.id)===Number(payload.id)
+              );
               el.id == payload.id;
               return el;
             });
@@ -66,25 +67,25 @@ export const channelsApi = createApi({
           });
         };
 
-        const removeChannelSocketListener = (payload) => {        
+        const removeChannelSocketListener = (payload) => {
           updateCachedData((draft) => {
             const idx = draft.findIndex((el) => el.id === payload.id);
             draft.splice(idx, 1);
 
-            const currentChannel = getState().ui.currentChannel;
+            const { currentChannel } = getState().ui;
             if (Number(currentChannel.id) === Number(payload.id)) {
-              dispatch({ type: 'ui/setCurrentChannel', payload: null});
+              dispatch({ type: 'ui/setCurrentChannel', payload: null });
             }
           });
         };
 
         try {
-          await cacheDataLoaded
+          await cacheDataLoaded;
 
           socket.on('newChannel', addChannelSocketListener);
           socket.on('renameChannel', renameChannelSocketListener);
           socket.on('removeChannel', removeChannelSocketListener);
-        } catch(e) {
+        } catch (e) {
           console.log('WEB SOCKET ERROR', e, e.message);
           dispatch({ type: 'ui/setSocketError', payload: e.message });
         }

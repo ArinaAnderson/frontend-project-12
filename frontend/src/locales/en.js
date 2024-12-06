@@ -64,7 +64,7 @@ const en = {
           ru: 'Translate to Russian',
           en: 'Translate to English',
         },
-      }
+      },
     },
 
     channelWindow: {

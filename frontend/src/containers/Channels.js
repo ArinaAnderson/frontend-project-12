@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannel, setModalInfo } from '../store/slices/ui.js';
-import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
+import { Navigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-
-import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { setCurrentChannel, setModalInfo, setSocketError } from '../store/slices/ui.js';
+import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import { ROUTES } from '../utils/router.js';
 
 import Skeleton from '../components/Skeleton.js';
 import Channel from '../components/Channel.js';
 import ChannelWindow from './ChannelWindow.js';
-
-import { toast } from 'react-toastify';
-import { setSocketError } from '../store/slices/ui.js';
-// import updateLocalStorage from '../utils/localStorage.js';
 
 import './Channels.css';
 
@@ -44,39 +40,41 @@ const Channels = () => {
     if (error.status === 401) {
       console.log('EXPIRED NEWLY CREATED USER', error.statusCode, error.status, localStorage.getItem('auth'));
       // {"statusCode":401,"error":"Unauthorized","message":"Unauthorized"}
-      return <Navigate to={ROUTES.login} />
+      return <Navigate to={ROUTES.login} />;
       // OR:
       // updateLocalStorage({ type: 'removeValue', key: 'auth' });
       // maybe too late because we already start rendering Chat
     }
 
-    const errorMessageText= error?.status ?
-      t('errors.dataLoadError') :
-      t('errors.noNetwork');
+    const errorMessageText = error?.status
+      ? t('errors.dataLoadError')
+      : t('errors.noNetwork');
     toast.error(errorMessageText, { autoClose: 8000 });
   }
 
-  const content = isGetChannelsLoading ?
-    <Skeleton times={5} className='skeleton--w-90'/> :
-    <ul className="channels-list__items">
-      { data.map(({ id, name, removable }) => (
-        <Channel
-          key={id}
-          id={id}
-          name={name}
-          removable={removable}
-          isCurrent={currentChannel.id === id}
-          handleChannelSelect={handleChannelSelect}
-        />
-      ))}
-    </ul>;
+  const content = isGetChannelsLoading
+    ? <Skeleton times={5} className="skeleton--w-90" />
+    : (
+      <ul className="channels-list__items">
+        { data.map(({ id, name, removable }) => (
+          <Channel
+            key={id}
+            id={id}
+            name={name}
+            removable={removable}
+            isCurrent={currentChannel.id === id}
+            handleChannelSelect={handleChannelSelect}
+          />
+        ))}
+      </ul>
+    );
   return (
     <section className="chat">
-      <div className={cn('channels-list', { 'channels-list--closed': !isChannelsListOpen})}>
+      <div className={cn('channels-list', { 'channels-list--closed': !isChannelsListOpen })}>
         <div className="channels-list__header">
           <b>{t('channelsList.headline')}</b>
           <button
-            onClick={() => dispatch(setModalInfo({modalType: 'adding', channelId: null, channelName: null }))}
+            onClick={() => dispatch(setModalInfo({ modalType: 'adding', channelId: null, channelName: null }))}
             disabled={isGetChannelsLoading}
             type="button"
             className="channels-list__add-channel-btn"
@@ -86,16 +84,14 @@ const Channels = () => {
           <button
             onClick={() => setIsChannelsListOpen(!isChannelsListOpen)}
             type="button"
-            className={cn(
-              'channels-list__toggle-btn', {
+            className={cn('channels-list__toggle-btn', {
               'channels-list__toggle-btn channels-list__toggle-btn--to-close': isChannelsListOpen,
               'channels-list__toggle-btn channels-list__toggle-btn--to-open': !isChannelsListOpen,
             })}
           >
-            {isChannelsListOpen ?
-              t('channelsList.toggleChannelsList.hide') :
-              t('channelsList.toggleChannelsList.show')
-            }
+            {isChannelsListOpen
+              ? t('channelsList.toggleChannelsList.hide')
+              : t('channelsList.toggleChannelsList.show')}
           </button>
         </div>
         {content}
@@ -106,6 +102,6 @@ const Channels = () => {
       />
     </section>
   );
-}
+};
 
 export default Channels;

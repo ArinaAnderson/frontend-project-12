@@ -1,55 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { setModalInfo, setModalType, addChannelName } from '../store/slices/ui.js';
+import { setModalInfo } from '../store/slices/ui.js';
 import './Channel.css';
 
-/*  
-  function App(){
-    const notify = () => toast("Wow so easy!");
-
-    return (
-      <div>
-        <button onClick={notify}>Notify!</button>
-        <ToastContainer />
-      </div>
-    );
-  }
-*/
-const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
+const Channel = (
+  {
+    id, name, removable, isCurrent, handleChannelSelect,
+  },
+) => {
   const { t } = useTranslation();
 
-  const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
+  // const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
 
-  /*
-  dispatch(addChannelName(name));
-  */
-
-  // const currentChannel = useSelector((state) => state.ui.currentChannel);
-
-  // const isChannelCurrent = Number(currentChannel.id) === Number(id);
-  // console.log('isChannelCurrent', Number(currentChannel.id), Number(id));
-
   const handleRenameChannelBtnClick = () => {
-    dispatch(setModalInfo({ channelId: id, channelName: name, modalType: 'renaming'}));
+    dispatch(setModalInfo({ channelId: id, channelName: name, modalType: 'renaming' }));
   };
 
   const handleRemoveChannelBtnClick = () => {
-    dispatch(setModalInfo({ channelId: id, modalType: 'removing'}));
+    dispatch(setModalInfo({ channelId: id, modalType: 'removing' }));
   };
 
-  const dropDown =  (
+  const dropDown = (
     <Dropdown>
       <Dropdown.Toggle
         variant="success"
         id="dropdown-basic"
-        className={cn("channel__toggle-btn", { "channel__toggle-btn--on": isDropdownMenuOpen})}
-        bsPrefix={cn("channel__toggle-btn", { "channel__toggle-btn--on": isDropdownMenuOpen})}
+        className={cn('channel__toggle-btn', { 'channel__toggle-btn--on': true })}
+        bsPrefix={cn('channel__toggle-btn', { 'channel__toggle-btn--on': true })}
       >
         {t('channelsList.channelDropDown.toggle')}
       </Dropdown.Toggle>
@@ -76,7 +59,7 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
   );
 
   return (
-    <li className={cn("channel", { "channel--current": isCurrent})}>
+    <li className={cn('channel', { 'channel--current': isCurrent })}>
       <div
         className="channel__box"
       >
@@ -86,12 +69,14 @@ const Channel = ({ id, name, removable, isCurrent, handleChannelSelect }) => {
           onClick={() => handleChannelSelect(id, name)}
           disabled={isCurrent}
         >
-          <span>#</span>&nbsp;{filter.clean(name)}
+          <span>#</span>
+          &nbsp;
+          {filter.clean(name)}
         </button>
         {removable && dropDown}
       </div>
     </li>
   );
-}
+};
 
 export default Channel;
