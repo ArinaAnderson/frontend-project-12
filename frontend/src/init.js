@@ -21,12 +21,6 @@ const rollbarConfig = {
   enabled: process.env.NODE_ENV === 'production',
   accessToken: process.env.ROLLBAR_TOKEN,
   environment: 'production',
-  /*
-  addErrorContext: true,
-  captureUncaught: true,
-  captureUnhandledRejection: true,
-  captureIp: true,
-  */
 };
 
 /*
