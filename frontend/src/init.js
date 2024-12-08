@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import leoProfanity from 'leo-profanity';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 // import LanguageDetector from 'i18next-browser-languagedetector';
@@ -18,12 +18,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 const rollbarConfig = {
-  enabled: process.env.NODE_ENV === 'production',
-  accessToken: process.env.ROLLBAR_TOKEN,
+  // enabled: process.env.NODE_ENV === 'production',
+  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
   environment: 'testenv',
   // environment: 'production',
 };
-
+console.log(process.env.REACT_APP_ROLLBAR_TOKEN);
 const init = async () => {
   const i18n = i18next.createInstance();
   // const store = setupStore(); ??
