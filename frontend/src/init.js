@@ -20,27 +20,9 @@ import './index.css';
 const rollbarConfig = {
   enabled: process.env.NODE_ENV === 'production',
   accessToken: process.env.ROLLBAR_TOKEN,
-  environment: 'production',
+  environment: 'testenv',
+  // environment: 'production',
 };
-
-/*
-function TestError() {
-  const a = null;
-  return a.hello();
-}
-*/
-/*
-const rollbarConfig = {
-  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  environment: 'production',
-  server: {
-    root: "http://example.com/",
-    branch: "main",
-  },
-};
-*/
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -63,10 +45,16 @@ const init = async () => {
   leoProfanity.add(ruDictionary);
   leoProfanity.add(enDictionary);
 
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
+
   return (
     <RollbarProvider config={rollbarConfig}>
       <Provider store={store}>
         <ErrorBoundary>
+          <TestError />
           <AuthProvider>
             <App />
           </AuthProvider>
