@@ -45,16 +45,17 @@ const init = async () => {
   leoProfanity.add(ruDictionary);
   leoProfanity.add(enDictionary);
 
+  /*
   function TestError() {
     const a = null;
     return a.hello();
   }
+  */
 
   return (
     <RollbarProvider config={rollbarConfig}>
       <Provider store={store}>
         <ErrorBoundary>
-          <TestError />
           <AuthProvider>
             <App />
           </AuthProvider>
