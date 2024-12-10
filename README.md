@@ -5,7 +5,8 @@
 # Chat
 
 [Chat](https://frontend-project-12-xra6.onrender.com/) is a chat application that allows users to create accounts and exchange messages with friends in real time.
-It is a fully functional project which is built with React.js and Redux Toolkit, utilizing Redux Toolkit Query and Axios for efficient networking and state management. The application is deployed on Render 
+It is a fully functional project which is built with React.js and Redux Toolkit, utilizing Redux Toolkit Query and Axios for efficient networking and state management. The application is deployed on Render.
+
 The application implements authentication using JWT (JSON Web Tokens), ensuring secure access and user data protection.
 
 ## Setup
