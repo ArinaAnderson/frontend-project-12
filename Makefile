@@ -20,5 +20,3 @@ build:
 	rm -rf frontend/build
 	npm run build
 	
-deploy:
-    npm ci && cd ./frontend && npm ci && npm run build:deploy
