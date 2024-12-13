@@ -16,7 +16,6 @@ const Login = () => {
 
   const [errMsg, setErrMsg] = useState('');
   const [err, setErr] = useState(null);
-  const [loadingState, setLoadingState] = useState(false);
 
   const generateErrorMessage = (error) => {
     if (error === null) {
@@ -58,7 +57,7 @@ const Login = () => {
   });
 
   const sendLoginRequest = async (formikInst) => {
-    setLoadingState(true);
+    formikInst.setSubmitting(true);
     setErrMsg('');
     try {
       const response = await axios({
@@ -84,7 +83,7 @@ const Login = () => {
       setErr(e);
       inputRef.current.select();
     } finally {
-      setLoadingState(false);
+      formikInst.setSubmitting(false);
     }
   };
 
@@ -98,7 +97,7 @@ const Login = () => {
       sendLoginRequest(formik);
     },
   });
-
+  console.log('ISSUBMITTING', formik.isSubmitting);
   return (
     <section className="login">
       <div className="form-wrapper">
@@ -169,7 +168,7 @@ const Login = () => {
             </div>
             <button
               className="form__btn-submit bttn"
-              disabled={loadingState}
+              disabled={formik.isSubmitting}
               type="submit"
             >
               {t('form.login.buttons.signIn')}
