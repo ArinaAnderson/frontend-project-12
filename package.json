@@ -23,5 +23,8 @@
     "@hexlet/chat-server": "^2.0.3",
     "formik": "^2.4.6",
     "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9"
   }
 }

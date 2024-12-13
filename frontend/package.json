@@ -6,7 +6,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@rollbar/react": "^0.11.1",
-    "rollbar": "^2.26.1",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "classnames": "^2.5.1",
@@ -23,12 +22,14 @@
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.6",
+    "rollbar": "^2.26.1",
     "socket.io": "^4.8.0",
     "socket.io-client": "^4.8.0",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.29.1",

@@ -97,7 +97,7 @@ const Login = () => {
       sendLoginRequest(formik);
     },
   });
-  console.log('ISSUBMITTING', formik.isSubmitting);
+
   return (
     <section className="login">
       <div className="form-wrapper">
