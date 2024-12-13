@@ -18,8 +18,6 @@ const Login = () => {
   const [err, setErr] = useState(null);
   const [loadingState, setLoadingState] = useState(false);
 
-  // const [localStorageAuthData, setLocalStorageAuthData] = useLocalStorage('auth');
-
   const generateErrorMessage = (error) => {
     if (error === null) {
       return '';
