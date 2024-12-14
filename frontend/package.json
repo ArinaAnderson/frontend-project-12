@@ -38,7 +38,8 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=5173 react-scripts start",
+
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
