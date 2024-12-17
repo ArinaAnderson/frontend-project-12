@@ -134,14 +134,6 @@ const Signup = () => {
               </div>
             </div>
             <div className="form__unit">
-              <p
-                id="passwordErrNote"
-                className={
-                  formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-                }
-              >
-                {formik.errors.password}
-              </p>
               <div className="form__input-box">
                 <label className="form__label" htmlFor="password">
                   {t('form.signup.labels.password')}
@@ -213,6 +205,15 @@ const Signup = () => {
           </span>
         </p>
       </div>
+
+      <p
+        id="passwordErrNote"
+        className={
+          formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+        }
+      >
+        {formik.errors.password}
+      </p>
     </section>
   );
 };
