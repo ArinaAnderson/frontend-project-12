@@ -185,7 +185,7 @@ body {
 .login__title {
   margin: 0;
   padding: 0;
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 .form {
@@ -193,8 +193,9 @@ body {
 }
 
 .form-wrapper {
+  position: relative;
   display: flex;
-  padding: 25px;
+  padding: 35px 25px; /* 25px; */
   /* margin-bottom: 30px; */
 
   background-color: var(--half-baked-color-20);
@@ -205,23 +206,48 @@ body {
 }
 
 .form__err-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 50px;
   padding: 0;
-  margin-bottom: 6px;
+  /* margin-bottom: 6px; */
 
   color: var(--err-message-color);
   font-weight: bold;
 }
 
 .form__err-message--main {
-  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
 
-  font-size: 18px;
+  width: 100%;
+  min-height: 26px;
+  padding: 5px 10px 8px 10px;
+  box-sizing: border-box;
+
+  font-size: 17px;
   color: #fff;
+  font-weight: bold;
+
   background-color: var(--err-message-color);
 }
 
+.form__unit {
+  position: relative;
+
+  padding-top: 50px;
+  padding-bottom: 10px;
+}
+
 .form__input-box {
-  margin-bottom: 30px;
+  margin-bottom: 0; /* 30px; */
 }
 
 .form__input {
@@ -243,6 +269,8 @@ body {
 }
 
 .form__btn-submit {
+  margin-top: 30px;
+
   color: #000;
 
   background-color: #fff;

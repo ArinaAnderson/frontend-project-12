@@ -12,11 +12,11 @@ import useAuth from '../hooks/useAuth.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Login = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const [errMsg, setErrMsg] = useState('');
+  // const [errMsg, setErrMsg] = useState('');
   const [err, setErr] = useState(null);
-
+  /*
   const generateErrorMessage = (error) => {
     if (error === null) {
       return '';
@@ -33,6 +33,7 @@ const Login = () => {
     const errMessage = generateErrorMessage(err);
     setErrMsg(errMessage);
   });
+  */
 
   const dispatch = useDispatch();
 
@@ -58,7 +59,8 @@ const Login = () => {
 
   const sendLoginRequest = async (formikInst) => {
     formikInst.setSubmitting(true);
-    setErrMsg('');
+    // setErrMsg('');
+    setErr(null);
     try {
       const response = await axios({
         method: 'post',
@@ -75,11 +77,11 @@ const Login = () => {
 
       navigate(from);
     } catch (e) {
-      const errorMessageText = e?.response?.status === 401
-        ? t('form.login.errors.err401')
-        : t('errors.noNetwork');
+      // const errorMessageText = e?.response?.status === 401
+      // ? t('form.login.errors.err401')
+      // : t('errors.noNetwork');
 
-      setErrMsg(errorMessageText);
+      // setErrMsg(errorMessageText);
       setErr(e);
       inputRef.current.select();
     } finally {
@@ -101,48 +103,77 @@ const Login = () => {
   return (
     <section className="login">
       <div className="form-wrapper">
+        <p
+          className={err ? 'form__err-message--main' : 'offscreen'}
+          aria-live="assertive"
+        >
+          {
+            err?.response?.status === 401
+              ? t('form.login.errors.err401')
+              : t('errors.noNetwork')
+          }
+        </p>
         <div>
           <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
-            <div className="form__input-box">
-              <label className="form__label" htmlFor="username">
-                {t('form.login.labels.username')}
-                :
-              </label>
-              <input
-                className="form__input"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.username}
-                type="text"
-                name="username"
-                id="username"
-                autoComplete="off"
-                ref={inputRef}
-                required
-                aria-invalid={formik.errors.username ? 'true' : 'false'}
-                aria-describedby="usernameErrNote"
-              />
+            <div className="form__unit">
+              <p
+                id="usernameErrNote"
+                className={
+                  formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
+                }
+              >
+                <span>{formik.errors.username}</span>
+              </p>
+              <div className="form__input-box">
+                <label className="form__label" htmlFor="username">
+                  {t('form.login.labels.username')}
+                  :
+                </label>
+                <input
+                  className="form__input"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.username}
+                  type="text"
+                  name="username"
+                  id="username"
+                  autoComplete="off"
+                  ref={inputRef}
+                  required
+                  aria-invalid={formik.errors.username ? 'true' : 'false'}
+                  aria-describedby="usernameErrNote"
+                />
+              </div>
             </div>
-
-            <div className="form__input-box">
-              <label className="form__label" htmlFor="password">
-                {t('form.login.labels.password')}
-                :
-              </label>
-              <input
-                className="form__input"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                type="password"
-                name="password"
-                id="password"
-                autoComplete="off"
-                required
-                aria-invalid={formik.errors.password ? 'true' : 'false'}
-                aria-describedby="passwordErrNote"
-              />
+            <div className="form__unit">
+              <p
+                id="passwordErrNote"
+                className={
+                  formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+                }
+              >
+                <span>{formik.errors.password}</span>
+              </p>
+              <div className="form__input-box">
+                <label className="form__label" htmlFor="password">
+                  {t('form.login.labels.password')}
+                  :
+                </label>
+                <input
+                  className="form__input"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                  type="password"
+                  name="password"
+                  id="password"
+                  autoComplete="off"
+                  required
+                  aria-invalid={formik.errors.password ? 'true' : 'false'}
+                  aria-describedby="passwordErrNote"
+                />
+              </div>
             </div>
             <button
               className="form__btn-submit bttn"
@@ -162,105 +193,9 @@ const Login = () => {
             <Link to={`../${ROUTES.signup}`} className="link">{t('form.login.footerLink')}</Link>
           </span>
         </p>
-        <p
-          className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
-        <p
-          id="usernameErrNote"
-          className={
-            formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
-          }
-        >
-          {formik.errors.username}
-        </p>
-        <p
-          id="passwordErrNote"
-          className={
-            formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-          }
-        >
-          {formik.errors.password}
-        </p>
       </div>
     </section>
   );
 };
 
 export default Login;
-
-/*
-<form className="login__form form" onSubmit={formik.handleSubmit}>
-  <p
-    className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
-    aria-live="assertive"
-  >
-    {errMsg}
-  </p>
-  <p
-    id="usernameErrNote"
-    className={
-      formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
-    }
-  >
-    {formik.errors.username}
-  </p>
-  <div className="form__input-box">
-    <label className="form__label" htmlFor="username">
-      {t('form.login.labels.username')}
-      :
-    </label>
-    <input
-      className="form__input"
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      value={formik.values.username}
-      type="text"
-      name="username"
-      id="username"
-      autoComplete="off"
-      ref={inputRef}
-      required
-      aria-invalid={formik.errors.username ? 'true' : 'false'}
-      aria-describedby="usernameErrNote"
-    />
-  </div>
-
-  <p
-    id="passwordErrNote"
-    className={
-      formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-    }
-  >
-    {formik.errors.password}
-  </p>
-  <div className="form__input-box">
-    <label className="form__label" htmlFor="password">
-      {t('form.login.labels.password')}
-      :
-    </label>
-    <input
-      className="form__input"
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      value={formik.values.email}
-      type="password"
-      name="password"
-      id="password"
-      autoComplete="off"
-      required
-      aria-invalid={formik.errors.password ? 'true' : 'false'}
-      aria-describedby="passwordErrNote"
-    />
-  </div>
-  <button
-    className="form__btn-submit bttn"
-    disabled={formik.isSubmitting}
-    type="submit"
-  >
-    {t('form.login.buttons.signIn')}
-  </button>
-</form>
-*/
