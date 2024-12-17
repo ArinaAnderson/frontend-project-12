@@ -110,7 +110,7 @@ const Signup = () => {
                   formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
                 }
               >
-                {formik.errors.username}
+                <span>{formik.errors.username}</span>
               </p>
               <div className="form__input-box">
                 <label className="form__label" htmlFor="username">
@@ -134,6 +134,14 @@ const Signup = () => {
               </div>
             </div>
             <div className="form__unit">
+              <p
+                id="passwordErrNote"
+                className={
+                  formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+                }
+              >
+                <span>{formik.errors.password}</span>
+              </p>
               <div className="form__input-box">
                 <label className="form__label" htmlFor="password">
                   {t('form.signup.labels.password')}
@@ -161,7 +169,7 @@ const Signup = () => {
                   formik.errors.confirmPassword && formik.touched.confirmPassword ? 'form__err-message' : 'offscreen'
                 }
               >
-                {formik.errors.confirmPassword}
+                <span>{formik.errors.confirmPassword}</span>
               </p>
               <div className="form__input-box">
                 <label
@@ -205,15 +213,6 @@ const Signup = () => {
           </span>
         </p>
       </div>
-
-      <p
-        id="passwordErrNote"
-        className={
-          formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-        }
-      >
-        {formik.errors.password}
-      </p>
     </section>
   );
 };
