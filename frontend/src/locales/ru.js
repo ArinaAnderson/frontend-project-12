@@ -57,6 +57,7 @@ const ru = {
     },
 
     header: {
+      title: 'Hexlet Chat',
       buttons: {
         signout: 'Выйти',
         languages: {

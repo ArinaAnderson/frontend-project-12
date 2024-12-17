@@ -58,6 +58,7 @@ const en = {
     },
 
     header: {
+      title: 'Hexlet Chat',
       buttons: {
         signout: 'Sign out',
         languages: {

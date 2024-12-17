@@ -54,7 +54,7 @@ const Header = () => {
   );
   return (
     <header className="page-header">
-      <Link to="/" className="page-header__nav-link link">Hexlet Chat</Link>
+      <Link to="/" className="page-header__nav-link link">{t('header.title')}</Link>
       <div className="page-header__btn-box">
         {languageBtns}
         <AuthButton />
