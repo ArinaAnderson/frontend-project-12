@@ -104,20 +104,6 @@ const Login = () => {
         <div>
           <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
-            <p
-              className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
-              aria-live="assertive"
-            >
-              {errMsg}
-            </p>
-            <p
-              id="usernameErrNote"
-              className={
-                formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
-              }
-            >
-              {formik.errors.username}
-            </p>
             <div className="form__input-box">
               <label className="form__label" htmlFor="username">
                 {t('form.login.labels.username')}
@@ -139,14 +125,6 @@ const Login = () => {
               />
             </div>
 
-            <p
-              id="passwordErrNote"
-              className={
-                formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
-              }
-            >
-              {formik.errors.password}
-            </p>
             <div className="form__input-box">
               <label className="form__label" htmlFor="password">
                 {t('form.login.labels.password')}
@@ -181,8 +159,30 @@ const Login = () => {
           {t('form.login.footerText')}
           &nbsp;
           <span>
-            <Link to={ROUTES.signup} className="link">{t('form.login.footerLink')}</Link>
+            <Link to={`../${ROUTES.signup}`} className="link">{t('form.login.footerLink')}</Link>
           </span>
+        </p>
+        <p
+          className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
+          aria-live="assertive"
+        >
+          {errMsg}
+        </p>
+        <p
+          id="usernameErrNote"
+          className={
+            formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
+          }
+        >
+          {formik.errors.username}
+        </p>
+        <p
+          id="passwordErrNote"
+          className={
+            formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+          }
+        >
+          {formik.errors.password}
         </p>
       </div>
     </section>
@@ -190,3 +190,77 @@ const Login = () => {
 };
 
 export default Login;
+
+/*
+<form className="login__form form" onSubmit={formik.handleSubmit}>
+  <p
+    className={errMsg ? 'form__err-message form__err-message--main' : 'offscreen'}
+    aria-live="assertive"
+  >
+    {errMsg}
+  </p>
+  <p
+    id="usernameErrNote"
+    className={
+      formik.errors.username && formik.touched.username ? 'form__err-message' : 'offscreen'
+    }
+  >
+    {formik.errors.username}
+  </p>
+  <div className="form__input-box">
+    <label className="form__label" htmlFor="username">
+      {t('form.login.labels.username')}
+      :
+    </label>
+    <input
+      className="form__input"
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      value={formik.values.username}
+      type="text"
+      name="username"
+      id="username"
+      autoComplete="off"
+      ref={inputRef}
+      required
+      aria-invalid={formik.errors.username ? 'true' : 'false'}
+      aria-describedby="usernameErrNote"
+    />
+  </div>
+
+  <p
+    id="passwordErrNote"
+    className={
+      formik.errors.password && formik.touched.password ? 'form__err-message' : 'offscreen'
+    }
+  >
+    {formik.errors.password}
+  </p>
+  <div className="form__input-box">
+    <label className="form__label" htmlFor="password">
+      {t('form.login.labels.password')}
+      :
+    </label>
+    <input
+      className="form__input"
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      value={formik.values.email}
+      type="password"
+      name="password"
+      id="password"
+      autoComplete="off"
+      required
+      aria-invalid={formik.errors.password ? 'true' : 'false'}
+      aria-describedby="passwordErrNote"
+    />
+  </div>
+  <button
+    className="form__btn-submit bttn"
+    disabled={formik.isSubmitting}
+    type="submit"
+  >
+    {t('form.login.buttons.signIn')}
+  </button>
+</form>
+*/

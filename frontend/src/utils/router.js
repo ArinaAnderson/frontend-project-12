@@ -1,8 +1,8 @@
 // /* eslint-disable import/prefer-default-export */
 
 export const ROUTES = {
-  login: '/login',
-  signup: '/signup',
+  login: 'login',
+  signup: 'signup',
 };
 
 export const API_ROUTES = {

@@ -222,7 +222,7 @@ const Signup = () => {
           {t('form.signup.footerText')}
           &nbsp;
           <span>
-            <Link to={ROUTES.login} className="link">{t('form.signup.footerLink')}</Link>
+            <Link to={`../${ROUTES.login}`} className="link">{t('form.signup.footerLink')}</Link>
           </span>
         </p>
       </div>
