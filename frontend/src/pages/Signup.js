@@ -155,7 +155,7 @@ const Signup = () => {
                   type="password"
                   name="password"
                   id="password"
-                  autoComplete="off"
+                  autoComplete="new-password"
                   required
                   aria-invalid={formik.errors.password ? 'true' : 'false'}
                   aria-describedby="passwordErrNote"
@@ -187,7 +187,7 @@ const Signup = () => {
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
-                  autoComplete="off"
+                  autoComplete="new-password"
                   required
                   aria-invalid={formik.errors.confirmPassword ? 'true' : 'false'}
                   aria-describedby="confirmPasswordErrNote"
