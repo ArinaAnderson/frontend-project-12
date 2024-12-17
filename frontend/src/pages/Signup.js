@@ -148,6 +148,7 @@ const Signup = () => {
                 required
                 aria-invalid={formik.errors.password ? 'true' : 'false'}
                 aria-describedby="passwordErrNote"
+                placeholder={t('form.signup.errors.validation.passwordLength')}
               />
               <p
                 id="passwordErrNote"
@@ -178,6 +179,7 @@ const Signup = () => {
                 required
                 aria-invalid={formik.errors.confirmPassword ? 'true' : 'false'}
                 aria-describedby="confirmPasswordErrNote"
+                placeholder={t('form.signup.errors.validation.passwordMatch')}
               />
               <p
                 id="confirmPasswordErrNote"
