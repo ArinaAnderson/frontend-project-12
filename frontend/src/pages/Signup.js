@@ -103,7 +103,25 @@ const Signup = () => {
         <div>
           <h1 className="login__title">{t('form.signup.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
-            <div className="form__unit">
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="username">
+                {t('form.signup.labels.username')}
+                :
+              </label>
+              <input
+                className="form__input"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                type="text"
+                name="username"
+                id="username"
+                autoComplete="off"
+                ref={inputRef}
+                required
+                aria-invalid={formik.errors.username ? 'true' : 'false'}
+                aria-describedby="usernameErrNote"
+              />
               <p
                 id="usernameErrNote"
                 className={
@@ -112,28 +130,25 @@ const Signup = () => {
               >
                 <span>{formik.errors.username}</span>
               </p>
-              <div className="form__input-box">
-                <label className="form__label" htmlFor="username">
-                  {t('form.signup.labels.username')}
-                  :
-                </label>
-                <input
-                  className="form__input"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
-                  type="text"
-                  name="username"
-                  id="username"
-                  autoComplete="off"
-                  ref={inputRef}
-                  required
-                  aria-invalid={formik.errors.username ? 'true' : 'false'}
-                  aria-describedby="usernameErrNote"
-                />
-              </div>
             </div>
-            <div className="form__unit">
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="password">
+                {t('form.signup.labels.password')}
+                :
+              </label>
+              <input
+                className="form__input"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="new-password"
+                required
+                aria-invalid={formik.errors.password ? 'true' : 'false'}
+                aria-describedby="passwordErrNote"
+              />
               <p
                 id="passwordErrNote"
                 className={
@@ -142,27 +157,28 @@ const Signup = () => {
               >
                 <span>{formik.errors.password}</span>
               </p>
-              <div className="form__input-box">
-                <label className="form__label" htmlFor="password">
-                  {t('form.signup.labels.password')}
-                  :
-                </label>
-                <input
-                  className="form__input"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  type="password"
-                  name="password"
-                  id="password"
-                  autoComplete="new-password"
-                  required
-                  aria-invalid={formik.errors.password ? 'true' : 'false'}
-                  aria-describedby="passwordErrNote"
-                />
-              </div>
             </div>
-            <div className="form__unit">
+            <div className="form__input-box">
+              <label
+                className="form__label"
+                htmlFor="confirmPasswordß"
+              >
+                {t('form.signup.labels.confirmPassword')}
+                :
+              </label>
+              <input
+                className="form__input"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmPassword}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                autoComplete="new-password"
+                required
+                aria-invalid={formik.errors.confirmPassword ? 'true' : 'false'}
+                aria-describedby="confirmPasswordErrNote"
+              />
               <p
                 id="confirmPasswordErrNote"
                 className={
@@ -171,28 +187,6 @@ const Signup = () => {
               >
                 <span>{formik.errors.confirmPassword}</span>
               </p>
-              <div className="form__input-box">
-                <label
-                  className="form__label"
-                  htmlFor="confirmPasswordß"
-                >
-                  {t('form.signup.labels.confirmPassword')}
-                  :
-                </label>
-                <input
-                  className="form__input"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmPassword}
-                  type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  autoComplete="new-password"
-                  required
-                  aria-invalid={formik.errors.confirmPassword ? 'true' : 'false'}
-                  aria-describedby="confirmPasswordErrNote"
-                />
-              </div>
             </div>
             <button
               className="form__btn-submit  bttn"

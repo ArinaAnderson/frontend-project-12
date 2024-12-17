@@ -218,6 +218,7 @@ body {
   padding: 0;
   /* margin-bottom: 6px; */
 
+  font-size: 16px;
   color: var(--err-message-color);
   font-weight: bold;
 }
@@ -232,22 +233,29 @@ body {
   padding: 5px 10px 8px 10px;
   box-sizing: border-box;
 
-  font-size: 17px;
+  font-size: 16px;
   color: #fff;
   font-weight: bold;
 
   background-color: var(--err-message-color);
 }
 
+/*
 .form__unit {
   position: relative;
 
-  padding-top: 50px;
+  padding-top: 40px;
   padding-bottom: 10px;
 }
+*/
 
 .form__input-box {
   margin-bottom: 0; /* 30px; */
+
+
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 10px;
 }
 
 .form__input {
@@ -264,7 +272,7 @@ body {
 .form__label {
   display: inline-block;
   width: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 3px;
   box-sizing: border-box;
 }
 
