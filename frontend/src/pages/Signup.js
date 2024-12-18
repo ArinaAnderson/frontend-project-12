@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setCredentials } from '../store/slices/authSlice.js';
 import axios from '../api/axios.js';
-import useAuth from '../hooks/useAuth.js';
+// import useAuth from '../hooks/useAuth.js';
 import updateLocalStorage from '../utils/localStorage.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
@@ -20,7 +20,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const inputRef = useRef(null);
 
@@ -46,7 +46,7 @@ const Signup = () => {
   const sendSignupRequest = async (formikInst) => {
     formikInst.setSubmitting(true);
     setErr(null);
-    // setErrMsg('');
+
     try {
       const response = await axios({
         method: 'post',
@@ -56,7 +56,7 @@ const Signup = () => {
           password: formikInst.values.password,
         },
       });
-      login();
+      // login();
       updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
       dispatch(setCredentials(response.data));
 

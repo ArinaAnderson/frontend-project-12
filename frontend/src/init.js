@@ -11,7 +11,6 @@ import store from './store/index.js';
 // { injectStore } from './api'; ??
 
 import App from './App';
-import AuthProvider from './contexts/AuthContextProvider.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -56,9 +55,7 @@ const init = async () => {
     <RollbarProvider config={rollbarConfig}>
       <Provider store={store}>
         <ErrorBoundary>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
+          <App />
         </ErrorBoundary>
       </Provider>
     </RollbarProvider>

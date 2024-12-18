@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import axios from '../api/axios.js';
 import { setCredentials } from '../store/slices/authSlice.js';
 import updateLocalStorage from '../utils/localStorage.js';
-import useAuth from '../hooks/useAuth.js';
+// import useAuth from '../hooks/useAuth.js';
 
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
@@ -16,24 +16,6 @@ const Login = () => {
 
   // const [errMsg, setErrMsg] = useState('');
   const [err, setErr] = useState(null);
-  /*
-  const generateErrorMessage = (error) => {
-    if (error === null) {
-      return '';
-    }
-
-    const errorMessageText = error?.response?.status === 401
-      ? t('form.login.errors.err401')
-      : t('errors.noNetwork');
-
-    return errorMessageText;
-  };
-
-  i18n.on('languageChanged', () => {
-    const errMessage = generateErrorMessage(err);
-    setErrMsg(errMessage);
-  });
-  */
 
   const dispatch = useDispatch();
 
@@ -41,7 +23,7 @@ const Login = () => {
   const location = useLocation();
   const from = location?.state?.from || '/';
 
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -70,8 +52,7 @@ const Login = () => {
           password: formikInst.values.password,
         },
       });
-      login();
-
+      // login();
       updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
       dispatch(setCredentials(response.data));
 
@@ -116,7 +97,25 @@ const Login = () => {
         <div>
           <h1 className="login__title">{t('form.login.headline')}</h1>
           <form className="login__form form" onSubmit={formik.handleSubmit}>
-            <div className="form__unit">
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="username">
+                {t('form.login.labels.username')}
+                :
+              </label>
+              <input
+                className="form__input"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                type="text"
+                name="username"
+                id="username"
+                autoComplete="off"
+                ref={inputRef}
+                required
+                aria-invalid={formik.errors.username ? 'true' : 'false'}
+                aria-describedby="usernameErrNote"
+              />
               <p
                 id="usernameErrNote"
                 className={
@@ -125,28 +124,25 @@ const Login = () => {
               >
                 <span>{formik.errors.username}</span>
               </p>
-              <div className="form__input-box">
-                <label className="form__label" htmlFor="username">
-                  {t('form.login.labels.username')}
-                  :
-                </label>
-                <input
-                  className="form__input"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
-                  type="text"
-                  name="username"
-                  id="username"
-                  autoComplete="off"
-                  ref={inputRef}
-                  required
-                  aria-invalid={formik.errors.username ? 'true' : 'false'}
-                  aria-describedby="usernameErrNote"
-                />
-              </div>
             </div>
-            <div className="form__unit">
+            <div className="form__input-box">
+              <label className="form__label" htmlFor="password">
+                {t('form.login.labels.password')}
+                :
+              </label>
+              <input
+                className="form__input"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="off"
+                required
+                aria-invalid={formik.errors.password ? 'true' : 'false'}
+                aria-describedby="passwordErrNote"
+              />
               <p
                 id="passwordErrNote"
                 className={
@@ -155,25 +151,6 @@ const Login = () => {
               >
                 <span>{formik.errors.password}</span>
               </p>
-              <div className="form__input-box">
-                <label className="form__label" htmlFor="password">
-                  {t('form.login.labels.password')}
-                  :
-                </label>
-                <input
-                  className="form__input"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  type="password"
-                  name="password"
-                  id="password"
-                  autoComplete="off"
-                  required
-                  aria-invalid={formik.errors.password ? 'true' : 'false'}
-                  aria-describedby="passwordErrNote"
-                />
-              </div>
             </div>
             <button
               className="form__btn-submit bttn"

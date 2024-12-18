@@ -35,7 +35,7 @@ const en = {
         errors: {
           validation: {
             userNameLength: 'Username must be between 3 and 20 characters long',
-            passwordLength: 'Password is too short. Please enter at least 6 characters',
+            passwordLength: 'Please enter at least 6 characters',
             required: 'This field cannot be left blank',
             passwordMatch: 'Passwords must match',
           },
