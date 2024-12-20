@@ -45,7 +45,8 @@ const en = {
 
       newMessage: {
         label: 'New message',
-        placeholder: 'New message',
+        ariaLabel: 'New message',
+        placeholder: 'New message...',
         submit: 'Send',
       },
     },
