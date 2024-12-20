@@ -6,8 +6,9 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setCredentials } from '../store/slices/authSlice.js';
 import axios from '../api/axios.js';
+import { login } from '../utils/auth.js';
 // import useAuth from '../hooks/useAuth.js';
-import updateLocalStorage from '../utils/localStorage.js';
+// import updateLocalStorage from '../utils/localStorage.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Signup = () => {
@@ -57,8 +58,9 @@ const Signup = () => {
         },
       });
       // login();
-      updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
-      dispatch(setCredentials(response.data));
+      login(() => dispatch(setCredentials(response.data)), response.data);
+      // updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
+      // dispatch(setCredentials(response.data));
 
       navigate('/');
     } catch (e) {
@@ -191,7 +193,7 @@ const Signup = () => {
               </p>
             </div>
             <button
-              className="form__btn-submit  bttn"
+              className="form__btn-submit"
               disabled={formik.isSubmitting}
               type="submit"
             >
