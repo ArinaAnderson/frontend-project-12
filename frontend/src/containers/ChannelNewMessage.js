@@ -44,6 +44,7 @@ const ChannelNewMessage = ({ channelId }) => {
         <label className="visually-hidden" htmlFor="message-input">{t('form.newMessage.label')}</label>
         <input
           type="text"
+          aria-label={t('form.newMessage.placeholder')}
           placeholder={t('form.newMessage.placeholder')}
           onChange={formik.handleChange}
           value={formik.values['message-input']}
