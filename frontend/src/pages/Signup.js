@@ -164,7 +164,7 @@ const Signup = () => {
             <div className="form__input-box">
               <label
                 className="form__label"
-                htmlFor="confirmPasswordß"
+                htmlFor="confirmPassword"
               >
                 {t('form.signup.labels.confirmPassword')}
                 :
