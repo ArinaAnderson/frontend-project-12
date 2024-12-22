@@ -66,9 +66,6 @@ const AddChannel = () => {
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <div className="form__input-box">
-            <label className="visually-hidden" htmlFor="channel-name-field">
-              {t('channelsList.modals.addChannel.label')}
-            </label>
             <input
               className="form__input"
               required
@@ -80,6 +77,9 @@ const AddChannel = () => {
               name="name"
               id="channel-name-field"
             />
+            <label className="visually-hidden" htmlFor="channel-name-field">
+              {t('channelsList.modals.addChannel.label')}
+            </label>
             <p
               className={formik.errors.name && formik.touched.name ? 'form__err-message' : 'offscreen'}
               aria-live="assertive"

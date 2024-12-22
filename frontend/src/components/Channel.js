@@ -14,7 +14,8 @@ const Channel = (
 ) => {
   const { t } = useTranslation();
 
-  // const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
+  const testClassName = 'channel__select-btn w-100, rounded-0 text-start text-truncate btn';
+  // const originalClassName = 'channel__select-btn';
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ const Channel = (
       >
         <button
           type="button"
-          className="channel__select-btn"
+          className={cn(testClassName, { 'btn-secondary': isCurrent })}
           onClick={() => handleChannelSelect(id, name)}
           disabled={isCurrent}
         >
