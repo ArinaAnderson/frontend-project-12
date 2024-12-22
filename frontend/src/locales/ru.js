@@ -78,7 +78,7 @@ const ru = {
 
     channelsList: {
       headline: 'Каналы',
-      addChannelBtn: 'Добавить канал',
+      addChannelBtn: '+', // 'Добавить канал',
       toggleChannelsList: {
         hide: 'Скрыть список каналов',
         show: 'Открыть список каналов',
