@@ -71,6 +71,7 @@ const Channel = (
           disabled={isCurrent}
         >
           <span>#</span>
+          &nbsp;
           {filter.clean(name)}
         </button>
         {removable && dropDown}
@@ -80,5 +81,3 @@ const Channel = (
 };
 
 export default Channel;
-
-// &nbsp;
