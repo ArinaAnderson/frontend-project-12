@@ -43,8 +43,8 @@ const RemoveChannel = ({ modalInfo }) => {
   });
 
   return (
-    <Modal show className="modal">
-      <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
+    <Modal show className="modal" onHide={() => dispatch(hideModal())}>
+      <Modal.Header closeButton>
         <Modal.Title>{t('channelsList.modals.removeChannel.headline')}</Modal.Title>
       </Modal.Header>
 
@@ -62,7 +62,7 @@ const RemoveChannel = ({ modalInfo }) => {
               {t('channelsList.modals.buttons.cancel')}
             </button>
             <button
-              className="bttn modal__btn modal__btn--submit"
+              className="bttn btn-danger modal__btn modal__btn--submit"
               disabled={isRemoveChannelLoading}
               type="submit"
             >
