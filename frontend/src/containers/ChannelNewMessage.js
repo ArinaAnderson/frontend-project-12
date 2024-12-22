@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { useAddMessageMutation } from '../store/apis/messagesApi.js';
 
 const ChannelNewMessage = ({ channelId }) => {
@@ -20,9 +21,10 @@ const ChannelNewMessage = ({ channelId }) => {
   }, [channelId]);
 
   const handleAddMessage = async (values) => {
-    const message = { channelId, username, body: values['message-input'] };
+    const message = { channelId, username, body: filter.clean(values['message-input']) };
     try {
       await addMessage(message);
+      inputRef.current.focus();
     } catch (e) {
       toast.error(t('errors.dataSendError'));
     }
@@ -41,7 +43,6 @@ const ChannelNewMessage = ({ channelId }) => {
   return (
     <form className="channel-window__form" onSubmit={formik.handleSubmit}>
       <div className="channel-window__form-control">
-        <label className="visually-hidden" htmlFor="message-input">{t('form.newMessage.label')}</label>
         <input
           type="text"
           aria-label={t('form.newMessage.ariaLabel')}
@@ -66,3 +67,5 @@ const ChannelNewMessage = ({ channelId }) => {
 };
 
 export default ChannelNewMessage;
+
+// <label className="visually-hidden" htmlFor="message-input">{t('form.newMessage.label')}</label>
