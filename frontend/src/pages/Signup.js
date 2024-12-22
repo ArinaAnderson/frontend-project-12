@@ -193,7 +193,7 @@ const Signup = () => {
               </p>
             </div>
             <button
-              className="form__btn-submit"
+              className="form__btn-submit bttn"
               disabled={formik.isSubmitting}
               type="submit"
             >

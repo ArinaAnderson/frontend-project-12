@@ -115,7 +115,7 @@ const ru = {
     },
 
     toasts: {
-      addChannelSuccess: 'Канал добавлен!',
+      addChannelSuccess: 'Канал создан',
       addChannelError: 'Не удалось добавить канал',
       renameChannelSuccess: 'Канал переименован!',
       renameChannelError: 'Не удалось переименовать канал',
