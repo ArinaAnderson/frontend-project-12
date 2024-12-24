@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { io } from 'socket.io-client';
 import leoProfanity from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import i18next from 'i18next';
@@ -8,13 +9,29 @@ import { initReactI18next } from 'react-i18next';
 import resources from './locales/index';
 
 import store from './store/index.js';
-// { injectStore } from './api'; ??
+import { messagesApi } from './store/apis/messagesApi.js';
 
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
+
+const socket = io();
+
+const addMessageSocketListener = (payload) => {
+  store.dispatch(
+    messagesApi.util.updateQueryData(
+      'getMessages',
+      undefined,
+      (draftMessage) => {
+        draftMessage.push(payload);
+      },
+    ),
+  );
+};
+
+socket.on('newMessage', addMessageSocketListener);
 
 const rollbarConfig = {
   // enabled: process.env.NODE_ENV === 'production',

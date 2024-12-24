@@ -1,22 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { API_ROUTES } from '../../utils/router';
-
-// UNSUCCESSFUL ATTEMPT to SHOW a TOAST related WEBSOCKET:
-/*
-import { toast } from 'react-toastify';
-import i18next from 'i18next';
-import resources from '../../locales/index';
-
-const i18nextInstance = i18next.createInstance();
-await i18nextInstance.init({
-  resources,
-  lng: 'ru',
-  interpolation: {
-    escapeValue: false,
-  }
-});
-*/
 
 export const messagesApi = createApi({
   reducerPath: 'messages',
@@ -37,7 +21,7 @@ export const messagesApi = createApi({
       query: () => ({
         url: '/messages',
       }),
-
+      /*
       async onCacheEntryAdded(
         _,
         {
@@ -67,6 +51,7 @@ export const messagesApi = createApi({
         console.log('SOCKET OFF');
         socket.off('newMessage', addMessageSocketListener);
       },
+      */
     }),
     addMessage: builder.mutation({
       invalidatesTags: ['Message'],
