@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { setCurrentChannel, setModalInfo, setSocketError } from '../store/slices/ui.js';
+import { setCurrentChannel, setModalInfo, setRealTimeDataUpdateError } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 import { ROUTES } from '../utils/router.js';
 
@@ -23,10 +23,10 @@ const Channels = () => {
 
   const currentChannel = useSelector((state) => state.ui.currentChannel);
 
-  const socketError = useSelector((state) => state.ui.socketConnectionError);
-  if (socketError) {
+  const { realTimeDataUpdateError } = useSelector((state) => state.ui);
+  if (realTimeDataUpdateError) {
     toast.error(t('errors.noNetwork'));
-    dispatch(setSocketError(null));
+    dispatch(setRealTimeDataUpdateError(null));
   }
 
   const [isChannelsListOpen, setIsChannelsListOpen] = useState(true);

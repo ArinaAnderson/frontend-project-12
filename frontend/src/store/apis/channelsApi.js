@@ -1,6 +1,4 @@
-/* eslint-disable no-param-reassign */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-// import { io } from 'socket.io-client';
 import { API_ROUTES } from '../../utils/router';
 
 export const channelsApi = createApi({

@@ -6,14 +6,13 @@ const DEFAULT_CHANNEL = { id: '1', name: 'general' };
 const initialState = {
   currentChannel: { ...DEFAULT_CHANNEL },
   currentLanguage: 'ru',
-  // modalType: null,
+
   modalInfo: {
     channelId: null,
     channelName: null,
     modalType: null,
   },
-  socketConnectionError: null,
-  // chanelNames: [],
+  realTimeDataUpdateError: null,
 };
 
 const uiSlice = createSlice({
@@ -45,17 +44,10 @@ const uiSlice = createSlice({
       state.modalInfo = payload;
     },
 
-    setSocketError: (state, action) => {
+    setRealTimeDataUpdateError: (state, action) => {
       const { payload } = action;
-      state.socketConnectionError = payload;
+      state.realTimeDataUpdateError = payload;
     },
-
-    /*
-    addChannelName: (state, action) => {
-      const { payload } = action;
-      state.chanelNames = state.chanelNames.concat(payload);
-    },
-    */
   },
 });
 
@@ -65,7 +57,7 @@ export const {
   hideModal,
   setModalInfo,
   setModalType,
-  setSocketError,
+  setRealTimeDataUpdateError,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

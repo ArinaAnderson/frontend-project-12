@@ -21,58 +21,79 @@ import './index.css';
 
 const socket = io();
 
+const handleSocketError = (e) => {
+  console.log('Channel Update Eror');
+  store.dispatch({ type: 'ui/setRealTimeDataUpdateError', payload: e.message });
+};
+
 const addChannelSocketListener = (payload) => {
-  store.dispatch(
-    channelsApi.util.updateQueryData(
-      'getChannels',
-      undefined,
-      (draft) => {
-        draft.push(payload);
-      },
-    ),
-  );
+  try {
+    store.dispatch(
+      channelsApi.util.updateQueryData(
+        'getChannels',
+        undefined,
+        (draft) => {
+          draft.push(payload);
+        },
+      ),
+    );
+  } catch (e) {
+    handleSocketError(e);
+  }
 };
 
 const renameChannelSocketListener = (payload) => {
-  store.dispatch(
-    channelsApi.util.updateQueryData(
-      'getChannels',
-      undefined,
-      (draft) => {
-        const idx = draft.findIndex((el) => el.id === payload.id);
-        draft[idx].name = payload.name;
-      },
-    ),
-  );
+  try {
+    store.dispatch(
+      channelsApi.util.updateQueryData(
+        'getChannels',
+        undefined,
+        (draft) => {
+          const idx = draft.findIndex((el) => el.id === payload.id);
+          draft[idx].name = payload.name;
+        },
+      ),
+    );
+  } catch (e) {
+    handleSocketError(e);
+  }
 };
 
 const removeChannelSocketListener = (payload) => {
-  store.dispatch(
-    channelsApi.util.updateQueryData(
-      'getChannels',
-      undefined,
-      (draft) => {
-        const idx = draft.findIndex((el) => el.id === payload.id);
-        draft.splice(idx, 1);
-        const { currentChannel } = store.getState().ui;
-        if (Number(currentChannel.id) === Number(payload.id)) {
-          store.dispatch({ type: 'ui/setCurrentChannel', payload: null });
-        }
-      },
-    ),
-  );
+  try {
+    store.dispatch(
+      channelsApi.util.updateQueryData(
+        'getChannels',
+        undefined,
+        (draft) => {
+          const idx = draft.findIndex((el) => el.id === payload.id);
+          draft.splice(idx, 1);
+          const { currentChannel } = store.getState().ui;
+          if (Number(currentChannel.id) === Number(payload.id)) {
+            store.dispatch({ type: 'ui/setCurrentChannel', payload: null });
+          }
+        },
+      ),
+    );
+  } catch (e) {
+    handleSocketError(e);
+  }
 };
 
 const addMessageSocketListener = (payload) => {
-  store.dispatch(
-    messagesApi.util.updateQueryData(
-      'getMessages',
-      undefined,
-      (draft) => {
-        draft.push(payload);
-      },
-    ),
-  );
+  try {
+    store.dispatch(
+      messagesApi.util.updateQueryData(
+        'getMessages',
+        undefined,
+        (draft) => {
+          draft.push(payload);
+        },
+      ),
+    );
+  } catch (e) {
+    handleSocketError(e);
+  }
 };
 
 socket.on('newChannel', addChannelSocketListener);
