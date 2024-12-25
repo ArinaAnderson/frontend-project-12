@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -10,6 +11,7 @@ import resources from './locales/index';
 
 import store from './store/index.js';
 import { messagesApi } from './store/apis/messagesApi.js';
+import { channelsApi } from './store/apis/channelsApi.js';
 
 import App from './App';
 
@@ -19,18 +21,63 @@ import './index.css';
 
 const socket = io();
 
-const addMessageSocketListener = (payload) => {
+const addChannelSocketListener = (payload) => {
   store.dispatch(
-    messagesApi.util.updateQueryData(
-      'getMessages',
+    channelsApi.util.updateQueryData(
+      'getChannels',
       undefined,
-      (draftMessage) => {
-        draftMessage.push(payload);
+      (draft) => {
+        draft.push(payload);
       },
     ),
   );
 };
 
+const renameChannelSocketListener = (payload) => {
+  store.dispatch(
+    channelsApi.util.updateQueryData(
+      'getChannels',
+      undefined,
+      (draft) => {
+        const idx = draft.findIndex((el) => el.id === payload.id);
+        draft[idx].name = payload.name;
+      },
+    ),
+  );
+};
+
+const removeChannelSocketListener = (payload) => {
+  store.dispatch(
+    channelsApi.util.updateQueryData(
+      'getChannels',
+      undefined,
+      (draft) => {
+        const idx = draft.findIndex((el) => el.id === payload.id);
+        draft.splice(idx, 1);
+        const { currentChannel } = store.getState().ui;
+        if (Number(currentChannel.id) === Number(payload.id)) {
+          store.dispatch({ type: 'ui/setCurrentChannel', payload: null });
+        }
+      },
+    ),
+  );
+};
+
+const addMessageSocketListener = (payload) => {
+  store.dispatch(
+    messagesApi.util.updateQueryData(
+      'getMessages',
+      undefined,
+      (draft) => {
+        draft.push(payload);
+      },
+    ),
+  );
+};
+
+socket.on('newChannel', addChannelSocketListener);
+socket.on('renameChannel', renameChannelSocketListener);
+socket.on('removeChannel', removeChannelSocketListener);
 socket.on('newMessage', addMessageSocketListener);
 
 const rollbarConfig = {

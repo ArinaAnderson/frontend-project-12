@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { API_ROUTES } from '../../utils/router';
 
 export const channelsApi = createApi({
@@ -24,7 +24,7 @@ export const channelsApi = createApi({
       query: () => ({
         url: '/channels',
       }),
-
+      /*
       async onCacheEntryAdded(
         _,
         {
@@ -44,26 +44,6 @@ export const channelsApi = createApi({
             const idx = draft.findIndex((el) => el.id === payload.id);
             draft[idx].name = payload.name;
             // draftCopy[idx].name = payload.name;
-            /*
-            // WORKING:
-            draft.forEach((el) => {
-              if (el.id === payload.id) {
-                el.name = payload.name;
-              }
-            });
-            */
-            /*
-            // NO WORKING:
-            // isn't updateElem conataining a ref to draft elem??
-            const updatedElem = draft.find((el) => {
-              console.log(
-                'RENAMING EL',el.id, el.name, payload.id, Number(el.id)===Number(payload.id)
-              );
-              el.id == payload.id;
-              return el;
-            });
-            updatedElem.name = payload.name;
-            */
           });
         };
 
@@ -94,9 +74,8 @@ export const channelsApi = createApi({
         socket.off('newChannel', addChannelSocketListener);
         socket.off('renameChannel', renameChannelSocketListener);
         socket.off('removeChannel', removeChannelSocketListener);
-
-        // ws.close()
       },
+      */
     }),
     addChannel: builder.mutation({
       invalidatesTags: ['Channel'],
