@@ -10,7 +10,6 @@ const modals = {
 };
 
 const Modal = () => {
-  // const modalType = useSelector((state) => state.ui.modalType);
   const { modalType, channelId, channelName } = useSelector((state) => state.ui.modalInfo);
 
   const renderModal = () => {

@@ -7,21 +7,16 @@ import { useTranslation } from 'react-i18next';
 import { setCredentials } from '../store/slices/authSlice.js';
 import axios from '../api/axios.js';
 import { login } from '../utils/auth.js';
-// import useAuth from '../hooks/useAuth.js';
-// import updateLocalStorage from '../utils/localStorage.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Signup = () => {
   const { t } = useTranslation();
 
-  // const [errMsg, setErrMsg] = useState('');
   const [err, setErr] = useState(null);
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  // const { login } = useAuth();
 
   const inputRef = useRef(null);
 
@@ -57,10 +52,7 @@ const Signup = () => {
           password: formikInst.values.password,
         },
       });
-      // login();
       login(() => dispatch(setCredentials(response.data)), response.data);
-      // updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
-      // dispatch(setCredentials(response.data));
 
       navigate('/');
     } catch (e) {
@@ -82,8 +74,6 @@ const Signup = () => {
       confirmPassword: '',
     },
     validationSchema: VALIDATION_SCHEMA,
-    // validateOnChange: false,
-    // validateOnBlur: false,
     onSubmit: () => {
       sendSignupRequest(formik);
     },

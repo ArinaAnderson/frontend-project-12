@@ -36,7 +36,6 @@ const RenameChannel = ({ modalInfo }) => {
         .required(t('channelsList.modals.validationErrors.required'))
         .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique')),
     })
-    // https://github.com/jquense/yup/issues/1455 - not working
     .default(undefined)
     .required();
 

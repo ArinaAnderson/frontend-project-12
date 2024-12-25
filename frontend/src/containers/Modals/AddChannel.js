@@ -33,7 +33,6 @@ const AddChannel = () => {
       .notOneOf(channelNames, t('channelsList.modals.validationErrors.unique')),
   });
 
-  // const notify = () => toast.success("Wow so easy !");
   const handleAddChannel = async (values) => {
     try {
       const resp = await addChannel({ name: values.name });
@@ -48,8 +47,6 @@ const AddChannel = () => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: VALIDATION_SCHEMA,
-    // validateOnChange: false,
-    // validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       handleAddChannel(values);
       dispatch(hideModal());

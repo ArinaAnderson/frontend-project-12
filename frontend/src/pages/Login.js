@@ -7,15 +7,12 @@ import { useTranslation } from 'react-i18next';
 import axios from '../api/axios.js';
 import { login } from '../utils/auth.js';
 import { setCredentials } from '../store/slices/authSlice.js';
-// import updateLocalStorage from '../utils/localStorage.js';
-// import useAuth from '../hooks/useAuth.js';
 
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
 const Login = () => {
   const { t } = useTranslation();
 
-  // const [errMsg, setErrMsg] = useState('');
   const [err, setErr] = useState(null);
 
   const dispatch = useDispatch();
@@ -23,8 +20,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from || '/';
-
-  // const { login } = useAuth();
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -42,7 +37,6 @@ const Login = () => {
 
   const sendLoginRequest = async (formikInst) => {
     formikInst.setSubmitting(true);
-    // setErrMsg('');
     setErr(null);
     try {
       const response = await axios({
@@ -54,16 +48,9 @@ const Login = () => {
         },
       });
       login(() => dispatch(setCredentials(response.data)), response.data);
-      // updateLocalStorage({ type: 'setValue', value: response.data, key: 'auth' });
-      // dispatch(setCredentials(response.data));
 
       navigate(from);
     } catch (e) {
-      // const errorMessageText = e?.response?.status === 401
-      // ? t('form.login.errors.err401')
-      // : t('errors.noNetwork');
-
-      // setErrMsg(errorMessageText);
       setErr(e);
       inputRef.current.select();
     } finally {

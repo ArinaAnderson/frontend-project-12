@@ -27,7 +27,7 @@ const RemoveChannel = ({ modalInfo }) => {
     try {
       await removeChannel({ channelId });
       const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
-      Promise.all(deleteMessageRequests); // const promise = Promise.all(deleteMessageRequests);
+      Promise.all(deleteMessageRequests);
       toast.success(t('toasts.removeChannelSuccess'), { autoClose: 8000 });
     } catch (e) {
       toast.error(t('toasts.removeChannelError'), { autoClose: 8000 });

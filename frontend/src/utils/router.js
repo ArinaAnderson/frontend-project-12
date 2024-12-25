@@ -11,5 +11,3 @@ export const API_ROUTES = {
   channels: '/data',
   base: '/api/v1',
 };
-
-// http://localhost:5001

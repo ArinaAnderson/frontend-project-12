@@ -67,5 +67,3 @@ const ChannelNewMessage = ({ channelId }) => {
 };
 
 export default ChannelNewMessage;
-
-// <label className="visually-hidden" htmlFor="message-input">{t('form.newMessage.label')}</label>

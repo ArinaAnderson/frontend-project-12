@@ -12,7 +12,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
 
   const dispatch = useDispatch();
-  // const lngNow = useSelector((state) => state.ui.currentLanguage);
 
   const handleLngSwicth = (evt) => {
     evt.preventDefault();

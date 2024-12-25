@@ -15,7 +15,6 @@ const Channel = (
   const { t } = useTranslation();
 
   const testClassName = 'w-100 rounded-0 text-start text-truncate btn';
-  // const originalClassName = 'channel__select-btn';
 
   const dispatch = useDispatch();
 

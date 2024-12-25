@@ -41,9 +41,6 @@ const Channels = () => {
       console.log('EXPIRED NEWLY CREATED USER', error.statusCode, error.status, localStorage.getItem('auth'));
       // {"statusCode":401,"error":"Unauthorized","message":"Unauthorized"}
       return <Navigate to={ROUTES.login} />;
-      // OR:
-      // updateLocalStorage({ type: 'removeValue', key: 'auth' });
-      // maybe too late because we already start rendering Chat
     }
 
     const errorMessageText = error?.status

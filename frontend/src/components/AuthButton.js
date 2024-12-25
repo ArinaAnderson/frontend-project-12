@@ -1,16 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '../store/slices/authSlice.js';
-// import updateLocalStorage from '../utils/localStorage.js';
 import { logout } from '../utils/auth.js';
-// import useAuth from '../hooks/useAuth.js';
 
 const AuthButton = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  // const { loggedIn, logout } = useAuth();
 
   return (
     token && (
@@ -21,8 +18,6 @@ const AuthButton = () => {
           logout(
             () => dispatch(setCredentials({ token: null, username: null })),
           );
-          // updateLocalStorage({ type: 'removeValue', key: 'auth' });
-          // dispatch(setCredentials({ token: null, username: null }));
         }}
       >
         {t('header.buttons.signout')}
