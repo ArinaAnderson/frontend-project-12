@@ -34,16 +34,16 @@ const uiSlice = createSlice({
       state.modalInfo = { modalType: null, channelId: null, channelName: null };
     },
 
-    setModalType: (state, action) => {
+    showModal: (state, action) => {
       const { payload } = action;
-      state.modalType = payload;
+      state.modalInfo = payload;
     },
-
+    /*
     setModalInfo: (state, action) => {
       const { payload } = action;
       state.modalInfo = payload;
     },
-
+    */
     setRealTimeDataUpdateError: (state, action) => {
       const { payload } = action;
       state.realTimeDataUpdateError = payload;
@@ -55,8 +55,7 @@ export const {
   setCurrentChannel,
   setCurrentLanguage,
   hideModal,
-  setModalInfo,
-  setModalType,
+  showModal,
   setRealTimeDataUpdateError,
 } = uiSlice.actions;
 

@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { setModalInfo } from '../store/slices/ui.js';
+import { showModal } from '../store/slices/ui.js';
 import './Channel.css';
 
 const Channel = (
@@ -19,11 +19,11 @@ const Channel = (
   const dispatch = useDispatch();
 
   const handleRenameChannelBtnClick = () => {
-    dispatch(setModalInfo({ channelId: id, channelName: name, modalType: 'renaming' }));
+    dispatch(showModal({ channelId: id, channelName: name, modalType: 'renaming' }));
   };
 
   const handleRemoveChannelBtnClick = () => {
-    dispatch(setModalInfo({ channelId: id, modalType: 'removing' }));
+    dispatch(showModal({ channelId: id, modalType: 'removing' }));
   };
 
   const dropDown = (

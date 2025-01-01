@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { setCurrentChannel, setModalInfo, setRealTimeDataUpdateError } from '../store/slices/ui.js';
+import { setCurrentChannel, showModal, setRealTimeDataUpdateError } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
 
 import Skeleton from '../components/Skeleton.js';
@@ -63,7 +63,7 @@ const Channels = () => {
         <div className="channels-list__header">
           <b>{t('channelsList.headline')}</b>
           <button
-            onClick={() => dispatch(setModalInfo({ modalType: 'adding', channelId: null, channelName: null }))}
+            onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null, channelName: null }))}
             disabled={isGetChannelsLoading}
             type="button"
             className="channels-list__add-channel-btn"
