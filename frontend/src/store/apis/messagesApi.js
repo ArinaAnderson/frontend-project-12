@@ -1,20 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // import { io } from 'socket.io-client';
-import { API_ROUTES } from '../../utils/router';
+// import { API_ROUTES } from '../../utils/router';
+import apiSlice from '../api.js';
 
-export const messagesApi = createApi({
+export const messagesApi = apiSlice.injectEndpoints({
   reducerPath: 'messages',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_ROUTES.base,
-    prepareHeaders: (headers, { getState }) => {
-      const { token } = getState().auth;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-
-      return headers;
-    },
-  }),
   endpoints: (builder) => ({
     getMessages: builder.query({
       providesTags: ['Message'],

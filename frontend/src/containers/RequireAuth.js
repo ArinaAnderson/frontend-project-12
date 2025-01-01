@@ -5,7 +5,6 @@ import { ROUTES } from '../utils/router.js';
 
 const RequireAuth = ({ children }) => {
   const token = useSelector((state) => state.auth.token);
-
   const location = useLocation();
 
   if (!token) {
