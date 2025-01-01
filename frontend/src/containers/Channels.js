@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setCurrentChannel, setModalInfo, setRealTimeDataUpdateError } from '../store/slices/ui.js';
 import { useGetChannelsQuery } from '../store/apis/channelsApi.js';
-import { ROUTES } from '../utils/router.js';
 
 import Skeleton from '../components/Skeleton.js';
 import Channel from '../components/Channel.js';
@@ -37,12 +35,6 @@ const Channels = () => {
   };
 
   if (error) {
-    if (error.status === 401) {
-      console.log('EXPIRED NEWLY CREATED USER', error.statusCode, error.status, localStorage.getItem('auth'));
-      // {"statusCode":401,"error":"Unauthorized","message":"Unauthorized"}
-      return <Navigate to={ROUTES.login} />;
-    }
-
     const errorMessageText = error?.status
       ? t('errors.dataLoadError')
       : t('errors.noNetwork');
