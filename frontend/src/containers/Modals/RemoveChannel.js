@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
-// import { useGetMessagesQuery } from '../../store/apis/messagesApi.js';
 import apiSlice from '../../store/api.js';
 import { hideModal } from '../../store/slices/ui.js';
 
@@ -14,14 +13,6 @@ const RemoveChannel = ({ modalInfo }) => {
   const { channelId } = modalInfo;
 
   const [removeChannel, { isLoading: isRemoveChannelLoading }] = useRemoveChannelMutation();
-  // const [removeMessage] = useRemoveMessageMutation();
-
-  // const { data: allMessages } = useGetMessagesQuery();
-  // const { refetch: refetchMessages } = useGetMessagesQuery();
-
-  // const currentChannelMessages = allMessages
-  // ? allMessages.filter((message) => message.channelId === channelId)
-  // : [];
 
   const dispatch = useDispatch();
 

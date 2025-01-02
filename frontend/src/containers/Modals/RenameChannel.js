@@ -51,8 +51,6 @@ const RenameChannel = ({ modalInfo }) => {
   const formik = useFormik({
     initialValues: { name: channelName },
     validationSchema: VALIDATION_SCHEMA,
-    // validateOnChange: false,
-    // validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
       handleRenameChannel(values);
       dispatch(hideModal());
