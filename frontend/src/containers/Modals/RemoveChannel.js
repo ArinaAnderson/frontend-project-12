@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
-import { useRemoveMessageMutation, useGetMessagesQuery } from '../../store/apis/messagesApi.js';
+// import { useRemoveMessageMutation, useGetMessagesQuery } from '../../store/apis/messagesApi.js';
 import { hideModal } from '../../store/slices/ui.js';
 
 const RemoveChannel = ({ modalInfo }) => {
@@ -13,21 +13,21 @@ const RemoveChannel = ({ modalInfo }) => {
   const { channelId } = modalInfo;
 
   const [removeChannel, { isLoading: isRemoveChannelLoading }] = useRemoveChannelMutation();
-  const [removeMessage] = useRemoveMessageMutation();
+  // const [removeMessage] = useRemoveMessageMutation();
 
-  const { data: allMessages } = useGetMessagesQuery();
+  // const { data: allMessages } = useGetMessagesQuery();
 
-  const currentChannelMessages = allMessages
-    ? allMessages.filter((message) => message.channelId === channelId)
-    : [];
+  // const currentChannelMessages = allMessages
+  // ? allMessages.filter((message) => message.channelId === channelId)
+  // : [];
 
   const dispatch = useDispatch();
 
   const handleRemoveChannel = async () => {
     try {
       await removeChannel({ channelId });
-      const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
-      Promise.all(deleteMessageRequests);
+      // const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
+      // Promise.all(deleteMessageRequests);
       toast.success(t('toasts.removeChannelSuccess'), { autoClose: 8000 });
     } catch (e) {
       toast.error(t('toasts.removeChannelError'), { autoClose: 8000 });

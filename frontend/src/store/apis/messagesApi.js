@@ -60,7 +60,7 @@ export const messagesApi = apiSlice.injectEndpoints({
       }),
     }),
     removeMessage: builder.mutation({
-      // invalidatesTags: ['Message'],
+      invalidatesTags: ['Message'],
       query: ({ messageId }) => ({
         url: `/messages/${messageId}`,
         method: 'DELETE',

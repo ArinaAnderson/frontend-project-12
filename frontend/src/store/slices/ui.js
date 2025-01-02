@@ -38,12 +38,7 @@ const uiSlice = createSlice({
       const { payload } = action;
       state.modalInfo = payload;
     },
-    /*
-    setModalInfo: (state, action) => {
-      const { payload } = action;
-      state.modalInfo = payload;
-    },
-    */
+
     setRealTimeDataUpdateError: (state, action) => {
       const { payload } = action;
       state.realTimeDataUpdateError = payload;

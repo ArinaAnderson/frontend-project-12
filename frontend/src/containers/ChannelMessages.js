@@ -10,6 +10,8 @@ const ChannelMessages = ({ channelName, channelId }) => {
 
   const { data: allMessages, error, isLoading: isGetMessagesLoading } = useGetMessagesQuery();
 
+  console.log('ALL MESSAGES', allMessages);
+
   if (error) {
     const errorMessageText = error?.status
       ? t('errors.dataLoadError')

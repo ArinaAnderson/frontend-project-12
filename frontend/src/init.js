@@ -10,8 +10,7 @@ import { initReactI18next } from 'react-i18next';
 import resources from './locales/index';
 
 import store from './store/index.js';
-import { messagesApi } from './store/apis/messagesApi.js';
-import { channelsApi } from './store/apis/channelsApi.js';
+import apiSlice from './store/api.js';
 
 import App from './App';
 
@@ -19,95 +18,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-const socket = io();
-
-const handleSocketError = (e) => {
-  console.log('Channel Update Eror');
-  store.dispatch({ type: 'ui/setRealTimeDataUpdateError', payload: e.message });
-};
-
-const addChannelSocketListener = (payload) => {
-  try {
-    store.dispatch(
-      channelsApi.util.updateQueryData(
-        'getChannels',
-        undefined,
-        (draft) => {
-          draft.push(payload);
-        },
-      ),
-    );
-  } catch (e) {
-    handleSocketError(e);
-  }
-};
-
-const renameChannelSocketListener = (payload) => {
-  try {
-    store.dispatch(
-      channelsApi.util.updateQueryData(
-        'getChannels',
-        undefined,
-        (draft) => {
-          const idx = draft.findIndex((el) => el.id === payload.id);
-          draft[idx].name = payload.name;
-        },
-      ),
-    );
-  } catch (e) {
-    handleSocketError(e);
-  }
-};
-
-const removeChannelSocketListener = (payload) => {
-  try {
-    store.dispatch(
-      channelsApi.util.updateQueryData(
-        'getChannels',
-        undefined,
-        (draft) => {
-          const idx = draft.findIndex((el) => el.id === payload.id);
-          draft.splice(idx, 1);
-          const { currentChannel } = store.getState().ui;
-          if (Number(currentChannel.id) === Number(payload.id)) {
-            store.dispatch({ type: 'ui/setCurrentChannel', payload: null });
-          }
-        },
-      ),
-    );
-  } catch (e) {
-    handleSocketError(e);
-  }
-};
-
-const addMessageSocketListener = (payload) => {
-  try {
-    store.dispatch(
-      messagesApi.util.updateQueryData(
-        'getMessages',
-        undefined,
-        (draft) => {
-          draft.push(payload);
-        },
-      ),
-    );
-  } catch (e) {
-    handleSocketError(e);
-  }
-};
-
-socket.on('newChannel', addChannelSocketListener);
-socket.on('renameChannel', renameChannelSocketListener);
-socket.on('removeChannel', removeChannelSocketListener);
-socket.on('newMessage', addMessageSocketListener);
-
 const rollbarConfig = {
   // enabled: process.env.NODE_ENV === 'production',
   accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
   environment: 'testenv',
   // environment: 'production',
 };
-console.log(process.env.REACT_APP_ROLLBAR_TOKEN);
+
 const init = async () => {
   const i18n = i18next.createInstance();
 
@@ -133,6 +50,89 @@ const init = async () => {
     return a.hello();
   }
   */
+  const socket = io();
+
+  const handleSocketError = (e) => {
+    console.log('Channel Update Error');
+    store.dispatch({ type: 'ui/setRealTimeDataUpdateError', payload: e.message });
+  };
+
+  const addChannelSocketListener = (payload) => {
+    try {
+      store.dispatch(
+        apiSlice.util.updateQueryData(
+          'getChannels',
+          undefined,
+          (draft) => {
+            draft.push(payload);
+          },
+        ),
+      );
+    } catch (e) {
+      handleSocketError(e);
+    }
+  };
+
+  const renameChannelSocketListener = (payload) => {
+    try {
+      store.dispatch(
+        apiSlice.util.updateQueryData(
+          'getChannels',
+          undefined,
+          (draft) => {
+            const idx = draft.findIndex((el) => el.id === payload.id);
+            draft[idx].name = payload.name;
+          },
+        ),
+      );
+    } catch (e) {
+      handleSocketError(e);
+    }
+  };
+
+  const removeChannelSocketListener = (payload) => {
+    try {
+      store.dispatch(
+        apiSlice.util.updateQueryData(
+          'getChannels',
+          undefined,
+          (draft) => {
+            const idx = draft.findIndex((el) => el.id === payload.id);
+
+            draft.splice(idx, 1);
+
+            const { currentChannel } = store.getState().ui;
+            if (Number(currentChannel.id) === Number(payload.id)) {
+              store.dispatch({ type: 'ui/setCurrentChannel', payload: null });
+            }
+          },
+        ),
+      );
+    } catch (e) {
+      handleSocketError(e);
+    }
+  };
+
+  const addMessageSocketListener = (payload) => {
+    try {
+      store.dispatch(
+        apiSlice.util.updateQueryData(
+          'getMessages',
+          undefined,
+          (draft) => {
+            draft.push(payload);
+          },
+        ),
+      );
+    } catch (e) {
+      handleSocketError(e);
+    }
+  };
+
+  socket.on('newChannel', addChannelSocketListener);
+  socket.on('renameChannel', renameChannelSocketListener);
+  socket.on('removeChannel', removeChannelSocketListener);
+  socket.on('newMessage', addMessageSocketListener);
 
   return (
     <RollbarProvider config={rollbarConfig}>
