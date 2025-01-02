@@ -43,7 +43,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 */
 
 export const channelsApi = apiSlice.injectEndpoints({
-  reducerPath: 'channels',
+  // reducerPath: 'channels',
   endpoints: (builder) => ({
     getChannels: builder.query({
       providesTags: ['Channel'],

@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
 import { useRemoveChannelMutation } from '../../store/apis/channelsApi.js';
-// import { useRemoveMessageMutation, useGetMessagesQuery } from '../../store/apis/messagesApi.js';
+// import { useGetMessagesQuery } from '../../store/apis/messagesApi.js';
+import apiSlice from '../../store/api.js';
 import { hideModal } from '../../store/slices/ui.js';
 
 const RemoveChannel = ({ modalInfo }) => {
@@ -16,6 +17,7 @@ const RemoveChannel = ({ modalInfo }) => {
   // const [removeMessage] = useRemoveMessageMutation();
 
   // const { data: allMessages } = useGetMessagesQuery();
+  // const { refetch: refetchMessages } = useGetMessagesQuery();
 
   // const currentChannelMessages = allMessages
   // ? allMessages.filter((message) => message.channelId === channelId)
@@ -26,10 +28,12 @@ const RemoveChannel = ({ modalInfo }) => {
   const handleRemoveChannel = async () => {
     try {
       await removeChannel({ channelId });
-      // const deleteMessageRequests = currentChannelMessages.map((el) => removeMessage(el.id));
-      // Promise.all(deleteMessageRequests);
+      // refetchMessages(); --> RTK: Cannot refetch a query that has not been started yet
+      dispatch(apiSlice.util.invalidateTags([{ type: 'Message' }]));
+
       toast.success(t('toasts.removeChannelSuccess'), { autoClose: 8000 });
     } catch (e) {
+      console.log('REFETCHING ERROR', e);
       toast.error(t('toasts.removeChannelError'), { autoClose: 8000 });
     }
   };
