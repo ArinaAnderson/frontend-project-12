@@ -345,9 +345,25 @@ body {
 .lottie {
   position: absolute;
   z-index: 30;
-  bottom: 0;
-  right: 50px;
-  
+  top: 70px;
+  left: -20%;
+  transform: rotate(90deg);
   width: 95%;
   height: auto;
+}
+
+@media (min-width: 700px) {
+  .lottie {
+    position: absolute;
+    z-index: 30;
+    top: auto;
+    left: auto;
+    bottom: 0;
+    right: 50px;
+    
+    width: 95%;
+    height: auto;
+
+    transform: rotate(0);
+  }
 }
