@@ -345,16 +345,19 @@ body {
 .lottie {
   position: absolute;
   z-index: 30;
-  top: 190px;
-  left: -20%;
-  transform: rotate(90deg);
-  width: 95%;
+  top: 210px;
+  left: -14%;
+
+  width: 90%;
   height: auto;
+  transform: rotate(90deg);
 }
 
 @media (min-width: 540px) {
   .lottie {
-    top: 190px;
+    left: -12%;
+
+    width: 75%;
   }
 }
 
