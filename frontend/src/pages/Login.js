@@ -10,10 +10,13 @@ import { setCredentials } from '../store/slices/authSlice.js';
 
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
+import LottieAnimation from '../containers/LottieAnimation.js';
+
 const Login = () => {
   const { t } = useTranslation();
 
   const [err, setErr] = useState(null);
+  const [isLottieActive, setIsLottieActive] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,6 +25,7 @@ const Login = () => {
   const from = location?.state?.from || '/';
 
   const inputRef = useRef(null);
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -92,7 +96,10 @@ const Login = () => {
               </label>
               <input
                 className="form__input"
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  setIsLottieActive(true);
+                  formik.handleChange(e);
+                }}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 type="text"
@@ -159,6 +166,7 @@ const Login = () => {
           </span>
         </p>
       </div>
+      {isLottieActive && <LottieAnimation />}
     </section>
   );
 };

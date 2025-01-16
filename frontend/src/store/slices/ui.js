@@ -13,6 +13,7 @@ const initialState = {
     modalType: null,
   },
   realTimeDataUpdateError: null,
+  isLottieAnimationOn: true,
 };
 
 const uiSlice = createSlice({
@@ -43,6 +44,9 @@ const uiSlice = createSlice({
       const { payload } = action;
       state.realTimeDataUpdateError = payload;
     },
+    hideLottieAnimation: (state) => {
+      state.isLottieAnimationOn = false;
+    },
   },
 });
 
@@ -52,6 +56,7 @@ export const {
   hideModal,
   showModal,
   setRealTimeDataUpdateError,
+  hideLottieAnimation,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

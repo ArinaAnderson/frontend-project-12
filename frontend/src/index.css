@@ -341,3 +341,13 @@ body {
 
   background-color: var(--green-color--active);
 }
+
+.lottie {
+  position: absolute;
+  z-index: 30;
+  bottom: 0;
+  right: 50px;
+  
+  width: 95%;
+  height: auto;
+}
