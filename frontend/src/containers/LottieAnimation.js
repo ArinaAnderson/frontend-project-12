@@ -6,8 +6,9 @@ import { hideLottieAnimation } from '../store/slices/ui.js';
 // import playLottieSound from './LottieSound.js';
 import Cat from '../03.12-w-sfx-FINAL.json';
 
-const LottieAnimation = () => {
-  const isLottieAnimationOn = useSelector((state) => state.ui.isLottieAnimationOn);
+const LottieAnimation = ({ page }) => {
+  console.log('PAGE', page);
+  const isLottieAnimationOn = useSelector((state) => state.ui.isLottieAnimationOn[page]);
   const dispatch = useDispatch();
   /*
   const sound = new Howl({
@@ -48,7 +49,7 @@ const LottieAnimation = () => {
         onClick={() => console.log('LOTTIE!!!')}
         onComplete={() => {
           console.log('COMPLETE');
-          dispatch(hideLottieAnimation());
+          dispatch(hideLottieAnimation(page));
         }}
         onLoadedImages={() => {
           console.log('ANIMATION STARTS!!!');

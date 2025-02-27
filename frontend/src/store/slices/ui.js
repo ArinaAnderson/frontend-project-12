@@ -13,7 +13,10 @@ const initialState = {
     modalType: null,
   },
   realTimeDataUpdateError: null,
-  isLottieAnimationOn: true,
+  isLottieAnimationOn: {
+    login: true,
+    signup: true,
+  },
 };
 
 const uiSlice = createSlice({
@@ -44,8 +47,9 @@ const uiSlice = createSlice({
       const { payload } = action;
       state.realTimeDataUpdateError = payload;
     },
-    hideLottieAnimation: (state) => {
-      state.isLottieAnimationOn = false;
+    hideLottieAnimation: (state, action) => {
+      const { payload } = action;
+      state.isLottieAnimationOn[payload] = false;
     },
   },
 });

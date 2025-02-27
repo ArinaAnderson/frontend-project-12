@@ -9,10 +9,13 @@ import axios from '../api/axios.js';
 import { login } from '../utils/auth.js';
 import { ROUTES, API_ROUTES } from '../utils/router.js';
 
+import LottieAnimation from '../containers/LottieAnimation.js';
+
 const Signup = () => {
   const { t } = useTranslation();
 
   const [err, setErr] = useState(null);
+  const [isLottieActive, setIsLottieActive] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -102,7 +105,10 @@ const Signup = () => {
               </label>
               <input
                 className="form__input"
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  setIsLottieActive(true);
+                  formik.handleChange(e);
+                }}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 type="text"
@@ -201,6 +207,7 @@ const Signup = () => {
           </span>
         </p>
       </div>
+      {isLottieActive && <LottieAnimation page="signup" />}
     </section>
   );
 };

@@ -166,7 +166,7 @@ const Login = () => {
           </span>
         </p>
       </div>
-      {isLottieActive && <LottieAnimation />}
+      {isLottieActive && <LottieAnimation page="login" />}
     </section>
   );
 };
