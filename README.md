@@ -43,3 +43,7 @@ Chat is designed with inclusivity in mind, addressing key accessibility consider
 
 These enhancements make the application accessible and welcoming to a broader range of users, including those relying on assistive technologies.
 
+
+## Lottie Animation
+
+Both Signup and Login pages have a funny cat knocking on your screen Lottie Animation (get the sound on! 😸). I created this animation using my knowledge of SVG, After Effects and Adobe Illustrator.
